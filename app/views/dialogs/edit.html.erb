@@ -1,0 +1,12 @@
+<h1>Editing dialog</h1>
+
+<% form_for(@dialog) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @dialog %> |
+<%= link_to 'Back', dialogs_path %>

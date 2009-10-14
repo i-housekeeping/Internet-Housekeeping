@@ -1,0 +1,10 @@
+.about-cometdesktop-shortcut img {
+    background-image: url(images/info48x48.png);
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/about-cometdesktop/images/info48x48.png', sizingMethod='scale');
+}
+.about-cometdesktop-icon {
+    background-image: url(images/info16x16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}

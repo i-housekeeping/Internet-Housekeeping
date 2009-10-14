@@ -1,0 +1,23 @@
+--- 
+styles_001: 
+  wallpaperposition: tile
+  updated_at: 2009-05-20 20:56:46
+  fontcolor: C0C0C0
+  backgroundcolor: "000000"
+  record_sts: ACTV
+  id: "3"
+  transparency: "true"
+  wallpaper_id: "11"
+  theme_id: "4"
+  created_at: 
+styles_002: 
+  wallpaperposition: tile
+  updated_at: 2009-09-20 11:01:49
+  fontcolor: C0C0C0
+  backgroundcolor: "000000"
+  record_sts: ACTV
+  id: "4"
+  transparency: "true"
+  wallpaper_id: "11"
+  theme_id: "4"
+  created_at: 

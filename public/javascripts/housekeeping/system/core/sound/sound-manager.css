@@ -1,0 +1,21 @@
+
+.sound-manager-icon {
+    background-image: url(images/sound16x16.png)  !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.sound-manager-error-icon {
+    background-image: url(images/sound_error16x16.png)  !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.sound-manager-mute-icon {
+    background-image: url(images/sound_mute16x16.png)  !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}

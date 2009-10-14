@@ -1,0 +1,12 @@
+<h1>Editing appmodule</h1>
+
+<% form_for(@appmodule) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @appmodule %> |
+<%= link_to 'Back', appmodules_path %>

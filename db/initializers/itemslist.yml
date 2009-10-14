@@ -1,0 +1,441 @@
+aroot_aroot:
+  text: 'רשימת הקניות'
+  description: 'רשימת הקניות לסופר'
+aroot_child1:
+  text: 'פירות'
+  description: ''
+child1_child11:
+  text: 'אגסים'
+  description: ''
+child1_child12:
+  text: 'אפרסקים'
+  description: ''
+child1_child13:
+  text: 'אשכוליות'
+  description: ''
+child1_child14:
+  text: 'בננות'
+  description: ''
+child1_child15:
+  text: 'דובדובנים'
+  description: ''
+child1_child16:
+  text: 'לימונים'
+  description: ''
+child1_child17:
+  text: 'מנגו'
+  description: ''
+child1_child18:
+  text: 'משמשים'
+  description: ''
+child1_child19:
+  text: 'נקטרינות'
+  description: ''
+child1_child110:
+  text: 'ענבים'
+  description: ''
+child1_child111:
+  text: 'קיווי'
+  description: ''
+child1_child112:
+  text: 'קלמנטינות'
+  description: ''
+child1_child113:
+  text: 'שזיפים'
+  description: ''
+child1_child114:
+  text: 'תפוזים'
+  description: ''
+child1_child115:
+  text: 'תפוחים'
+  description: ''
+aroot_child2:
+  text: 'ירקות'
+  description: ''
+child2_child21:
+  text: 'בצל ירוק'
+  description: ''
+child2_child22:
+  text: 'בצל אדום'
+  description: ''
+child2_child23:
+  text: 'בזיליקום'
+  description: ''
+child2_child24:
+  text: 'ברוקולי'
+  description: ''
+child2_child25:
+  text: 'גזר'
+  description: ''
+child2_child26:
+  text: 'דלעת'
+  description: ''
+child2_child27:
+  text: 'חסה'
+  description: ''
+child2_child28:
+  text: 'חצילים'
+  description: ''
+child2_child29:
+  text: 'מלפפונים'
+  description: ''
+child2_child210:
+  text: 'סלק אדום'
+  description: ''
+child2_child211:
+  text: 'סלק ירוק'
+  description: ''
+child2_child212:
+  text: 'סלרי'
+  description: ''
+child2_child213:
+  text: 'עגבניות'
+  description: ''
+child2_child214:
+  text: 'פטרוזיליה'
+  description: ''
+child2_child215:
+  text: 'פיטריות'
+  description: ''
+child2_child215:
+  text: 'פלפלים'
+  description: ''
+child2_child216:
+  text: 'קולורורבי'
+  description: ''
+child2_child217:
+  text: 'קוסברה'
+  description: ''
+child2_child218:
+  text: 'קישואים'
+  description: ''
+child2_child219:
+  text: 'שום'
+  description: ''
+child2_child220:
+  text: 'שומר'
+  description: ''
+child2_child221:
+  text: 'שעועית ירוקה'
+  description: ''
+child2_child222:
+  text: 'ת"א חום'
+  description: ''
+child2_child223:
+  text: 'תירס'
+  description: ''
+child2_child224:
+  text: 'תפוחי אדמה'
+  description: '' 
+aroot_child3:
+  text: 'קונסרבים'
+  description: ''
+child3_child31:
+  text: 'אספרגוס'
+  description: ''
+child3_child32:
+  text: 'זיתים'
+  description: ''
+child3_child33:
+  text: 'זיתים בלי חרצן'
+  description: ''
+child3_child34:
+  text: 'חמוצים'
+  description: ''
+child3_child35:
+  text: 'טונה שמן'
+  description: ''
+child3_child36:
+  text: 'לבבות דקל'
+  description: ''
+child3_child37:
+  text: 'מלפפונים חמוצים'
+  description: ''
+child3_child38:
+  text: 'עגבניות חתוכות'
+  description: ''
+child3_child39:
+  text: 'עגבניות שלמות'
+  description: ''
+child3_child310:
+  text: 'פטריות שלמות'
+  description: ''
+child3_child311:
+  text: 'פיטריות חתוכות'
+  description: ''
+child3_child312:
+  text: 'רסק עגבניות'
+  description: ''
+child3_child313:
+  text: 'תירס'
+  description: ''
+aroot_child4:
+  text: 'מוצרי חלב'
+  description: ''
+child4_child41:
+  text: 'אקטימל'
+  description: ''
+child4_child42:
+  text: 'גבינה צהובה'
+  description: ''
+child4_child43:
+  text: 'חלב 1%'
+  description: ''
+child4_child44:
+  text: 'חלב 3%'
+  description: ''
+child4_child45:
+  text: 'סימפוניה 5%'
+  description: ''
+child4_child46:
+  text: 'פריגורט 0%'
+  description: ''
+child4_child47:
+  text: 'צפתית 5%'
+  description: ''
+child4_child48:
+  text: 'קוטז 5%'
+  description: ''
+child4_child49:
+  text: 'שמנת חמוצה'
+  description: ''
+child4_child410:
+  text: 'שמנת מתוקה'
+  description: ''  
+aroot_child5:
+  text: 'מוצרי בשר'
+  description: ''
+child5_child51:
+  text: 'גרונות'
+  description: ''
+child5_child52:
+  text: 'חזה עוף'
+  description: ''
+child5_child53:
+  text: 'חלקי עוף'
+  description: ''
+child5_child54:
+  text: 'כבד בקר'
+  description: ''
+child5_child55:
+  text: 'כבד עוף'
+  description: ''
+child5_child56:
+  text: 'כנפיים'
+  description: ''
+child5_child57:
+  text: 'כתף לחמין'
+  description: ''
+child5_child58:
+  text: 'נקניקיות'
+  description: ''
+child5_child59:
+  text: 'סטייקים'
+  description: ''
+child5_child510:
+  text: 'עצמות'
+  description: ''
+child5_child511:
+  text: 'בשר בקר'
+  description: ''
+child5_child512:
+  text: 'פסטרמה'
+  description: ''
+child5_child513:
+  text: 'שישליק'
+  description: ''
+aroot_child6:
+  text: 'מוצרי ניקיון'
+  description: ''
+child6_child61:
+  text: 'אקונומיקה'
+  description: ''
+child6_child62:
+  text: 'מבריק למדיח'
+  description: ''
+child6_child63:
+  text: 'מוצרי גיהוץ'
+  description: ''
+child6_child64:
+  text: 'מלח למדיח'
+  description: ''
+child6_child65:
+  text: 'סבון למדיח'
+  description: ''
+child6_child66:
+  text: 'סבון לריצפה'
+  description: ''
+child6_child67:
+  text: 'ספריי לשירותים'
+  description: ''
+child6_child68:
+  text: 'פנטסטיק'
+  description: ''
+child6_child69:
+  text: 'רסס וכבס'
+  description: ''  
+aroot_child7:
+  text: 'מוצרי היגיינה'
+  description: ''
+child7_child71:
+  text: 'בושם'
+  description: ''
+child7_child72:
+  text: 'גל שיער'
+  description: ''
+child7_child73:
+  text: 'דיאודורנט'
+  description: ''
+child7_child74:
+  text: 'מקלונים לאוזניים'
+  description: ''
+child7_child75:
+  text: 'משחת שיניים'
+  description: ''
+child7_child76:
+  text: 'סבון רחצה'
+  description: ''
+child7_child77:
+  text: 'סכיני גילוח'
+  description: ''
+child7_child78:
+  text: 'צבע שיער'
+  description: ''
+child7_child79:
+  text: 'צמר גפן'
+  description: ''
+child7_child710:
+  text: 'קונדישנר'
+  description: ''
+child7_child711:
+  text: 'קצב גילוח'
+  description: ''
+child7_child712:
+  text: 'שמפו'
+  description: ''
+child7_child713:
+  text: 'תחתוניות'
+  description: ''
+aroot_child8:
+  text: 'מכולת'
+  description: ''
+child8_child81:
+  text: 'אטבים'
+  description: ''
+child8_child82:
+  text: 'גומי לרצפה'
+  description: ''
+child8_child83:
+  text: 'יעה'
+  description: ''
+child8_child84:
+  text: 'כלים חד פעמיים'
+  description: ''
+child8_child85:
+  text: 'מברשות'
+  description: ''
+child8_child86:
+  text: 'מגבות נייר'
+  description: ''
+child8_child87:
+  text: 'מטטה'
+  description: ''
+child8_child88:
+  text: 'מפיות נייר'
+  description: ''
+child8_child89:
+  text: 'משחת נעליים'
+  description: ''
+child8_child810:
+  text: 'ניילון עטיפה'
+  description: ''
+child8_child811:
+  text: 'נייר טואלט'
+  description: ''
+child8_child812:
+  text: 'נרות שבת'
+  description: ''
+child8_child813:
+  text: 'סחבה'
+  description: ''
+child8_child814:
+  text: 'עיתון'
+  description: ''
+child8_child815:
+  text: 'שקיות אשפה'
+  description: ''
+child8_child815:
+  text: 'שקיות ניילון'
+  description: ''
+child8_child816:
+  text: 'שקיות קוקיז'
+  description: ''
+child8_child817:
+  text: 'שקיות קרח'
+  description: ''  
+aroot_child9:
+  text: 'מזון'
+  description: ''  
+child9_child91:
+  text: 'איטריות'
+  description: ''
+child9_child92:
+  text: 'ביצים'
+  description: ''
+child9_child93:
+  text: 'בירה'
+  description: ''
+child9_child94:
+  text: 'גרגירי חומוס'
+  description: ''
+child9_child95:
+  text: 'דייאט ספרייט'
+  description: ''
+child9_child96:
+  text: 'דייאט קולה'
+  description: ''
+child9_child97:
+  text: 'חומוס'
+  description: ''
+child9_child98:
+  text: 'חומץ'
+  description: ''
+child9_child99:
+  text: 'חלה'
+  description: ''
+child9_child910:
+  text: 'יין'
+  description: ''
+child9_child911:
+  text: 'לחם קל'
+  description: ''
+child9_child912:
+  text: 'מלח'
+  description: ''
+child9_child913:
+  text: 'סודה'
+  description: ''
+child9_child914:
+  text: 'סוכר'
+  description: ''
+child9_child915:
+  text: 'עדשים'
+  description: ''
+child9_child915:
+  text: 'פסטה'
+  description: ''
+child9_child916:
+  text: 'קורנפלקס'
+  description: ''
+child9_child917:
+  text: 'קמח'
+  description: ''
+child9_child918:
+  text: 'ריבות'
+  description: ''
+child9_child919:
+  text: 'שמן'
+  description: ''
+child9_child920:
+  text: 'טחינה'
+  description: ''

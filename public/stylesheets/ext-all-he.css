@@ -1,0 +1,26 @@
+.x-btn{
+direction:rtl; /*new*/
+}
+
+.x-btn-text-icon .x-btn-center .x-btn-text{
+direction:rtl; /*new*/
+background-position: 100% 2px; /*was: 0 2px */
+padding-right:18px; /*was: padding-left*/
+padding-left:0; /*was: padding-right*/
+}
+
+.x-layout-panel{
+direction:rtl; /*new*/
+}
+
+.x-layout-panel-hd-text{
+width:100%; /*new*/
+}
+
+.x-layout-panel-hd-tools{
+left:0; /*was: right*/
+}
+
+.x-layout-tools-button{
+float:left; /*was: right */
+}

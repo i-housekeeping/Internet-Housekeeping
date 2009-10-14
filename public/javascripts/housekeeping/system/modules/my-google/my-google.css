@@ -1,0 +1,10 @@
+.my-google-shortcut img {
+    background-image: url(images/fsview_48x48.png);
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/my-google/images/fsview_48x48.png', sizingMethod='scale');
+}
+.my-google-icon {
+    background-image: url(images/fsview_16x16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}

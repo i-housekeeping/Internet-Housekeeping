@@ -1,0 +1,19 @@
+--- 
+roles_001: 
+  last_update: 
+  title: guest
+  record_sts: ACTV
+  id: "1"
+  description: guest
+roles_002: 
+  last_update: 
+  title: moderator
+  record_sts: ACTV
+  id: "2"
+  description: moderator
+roles_003: 
+  last_update: 
+  title: admin
+  record_sts: ACTV
+  id: "3"
+  description: admin

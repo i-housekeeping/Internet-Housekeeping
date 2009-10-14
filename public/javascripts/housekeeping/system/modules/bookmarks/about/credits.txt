@@ -1,0 +1,17 @@
+<div id="-credits">
+	<ul>
+	Credits for this module:
+		<li>
+			<a href="http://extjs.com/forum/showthread.php?t=40961&highlight=miframe" target="_blank">Doug Hendricks</a><br />
+			<span class="-credit-info">miframe, currently getting on few errors from this plugin, however none of the errors cause the desktop from functioning.  This module uses this plugin on almost every Bookmark Tab.  Currently using the miframe-min.js version, not the desktop version.  Not sure which one would work this best, but credits definitely go to Doug for passing this along!</span><br /><br />
+		</li>
+		<li>
+			<a href="http://www.creditlink2" target="_blank">creditName2</a><br />
+			<span class="-credit-info">credit info2</span><br /><br />
+		</li>
+		<li>
+			<a href="http://www.creditlink3" target="_blank">creditName3</a><br />
+			<span class="-credit-info">credit info3</span><br />
+		</li>
+	</ul>
+</div>

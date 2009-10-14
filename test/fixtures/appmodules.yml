@@ -1,0 +1,133 @@
+--- 
+appmodules_010: 
+  moduleId: bloney
+  updated_at: 
+  moduleName: QoDesk.Bloney
+  record_sts: ACTV
+  author: i-housekeeping
+  id: "13"
+  description: "Bloney module is a cash flow management "
+  version: "0.2"
+  moduleType: app
+  path: javascripts/housekeeping/system/modules/bloney/
+  created_at: 
+appmodules_009: 
+  moduleId: my-google
+  updated_at: 
+  moduleName: QoDesk.MyGoogle
+  record_sts: ACTV
+  author: i-housekeeping
+  id: "12"
+  description: Google stuff for desktop Mail. Calendar Documents
+  version: "0.1"
+  moduleType: app
+  path: javascripts/housekeeping/system/modules/my-google/
+  created_at: 
+appmodules_011: 
+  moduleId: platform
+  updated_at: 
+  moduleName: QoDesk.Platform
+  record_sts: ACTV
+  author: David Davis / i-housekeeping
+  id: "15"
+  description: Platform for all modules support
+  version: "1.0"
+  moduleType: platform
+  path: 
+  created_at: 
+appmodules_001: 
+  moduleId: qo-preferences
+  updated_at: 
+  moduleName: QoDesk.QoPreferences
+  record_sts: ACTV
+  author: Todd Murdock
+  id: "1"
+  description: A system application.  Allows users to change their desktop preferences.
+  version: "1.0"
+  moduleType: system
+  path: javascripts/housekeeping/system/modules/qo-preferences/
+  created_at: 
+appmodules_002: 
+  moduleId: notepad
+  updated_at: 
+  moduleName: QoDesk.Notepad
+  record_sts: ACTV
+  author: David Davis
+  id: "2"
+  description: Jot down notes.
+  version: "1.1"
+  moduleType: app
+  path: javascripts/housekeeping/system/modules/notepad/
+  created_at: 
+appmodules_003: 
+  moduleId: registry
+  updated_at: 
+  moduleName: Ext.app.Registry
+  record_sts: ACTV
+  author: David Davis
+  id: "4"
+  description: System Registry (AJAX)
+  version: "1.0"
+  moduleType: core
+  path: javascripts/housekeeping/system/core/registry/
+  created_at: 
+appmodules_004: 
+  moduleId: about-cometdesktop
+  updated_at: 
+  moduleName: QoDesk.AboutCometDesktop
+  record_sts: ACTV
+  author: David Davis
+  id: "5"
+  description: About Comet Desktop
+  version: "1.0"
+  moduleType: core
+  path: javascripts/housekeeping/system/modules/about-cometdesktop/
+  created_at: 
+appmodules_005: 
+  moduleId: admin-modules
+  updated_at: 
+  moduleName: QoDesk.AdminModules
+  record_sts: ACTV
+  author: David Davis
+  id: "6"
+  description: Modules Admin
+  version: "1.1"
+  moduleType: app
+  path: javascripts/housekeeping/system/modules/admin-modules/
+  created_at: 
+appmodules_006: 
+  moduleId: tasks
+  updated_at: 
+  moduleName: QoDesk.TasksList
+  record_sts: ACTV
+  author: Jack Slocum / David Davis
+  id: "9"
+  description: Tasks List
+  version: "1.0"
+  moduleType: core
+  path: javascripts/housekeeping/system/modules/tasks/
+  created_at: 
+appmodules_007: 
+  moduleId: bookmarks
+  updated_at: 
+  moduleName: QoDesk.Bookmarks
+  record_sts: ACTV
+  author: i-housekeeping
+  id: "10"
+  description: "Simply stores Personal Bookmarks.  "
+  version: "0.1"
+  moduleType: app
+  path: javascripts/housekeeping/system/modules/bookmarks/
+  created_at: 
+appmodules_008: 
+  moduleId: collaborate
+  updated_at: 
+  moduleName: QoDesk.Collaborate
+  record_sts: ACTV
+  author: i-housekeeping
+  id: "11"
+  description: Collaborate stuff - personal blogs and forum
+  version: "0.2"
+  moduleType: app
+  path: javascripts/housekeeping/system/modules/collaborate/
+  created_at: 

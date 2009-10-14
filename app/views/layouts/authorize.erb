@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+  		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+		<%= hskpng_authorize_package_css %>	
+  </head>
+  <body scroll="no">
+  		<%= hskpng_authorize_package_js %>	
+  		
+			<div id="content">
+			<div id="header">
+			    <div id="title">
+			      <h1>i-housekeeping</h1>
+			      <h2>new order in the house</h2>
+			    </div>
+			
+				<%=  image_tag("bg/balloons.gif", :class=>"balloons")%>
+				<%=  image_tag("bg/header_left.jpg", :class=>"left")%>
+				<%=  image_tag("bg/header_right.jpg", :class=>"right")%>
+				
+			</div>
+			<%= yield %>
+			</div>
+				
+		
+	   <!--script type="text/javascript">
+			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	   </script><script type="text/javascript">
+			try {
+				var pageTracker = _gat._getTracker("UA-8174488-1");
+				pageTracker._trackPageview();
+			} 
+			catch(err) {}
+		</script-->
+  </body>
+</html>

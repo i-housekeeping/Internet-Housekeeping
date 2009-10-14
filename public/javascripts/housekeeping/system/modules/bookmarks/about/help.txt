@@ -1,0 +1,41 @@
+<div id="-credits">
+	<ul>
+		Help for this module:
+		<li>
+			<span class="-credit-info">Hopefully most Bookmark Tasks are self-explaining, however if not some notes to help you work with your new Bookmarks Navigateur.  Simply move you mouse over the icons for tooltips on a task available.</span><br />
+		</li>
+		<li>
+			<span class="-credit-info">There are several Tasks that are repeated throughout the module.  So you can accomplish a certain Task more than one way:</span><br />
+			<pre>
+				Add A new Folder:
+                                1) Click the "Star with a plus sign" from the Favorites Toolbar.
+				   - a default bookmark folder is created,
+				   - then the Bookmark Title should be ready for editing in approx. 5 secs.
+				   - automatically.  No URL will be saved, so this is only a folder for bookmarks.
+
+				2) Type a new Title into the 1st Text Editor Field in Topmost Toolbar,
+				   - then fill in the next text editor box, with the Url value,
+				   - next click the "green arrow" following the url text box.
+				   - onClick a new bookmark will be automatically saved to the database,
+				   - then a new Tab will be created showing your new Bookmark results.
+
+				3) Another option exists just to show you can do this several different ways.
+				   - From the Nav Panel, the one with the Bookmark Tree inside it,
+				   - Click the bottom-most Accordion Title Bar (Add New Favorite).
+				   - onClick, a form panel is created to enter a new bookmark this way.
+
+				4) Final option to this point:
+				   - From the Nav Panel, the one with the  Bookmark Tree inside it,
+				   - Click the right-most icon, (Grid Tab) from this toolbar.
+				   - onClick, a Grid Editor is created with all bookmark info ready for editing.
+				   - To Add a New Folder/Bookmark, click the "star with a plus sign", Add, 
+				   - A new bookmark will be created automatically, then presented for editing.
+
+
+			</pre>
+		</li>
+		<li>
+			<span class="-credit-info">Next Help Tip?</span><br />
+		</li>
+	</ul>
+</div>

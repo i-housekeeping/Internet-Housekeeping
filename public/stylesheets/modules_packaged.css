@@ -1,0 +1,534 @@
+.about-cometdesktop-shortcut img {background-image: url(../javascripts/housekeeping/system/modules/about//images/info48x48.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/about-cometdesktop/images/info48x48.png', sizingMethod='scale')}
+.about-cometdesktop-icon {background-image: url(../javascripts/housekeeping/system/modules/about//images/info16x16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.admin-modules-shortcut img {background-image: url(../javascripts/housekeeping/system/modules/admin-modules//images/settings48x48.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/admin-modules/images/settings48x48.png', sizingMethod='scale')}
+.admin-modules-icon {background-image: url(../javascripts/housekeeping/system/modules/admin-modules//images/settings16x16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.bookmarks-shortcut img {background-image: url(../javascripts/housekeeping/system/modules/bookmarks//images/kaddressbook48x48.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/bookmarks/images/kaddressbook48x48.png', sizingMethod='scale')}
+.bookmarks-icon {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/kaddressbook16x16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.icon-printer {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/printer.png) !important}
+.icon-house {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/house.png) !important}
+.icon-go {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/bullet_go.png) !important}
+.icon-precedent {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/arrow_left.png) !important}
+.icon-suivant {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/arrow_right.png) !important}
+.icon-favoris {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/star.png) !important}
+.icon-favoris-add {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/star_add.png) !important}
+.icon-info {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/information.png) !important}
+.icon-preferences {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/wrench_orange.png) !important}
+.icon-refresh {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/arrow_refresh.png) !important}
+.icon-newWin {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/book_open.png) !important}
+.icon-export {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/anchor.png) !important}
+.icon-save {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/server_go.png) !important}
+.icon-link {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/link.png) !important}
+.icon-linkBreak {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/link_break.png) !important}
+.icon-link {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/link.png) !important}
+.icon-linkDelete {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/link_delete.png) !important}
+.icon-linkEdit {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/link_edit.png) !important}
+.icon-linkError {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/link_error.png) !important}
+.icon-linkGo {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/link_go.png) !important}
+.icon-folderAdd {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/folder_add.png) !important}
+.icon-folderStar {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/folder_star.png) !important}
+.icon-tab {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/tab.png) !important}
+.icon-tabAdd {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/tab_add.png) !important}
+.icon-tabDelete {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/tab_delete.png) !important}
+.icon-tabEdit {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/tab_edit.png) !important}
+.icon-tabGo {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/tab_go.png) !important}
+.icon-newWinDesktop {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/book_open.png) !important}
+.icon-newWinBrowser {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/book_go.png) !important}
+.icon-grid {background-image:url(../javascripts/housekeeping/system/modules/bookmarks//images/database_connect.png) !important}
+.notepad-shortcut img {background-image: url(../javascripts/housekeeping/system/modules/notepad//images/notes48x48.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/notepad/images/notes48x48.png', sizingMethod='scale')}
+.notepad-icon {background-image: url(../javascripts/housekeeping/system/modules/notepad//images/notes16x16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.pref-icon {background-image: url(../javascripts/housekeeping/system/modules/qo-preferences//images/pref-icon.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.pref-shortcut img {background-image: url(../javascripts/housekeeping/system/modules/qo-preferences//images/pref-shortcut-icon.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/qo-preferences/images/pref-shortcut-icon.png', sizingMethod='scale')}
+.pref-home-button {background-image: url(../javascripts/housekeeping/system/modules/qo-preferences//images/home16x16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.pref-forward-button {background-image: url(../javascripts/housekeeping/system/modules/qo-preferences//images/forward16x16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.users-icon {background-image: url(../javascripts/housekeeping/system/modules/qo-preferences//images/kdmconfig_16.png) !important; background-color:transparent; background-position:left center; background-repeat:no-repeat}
+#qo-preferences .x-window-mc {color:#000 !important}
+#qo-preferences .x-window-mc {background:#fff none !important}
+#qo-preferences .x-border-layout-ct {background:transparent none}
+#qo-preferences .x-panel-header {background:transparent none; border-bottom:0px none}
+#qo-preferences .pref-card .x-panel-header {color:#000}
+#qo-preferences .pref-card-subpanel .x-panel-header {color:#000}
+#pref-win-card-1 .x-panel-body li {margin:3px; margin-bottom:20px}
+#pref-win-card-1 .x-panel-body li img {width:32px; height:32px; vertical-align:middle; margin-right:7px; margin-bottom:2px}
+#pref-win-card-1 .x-panel-body li a {text-decoration:none; color:#336699; font-weight:bold}
+#pref-win-card-1 .x-panel-body li span {padding-left:55px}
+.pref-check-tree ul li {border-bottom:1px solid #d0d0d0; margin:0 3px; padding:3px 0}
+.pref-check-tree .x-tree-node .x-tree-selected {background-color:#c0c0c0}
+.pref-check-tree .x-tree-icon, .pref-check-tree .x-tree-ec-icon, .pref-check-tree .x-tree-elbow-line, .pref-check-tree .x-tree-elbow, .pref-check-tree .x-tree-elbow-end, .pref-check-tree .x-tree-elbow-plus, .pref-check-tree .x-tree-elbow-minus, .pref-check-tree .x-tree-elbow-end-plus, .pref-check-tree .x-tree-elbow-end-minus {width:3px}
+.pref-check-tree input.x-tree-node-cb {margin-left:5px}
+.pref-check-tree .x-tree-node a span, .pref-check-tree .x-dd-drag-ghost a span {padding:1px 3px 1px 6px}
+.icon-pref-shortcut {background-image:url(../javascripts/housekeeping/system/modules/qo-preferences//images/shortcut-icon.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/qo-preferences/images/shortcut-icon.png', sizingMethod='scale')}
+.icon-pref-autorun {background-image:url(../javascripts/housekeeping/system/modules/qo-preferences//images/autorun-icon.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/qo-preferences/images/autorun-icon.png', sizingMethod='scale')}
+.icon-pref-quickstart {background-image:url(../javascripts/housekeeping/system/modules/qo-preferences//images/quickstart-icon.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/qo-preferences/images/quickstart-icon.png', sizingMethod='scale')}
+.icon-pref-appearance {background-image:url(../javascripts/housekeeping/system/modules/qo-preferences//images/appearance-icon.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/qo-preferences/images/appearance-icon.png', sizingMethod='scale')}
+.icon-pref-wallpaper {background-image:url(../javascripts/housekeeping/system/modules/qo-preferences//images/wallpaper-icon.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/qo-preferences/images/wallpaper-icon.png', sizingMethod='scale')}
+.icon-pref-users {background-image:url(../javascripts/housekeeping/system/modules/qo-preferences//images/kdmconfig.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/qo-preferences/images/kdmconfig.png', sizingMethod='scale')}
+#pref-win-card-1 .x-panel-body {padding:10px }
+.quick-start-plugin {background-image:url(../javascripts/housekeeping/system/modules/qo-preferences//images/tree/plugin.gif) !important}
+.pref-thumnail-view {padding:10px 0}
+.pref-thumbnail-viewer .x-panel-header{ background:transparent none; border-bottom:1px solid #ccc !important}
+#pref-wallpaper-view .x-panel-body, #pref-theme-view .x-panel-body {background: white; font: 11px Arial, Helvetica, sans-serif}
+#pref-wallpaper-view .pref-view-thumb, #pref-theme-view .pref-view-thumb {background: #dddddd; padding: 3px}
+#pref-wallpaper-view .pref-view-thumb img {}
+#pref-theme-view .pref-view-thumb img {}
+#pref-wallpaper-view .pref-view-thumb img, #pref-theme-view .pref-view-thumb img {border:1px solid #fff}
+#pref-wallpaper-view .pref-view-thumb-wrap, #pref-theme-view .pref-view-thumb-wrap {cursor: pointer; float: left; margin: 4px; margin-right: 0; padding: 5px}
+#pref-wallpaper-view .pref-view-thumb-wrap span, #pref-theme-view .pref-view-thumb-wrap span {display: block; overflow: hidden; text-align: center}
+#pref-wallpaper-view .x-view-over, #pref-theme-view .x-view-over {border:1px solid #dddddd; padding: 4px}
+#pref-wallpaper-view .x-view-selected, #pref-theme-view .x-view-selected {background: #f1f1f1 none; border:1px solid #999; padding: 4px}
+#pref-wallpaper-view .x-view-selected .pref-view-thumb, #pref-theme-view .x-view-selected .pref-view-thumb{ background:transparent}
+#pref-wallpaper-view .loading-indicator {font-size:11px; background-repeat: no-repeat; background-position: left; padding-left:20px; margin:10px}
+.bg-pos-center {background-image:url(../javascripts/housekeeping/system/modules/qo-preferences//images/bg-center-icon.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/qo-preferences/images/bg-center-icon.png', sizingMethod='scale')}
+.bg-pos-tile {background-image:url(../javascripts/housekeeping/system/modules/qo-preferences//images/bg-tile-icon.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/qo-preferences/images/bg-tile-icon.png', sizingMethod='scale')}
+.collapse-group {padding-bottom:5px; overflow:hidden}
+.collapse-group .collapse-group-header {padding:0; border-bottom:1px solid #A0A0A0}
+.collapse-group .collapse-group-header-text {font-size:11px; font-family:tahoma,arial,sans-serif; line-height:13px; text-transform:uppercase; position:relative; left:5px; top:5px; padding:1px 5px 1px 20px; color:#4e79b2; background:#fff url(../javascripts/housekeeping/system/modules/qo-preferences//images/form-collapse-icon.gif) no-repeat 2px 0}
+.collapse-group-body {overflow:hidden}
+.collapse-group-bwrap {overflow:hidden; zoom:1}
+.x-panel-collapsed .collapse-group-header-text {background-position: 2px -15px}
+.tasks-shortcut img {background-image: url(../javascripts/housekeeping/system/modules/tasks//images/tasks48x48.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/tasks/images/tasks48x48.png', sizingMethod='scale')}
+.tasks-icon {background-image: url(../javascripts/housekeeping/system/modules/tasks//images/tasks16x16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+html, body {height:100%; margin:0; border:0}
+#tasks-grid .x-grid3-header {background: #f9f9f9 url(../javascripts/housekeeping/system/modules/tasks//images/hrow.gif) repeat-x left top}
+#tasks-grid .new-task-row {height:24px}
+#tasks-grid .new-task-row .x-small-editor {overflow:hidden; width:100%}
+#tasks-grid .new-task-row .x-small-editor input {font-size:11px}
+#new-task-icon {width:16px; height:16px; margin-left:3px; background: transparent url(../javascripts/housekeeping/system/modules/tasks//images/edit.gif) no-repeat}
+.x-grid3-body .x-grid3-td-task-col .x-grid3-cell-inner {padding: 1px 0 0 0 !important}
+.x-grid3-body .x-grid3-td-reminder-col .x-grid3-cell-inner {padding: 1px 0 0 0 !important}
+.task-check {width:98%; height:16px; background: transparent url(../javascripts/housekeeping/system/modules/tasks//images/check.gif) no-repeat center 0; cursor:pointer}
+.task-completed .task-check {background: transparent url(../javascripts/housekeeping/system/modules/tasks//images/check.gif) no-repeat center -16px}
+.task-check-over {background: transparent url(../javascripts/housekeeping/system/modules/tasks//images/check.gif) no-repeat center -32px}
+.reminder {width:98%; height:16px; background: transparent url(../javascripts/housekeeping/system/modules/tasks//images/bell.png) no-repeat center -50px}
+.reminder-active {background-position: center 0}
+.task-completed .reminder {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/s.gif)}
+.reminder-over {cursor:pointer; background-color:#DFE8F6}
+.task-completed .reminder-over {cursor:default; background-color:transparent}
+.task-overdue .x-grid3-cell-inner {color:#fb223a}
+.task-completed .x-grid3-cell-inner {text-decoration:line-through; color:gray}
+.task-col-hd {width:98%; height:12px; background: transparent url(../javascripts/housekeeping/system/modules/tasks//images/hd-check.gif) no-repeat center center; cursor:default}
+.reminder-col-hd {width:98%; height:12px; background: transparent url(../javascripts/housekeeping/system/modules/tasks//images/reminder-hd.png) no-repeat center center; cursor:default}
+.x-grid3-td-task-title .x-grid3-cell-inner {white-space:normal}
+.icon-kwrite {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/kwrite.png) !important}
+.icon-exit {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/exit.png) !important}
+.icon-about-todo {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/messagebox_info.png) !important}
+.icon-show-active {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-show-active.gif) !important}
+.icon-show-complete {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-show-complete.gif) !important}
+.icon-show-all {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-show-all.gif) !important}
+.icon-all {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-all.gif) !important}
+.x-grid3-dirty-cell {background:transparent}
+.icon-active {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-active.gif) !important}
+.icon-complete {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-complete.gif) !important}
+.icon-delete {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/delete.gif) !important}
+.icon-delete-task {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-delete-task.gif) !important}
+.icon-edit {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/edit.gif) !important}
+.icon-mark-complete {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-mark-complete.gif) !important}
+.icon-mark-active {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-mark-active.gif) !important}
+.icon-folder {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-folder.gif) !important}
+.icon-folder-new {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-folder-new.gif) !important}
+.icon-folder-delete {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-folder-delete.gif) !important}
+.icon-paste-new {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-paste-new.gif) !important}
+.icon-list {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-list.gif) !important}
+.icon-multi-list {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-multi-list.gif) !important}
+.icon-list-new {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-list-new.gif) !important}
+.icon-list-delete {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-list-delete.gif) !important}
+.icon-by-date {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-by-date.gif) !important}
+.icon-by-category {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-by-category.gif) !important}
+.icon-no-group {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-no-group.gif) !important}
+.icon-save {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/save.gif) !important}
+.icon-filter {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/icon-filter.gif) !important}
+.icon-view-detailed {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/view_detailed.png) !important}
+.icon-view-tree {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/view_tree.png) !important}
+.icon-import {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/up.png) !important}
+.x-panel-trans {background:transparent}
+.x-layout-split-west {cursor:move; width:4px}
+.x-panel-header-text {color:#3764A0}
+#main-tb {background-position:0 -1px}
+#list-tree .x-tool {background-image:url(ext-2.0/resources/images/default/panel/tools-sprites-trans.gif)}
+#list-tree .x-panel-body {background-color:white; position:relative; padding:3px 1px 3px 1px}
+#list-tree .x-tree-node-el{ border:1px solid #fff}
+#list-tree .x-tree-selected {border:1px dotted #a3bae9; background:#DFE8F6}
+#list-tree .x-tree-node .x-tree-selected a span{ background:transparent; color:#1E4176; font-weight:bold}
+#list-tree .x-node-ctx {border:1px dotted #aaa; background:#eee}
+.x-layout-collapsed-west {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/my-lists.png); background-repeat:no-repeat; background-position: center}
+.x-panel-header .x-panel-header-text {color: #FFFFFF}
+.x-panel-header {background-image:url(../javascripts/housekeeping/system/modules/tasks//images/panel-header.gif)}
+.x-grid3:not(input) {-khtml-user-select: none}
+.x-tree:not(input) {-khtml-user-select: none}
+.x-menu-item-icon {background-position:center 0}
+.x-item-disabled .x-btn-center .x-btn-text{ opacity: .6}
+.x-form-item {font:normal 11px tahoma, arial, helvetica, sans-serif}
+.ext-safari .x-form-field-wrap .x-form-trigger{ height:19px}
+.x-tree-selector .x-tree-node-el {border:1px solid #fff}
+.x-tree-selector .x-tree-activated {border:1px dotted #999 !important}
+.x-tree-menu {padding:0 !important}
+.x-menu-item-active {background: #ebf3fd; border:1px solid #aaccf6; padding: 0}
+.x-panel-header {height:16px}
+.x-menu-sep {overflow:hidden; height:1px; margin: 1px 3px}
+.x-rbtn {table-layout:fixed}
+.x-rbtn td {width:24px; height:21px; background-image:url(../javascripts/housekeeping/system/modules/tasks//images/rbtn.gif); background-repeat:no-repeat; padding:0; vertical-align:middle; border:0 none}
+.x-rbtn td.x-rbtn-first {background-position: 0 0}
+.x-rbtn td.x-rbtn-item {background-position: 0 -42px}
+.x-rbtn td.x-rbtn-last {background-position: right -21px}
+.x-rbtn td.x-rbtn-first-active {background-position: 0 -63px}
+.x-rbtn td.x-rbtn-item-active {background-position: 0 -105px}
+.x-rbtn td.x-rbtn-last-active {background-position: right -84px}
+.x-rbtn button{ background-color:transparent; background-repeat:no-repeat; background-position:center; padding: 0; margin:0; border:0 none; cursor:pointer; width:24px; height:16px; -moz-outline:0 none; outline:0 none; font-size:1px; line-height:1px}
+html, body {font:normal 12px arial, tahoma, helvetica, sans-serif}
+body td {font:normal 12px arial, tahoma, helvetica, sans-serif}
+#icon-col {width: 24px; padding-top:8px; vertical-align:top; text-align:center}
+#task-title {font-weight:bold; padding-top:8px}
+#snooze-ct {padding-top:8px; text-align:left}
+#btns {padding-top:8px}
+#btns .x-btn {float:right; margin-right:8px}
+html, body {font:normal 12px arial, tahoma, helvetica, sans-serif; background-color:#DFE8F6; overflow:hidden}
+body td {font:normal 12px arial, tahoma, helvetica, sans-serif}
+#time-ct {padding:8px 0 0 25px}
+#btns {padding-top:15px; padding-left:25px}
+#btns .x-btn {margin-right:8px; float:left}
+* Ext JS Library 0.30 * Copyright(c) 2006-2009, Ext JS, LLC. * licensing@extjs.com * * http://extjs.com/license */ #msg {background:#fffad7; border:1px solid #eee096; padding:3px; margin:0 0 8px 0; font:normal 11px arial, tahoma, helvetica, sans-serif}
+.x-form-check-wrap label {vertical-align:top}
+.x-form-check-wrap {padding-top:2px}
+.divider {height:1px; background:#a3bad9; margin-bottom:8px}
+.x-form-item {margin-bottom:8px}
+.x-form-field {font:normal 11px arial, tahoma, helvetica, sans-serif}
+.collaborate-shortcut img {background-image: url(../javascripts/housekeeping/system/modules/collaborate//images/edu_languages48x48.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/collaborate/images/edu_languages48x48.png', sizingMethod='scale')}
+.collaborate-icon {background-image: url(../javascripts/housekeeping/system/modules/collaborate//images/edu_languages16x16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.icon-collaborate {background-image:url(../javascripts/housekeeping/system/modules/collaborate//images/kdmconfig.png) !important}
+.icon-about {background-image:url(../javascripts/housekeeping/system/modules/collaborate//images/messagebox_info.png) !important}
+.my-google-shortcut img {background-image: url(../javascripts/housekeeping/system/modules/my-google//images/fsview_48x48.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/my-google/images/fsview_48x48.png', sizingMethod='scale')}
+.my-google-icon {background-image: url(../javascripts/housekeeping/system/modules/my-google//images/fsview_16x16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.bloney-shortcut img {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/kpercentage48x48.png); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/bloney/images/kpercentage48x48.png', sizingMethod='scale')}
+.bloney-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/kpercentage16x16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.contacts-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/personal_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.archive-contacts-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/save_all_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.restore-contacts-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/revert_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.clean-contacts-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/filenew_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.delete-contacts-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/fileclose_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.save-contacts-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/filesave_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.email-contacts-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mail_send_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.accounts-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/lock_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.banks-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/gohome_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.reports-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/kcmpartitions_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.advisor-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/agent_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.strategy-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/package_games_strategy_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.import-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/down_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.export-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/up_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.cashrecord-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/cashrecords.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.cashrecord-next-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/finish_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.cashrecord-prev-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/start_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.cashrecord-now-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/date_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.cashrecord-plus-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/viewmag_plus_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.cashrecord-minus-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/viewmag_minus_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.cashrecord-refresh-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/rebuild_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.cashrecord-template-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/compfile_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.document-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/dvi_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.document_send_icon{ background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mail_new_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.document_upload_icon{ background-image: url(../javascripts/housekeeping/system/modules/bloney//images/cdimage_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.document_archived_icon{ background-image: url(../javascripts/housekeeping/system/modules/bloney//images/file_locked_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.document_archived_icon{ background-image: url(../javascripts/housekeeping/system/modules/bloney//images/file_locked_16.png) !important; background-color:transparent; background-position:center center; background-repeat:no-repeat}
+.documents_image {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/folder_blue_48.png) !important; background-color:transparent; background-position:left center; background-repeat:no-repeat}
+.documents-attachment-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/attach_16.png) !important; background-color:transparent; background-position:left center; background-repeat:no-repeat}
+.banking_options_icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/txt_16.png) !important; background-color:transparent; background-position:left center; background-repeat:no-repeat}
+.banking_balance_icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/undo_16.png) !important; background-color:transparent; background-position:left center; background-repeat:no-repeat}
+.reports_image {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/kchart_48.png) !important; background-color:transparent; background-position:left center; background-repeat:no-repeat}
+.owner-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/kfm_16.png) !important; background-color:transparent; background-position:left center; background-repeat:no-repeat}
+.companyuser-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/kgpg_identity_16.png) !important; background-color:transparent; background-position:left center; background-repeat:no-repeat}
+.passwordgen-icon {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/kgpg_gen_16.png) !important; background-color:transparent; background-position:left center; background-repeat:no-repeat}
+.x-toolbar button {color : #000000}
+#header-content #logo-message {position: absolute; margin: 0; padding: 0; height:40px; width: 170px; font: bold 30px Verdana; letter-spacing: -1px; color: #FFFFFF; text-transform: none; text-decoration: none; border-right: 2px solid #FFFFFF; left: 30px; top: 5px}
+#header-content #slogan-message {position: absolute; font: bold 11px "Trebuchet MS"; letter-spacing: 0px; color: #FFFFFF; margin: 0; padding: 1px 0; text-transform: none; top: 7px; left: 210px}
+#header-content #logo-text {position: absolute; margin: 0; padding: 0; height:40px; width: 178px; background: transparent url(../javascripts/housekeeping/system/modules/bloney//images/logo.png) no-repeat right bottom; font: bold 35px Verdana; letter-spacing: -1px; color: #308785; text-transform: none; text-decoration: none; border: none; left: 40px; top: 15px}
+#header-content h1 span {position: absolute; left: 45px; font: bold 2em Verdana }
+#header-content #slogan {position: absolute; font: bold 11px "Trebuchet MS"; letter-spacing: 0px; color: #555; margin: 0; padding: 1px 0; text-transform: none; border-bottom: 2px solid #308785; top: 7px; left: 80px}
+.alert_on {background: red}
+.alert_time {font-weight: bold; color : #15428B}
+body {background-color:#93B0CC}
+#login-win .x-window-mc {background:#FFFFFF none repeat scroll 0%; border:1px solid #EEEEEE}
+#login-logo .x-plain-body {}
+#login-form .x-plain-body {background:#FFFFFF none repeat scroll 0%; color:#222222; padding:5px 35px}
+#login-win .x-window-body {background:#FFFFFF none repeat scroll 0% 50%; border:1px solid #99BBE8}
+#signup-win .x-window-mc {background:#FFFFFF none repeat scroll 0%; border:1px solid #EEEEEE}
+#signup-form .x-plain-body {background:#FFFFFF none repeat scroll 0%; color:#222222; padding:5px 35px}
+#signup-win .x-window-body {background:#FFFFFF none repeat scroll 0% 50%; border:1px solid #99BBE8}
+#welcome-win .x-window-mc {background:#FFFFFF none repeat scroll 0%; border:1px solid #EEEEEE}
+#welcome-logo .x-plain-body {}
+#welcome-form .x-plain-body {background:#FFFFFF none repeat scroll 0%; color:#222222; padding:5px 35px}
+#welcome-win .x-window-body {background:#FFFFFF none repeat scroll 0% 50%; border:1px solid #99BBE8}
+.x-column-tree .x-tree-node {zoom:1}
+.x-column-tree .x-tree-node-el {zoom:1}
+.x-column-tree .x-tree-selected {background: #d9e8fb}
+.x-column-tree .x-tree-node a {line-height:18px; vertical-align:middle}
+.x-column-tree .x-tree-node a span{ }
+.x-column-tree .x-tree-node .x-tree-selected a span{ background:transparent; color:#000}
+.x-tree-col {float:left; overflow:hidden; padding:0 1px; zoom:1}
+.x-tree-col-text, .x-tree-hd-text {overflow:hidden; -o-text-overflow: ellipsis; text-overflow: ellipsis; padding:3px 3px 3px 5px; white-space: nowrap; font:normal 11px arial, tahoma, helvetica, sans-serif}
+.x-tree-headers {background: #f9f9f9 url(../images/default/grid/grid3-hrow.gif) repeat-x bottom; cursor:default; zoom:1}
+.x-tree-hd {float:left; overflow:hidden; border-left:1px solid #eee; border-right:1px solid #d0d0d0}
+.task {background-image:url(../shared/icons/fam/cog.png) !important}
+.task-folder {background-image:url(../shared/icons/fam/folder_go.png) !important}
+.x-tree {background:#FFFFFF none repeat scroll 0 0 !important}
+.x-portal .x-panel-dd-spacer {margin-bottom:10px}
+.x-portlet{ padding-bottom:5px}
+.x-portlet .x-panel-ml {padding-left:2px}
+.x-portlet .x-panel-mr {padding-right:2px}
+.x-portlet .x-panel-bl {padding-left:2px}
+.x-portlet .x-panel-br {padding-right:2px}
+.x-portlet .x-panel-body {background:white}
+.x-portlet .x-panel-mc {padding-top:2px}
+.x-portlet .x-panel-bc .x-panel-footer {padding-bottom:2px}
+.x-portlet .x-panel-nofooter .x-panel-bc {height:2px}
+.ux-calc {background: #EEEEEE}
+.ux-calc-container {border: 1px solid #C7D8ED}
+.ux-calc-container td {font-family: tahoma, arial, helvetica, sans-serif; font-size: 14px; line-height: 18px; border: 1px outset #C7D8ED}
+.ux-calc-digit, .ux-calc-equals {font-weight: bold}
+.ux-calc-operator, .ux-calc-equals {color: blue}
+.ux-calc-memory {color: red}
+.ux-calc-memstore {border: 1px inset #C7D8ED !important; background-color: #D1D1D1}
+.ux-calc-btn-hover {background: #C7D8ED; cursor: pointer}
+.ux-calc-input {text-align: right}
+.ux-calc-misc {}
+.ux-calc-ok {}
+.msg .x-box-mc {font-size:14px}
+#msg-div {position:absolute; left:35%; top:10px; width:250px; z-index:20000}
+.blist .x-btn-text {background-image: url(../images/list-items.gif) }
+.bmenu .x-btn-text {background-image: url(../images/cashrecords.png) }
+.menu-title{ background: #ebeadb url(../images/default/grid/grid-hrow.gif) repeat-x; border-bottom:1px solid #99bbe8; color:#15428b; font:bold 10px tahoma,arial,verdana,sans-serif; display:block; padding:3px}
+.calendar .x-menu-item-icon {background-image:url(../images/default/shared/calendar.gif)}
+.search .x-menu-item-icon {background-image:url(../images/Gif/Orange/Search.gif)}
+.filter .x-menu-item-icon {background-image:url(../images/Gif/Orange/PlayerSlow.gif)}
+.navigate .x-menu-item-icon {background-image:url(../images/Gif/Orange/Rotate.gif)}
+.configure .x-menu-item-icon {background-image:url(../images/Gif/Orange/Gears.gif)}
+.icon-expand-all {background-image:url(../images/Gif/Orange/Plus.gif) !important}
+.icon-collapse-all {background-image:url(../images/Gif/Orange/Minus.gif) !important}
+.icon-home {background-image:url(../images/Gif/Orange/Home.gif) !important}
+.icon-edit {background-image:url(../images/Gif/Orange/Write.gif) !important}
+.icon-ok {background-image:url(../images/Gif/Orange/Ok.gif) !important}
+.icon-no {background-image:url(../images/Gif/Orange/No.gif) !important}
+.folder {background-image:url(../images/Gif/Orange/Folder.gif) !important}
+.document {background-image:url(../images/Gif/Orange/Document.gif) !important}
+.tabstoolbar .x-tab-strip-text{ font-size:90%; font-weight:bold; font-family:verdana}
+#help_box {background:#EFFAFF none repeat scroll 0%; border:1px solid #8EACCF; margin:3px; padding:5px}
+#help_title {font-weight: bold; font-size : 20px; margin:5px 0pt; padding:5px}
+#help_description {margin:5px 0pt; padding:5px}
+#help_image{ margin:5px 0pt; padding:5px}
+#help_content{ margin:5px 0pt; padding:5px}
+.search-item {margin:5px 5px 9px; padding:0 5px 10px 0}
+.search-item .member {font:bold 12px tahoma,arial,sans-serif; color:#444; margin:5px; overflow:hidden; white-space:nowrap; zoom:1}
+.search-item .cls {font:normal 12px tahoma,arial,sans-serif; color:#444; margin:5px; overflow:hidden; text-align:left; white-space:nowrap; zoom:1}
+.search-item p {font:normal 11px tahoma,arial,sans-serif; clear:both; margin: 0 5px 5px 28px; color:#444; zoom:1}
+#search .loading-indicator {position:static !important}
+#search h3 {font:normal 12px tahoma,arial,sans-serif; color:#444; margin:10px}
+.inner-link .item-icon, .bookmark .item-icon{ margin-right:3px}
+.inner-link, .bookmark {margin-left:10px}
+input.l-tcb {height:13px; width:13px; margin-left:2px }
+.ext-ie .x-tree {position:static !important}
+#compbalance_title {text-align: center; font-size : 16px}
+#compbalance_table {margin : 0 0 0 40px}
+#compbalance_table caption{ font-size : 16px; text-align: center}
+#compbalance_table td {font-size : 16px}
+#compbalance_table th {font-weight: bold; font-size : 16px}
+.statement {text-align: left}
+.yesterday {text-align: right}
+.today {text-align: right}
+.tommorow {background:#EFFAFF none repeat scroll 0%; text-align: right}
+.categories_graph{ margin-left :5px}
+#bloneyaccount_title {text-align: center; font-size : 16px}
+#bloneyaccount_table {margin : 0 0 0 10px}
+#bloneyaccount_table {background-color:#FFFFFF; border: solid #000 0px; width: 200px}
+#bloneyaccount_table td {padding: 5px; border: solid #000 0px; font-size : 14px}
+.property {font-weight: bold; text-align: left; width: 150px; background-color: #EFFAFF}
+.checkbox {color: #000000; text-align: right; background-color: #EFFAFF}
+.expert_header {background-color: #EFFAFF}
+.ux-row-action-cell .x-grid3-cell-inner {padding:1px 0 0 0}
+.ux-row-action-item {float:left; min-width:16px; height:16px; background-repeat:no-repeat; margin: 0 5px 0 0; cursor:pointer; overflow:hidden}
+.ext-ie .ux-row-action-item {width:16px}
+.ext-ie .ux-row-action-text {width:auto}
+.ux-row-action-item span {vertical-align:middle; padding:0 0 0 20px; line-height:18px}
+.ext-ie .ux-row-action-item span {width:auto}
+.x-grid-group-hd div {position:relative; height:16px}
+.ux-grow-action-item {min-width:16px; height:16px; background-repeat:no-repeat; background-position: 0 50% ! important; margin: 0 0 0 4px; padding: 0 ! important; cursor:pointer; float:left}
+.ext-ie .ux-grow-action-item {width:16px}
+.ux-action-right {float:right; margin: 0 3px 0 2px; padding: 0 ! important}
+.ux-grow-action-text {padding: 0 ! important; margin:0 ! important; background:transparent none ! important; float:left}
+.icon-ob {background-image:url(../images/ob_16.png) ! important}
+.icon-ok {background-image:url(../images/ok16.png) ! important}
+.icon-stat-data {background-image:url(../images/kate_16.png) ! important}
+.icon-admin {background-image:url(../images/adv_settings_16.png) ! important}
+.icon-key2 {background-image:url(../images/key_16.png) ! important}
+.icon-expand-all {background-image:url(../images/expand-all.gif) ! important}
+.icon-collapse-all {background-image:url(../images/collapse-all.gif) ! important}
+.icon-user {background-image:url(../images/user2_16.png) ! important}
+.icon-wrench {background-image:url(../images/wrench_16.png) ! important}
+.icon-stat-portal {background-image:url(../images/stat_portal_16.png) ! important}
+.icon-stat-list {background-image:url(../images/stat_list_16.png) ! important}
+.icon-cancel {background-image:url(../images/cancel16.png) ! important}
+.icon-wages {background-image:url(../images/euro_16.png) ! important}
+.icon-lock {background-image:url(../images/lock16.png) ! important}
+.icon-lock-open {background-image:url(../images/unlock16.png) ! important}
+.icon-upload {background-image:url(../images/up.png) ! important}
+.icon-plus {background-image:url(../images/add.png) ! important}
+.icon-minus {background-image:url(../images/delete.png) ! important}
+.icon-cross {background-image:url(../images/cross.png) ! important}
+.icon-stop {background-image:url(../images/control_stop.png) ! important}
+.icon-working {background-image:url(../images/default/grid/wait.gif) ! important}
+.ux-up-item {line-height:17px; height:17px; cursor:default; margin-bottom:1px; position:relative; background-color:#f0f0f0; background-image:url(../images/white_bg.png); background-repeat:no-repeat }
+.ux-up-icon-file {width:16px; height:16px; vertical-align:-3px; margin-right:4px; background-image:url(../images/default/tree/leaf.gif); float:left}
+.ux-up-item-selected {}
+.ux-up-indicator {background-color:yellow; height:17px; width:40px; position:absolute; opacity:0.4}
+.ux-up-icon-state {width:16px; float:right; margin-right:2px; cursor:pointer; z-index:-1}
+.ux-up-icon-queued {background-image:url(../images/page_white_get.png)}
+.ux-up-icon-uploading {background-image:url(../images/default/grid/wait.gif)}
+.ux-up-icon-done {background-image:url(../images/accept.png)}
+.ux-up-icon-failed {background-image:url(../images/error.png)}
+.ux-up-icon-stopped {background-image:url(../images/stop.png)}
+.ux-up-text {float:left}
+.ux-ftm-nodename {color:black; font-weight:bold; cursor:default ! important}
+.x-form-spinner-proxy{ }
+.x-form-field-wrap .x-form-spinner-trigger {background:transparent url(../javascripts/housekeeping/system/modules/bloney//images/spinner.gif) no-repeat 0 0}
+.x-form-field-wrap .x-form-spinner-overup{ background-position:-17px 0}
+.x-form-field-wrap .x-form-spinner-clickup{ background-position:-34px 0}
+.x-form-field-wrap .x-form-spinner-overdown{ background-position:-51px 0}
+.x-form-field-wrap .x-form-spinner-clickdown{ background-position:-68px 0}
+.x-trigger-wrap-focus .x-form-spinner-trigger{ background-position:-85px 0}
+.x-trigger-wrap-focus .x-form-spinner-overup{ background-position:-102px 0}
+.x-trigger-wrap-focus .x-form-spinner-clickup{ background-position:-119px 0}
+.x-trigger-wrap-focus .x-form-spinner-overdown{ background-position:-136px 0}
+.x-trigger-wrap-focus .x-form-spinner-clickdown{ background-position:-153px 0}
+.x-trigger-wrap-focus .x-form-trigger{ border-bottom: 1px solid #7eadd9}
+.x-form-field-wrap .x-form-spinner-splitter {line-height:1px; font-size:1px; background:transparent url(../javascripts/housekeeping/system/modules/bloney//images/spinner-split.gif) no-repeat 0 0; position:absolute; cursor: n-resize}
+.x-trigger-wrap-focus .x-form-spinner-splitter{ background-position:-14px 0}
+.align-right {text-align: right; padding-right:20px; background: #FFFFFF; color : #000000}
+.x-panel-body-noheader, .x-panel-mc .x-panel-body {border-color:#FFFFFF}
+.file-pdf ,.file-ai {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/pdf_document.png) ! important}
+.file-txt {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/txt.png) ! important}
+.file-bmp ,.file-cgm ,.file-dcm ,.file-dds ,.file-exr ,.file-gif ,.file-hdr ,.file-ico ,.file-jng ,.file-jp2 ,.file-jpeg ,.file-jpg ,.file-pbm ,.file-pbmraw ,.file-pcd ,.file-pcx ,.file-pgm ,.file-pgmraw ,.file-pic ,.file-png ,.file-pnm ,.file-psd ,.file-raw ,.file-rgb ,.file-rgba ,.file-tga ,.file-tif ,.file-tiff ,.file-xbm ,.file-xcf ,.file-xpm {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/image.png) ! important}
+.file-conf ,.file-vim {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/source.png) ! important}
+.file-html ,.file-htm ,.file-sgml ,.file-xhtml ,.file-xml {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/html.png) ! important}
+.file-sh {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/shellscript.png) ! important}
+.file-3g2 ,.file-3gp ,.file-asf ,.file-asx ,.file-avi ,.file-flc ,.file-fli ,.file-flv ,.file-mkv ,.file-mng ,.file-mp4 ,.file-mpeg ,.file-mpg ,.file-ogm ,.file-rv ,.file-wmp ,.file-wmv {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/video.png) ! important}
+.file-ttf ,.file-otf {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/font_truetype.png) ! important}
+.file-exe ,.file-dll {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/exec_wine.png) ! important}
+.file-doc ,.file-odt ,.file-rtf {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/wordprocessing.png) ! important}
+.file-xls ,.file-ods ,.file-xlc ,.file-xll ,.file-xlm ,.file-xlw ,.file-wpd ,.file-abw {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/spreadsheet_document.png) ! important}
+.file-js {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/source_j.png) ! important}
+.file-css {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/source_c.png) ! important}
+.file-php {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/source_php.png) ! important}
+.file-7z ,.file-a ,.file-ace ,.file-arj ,.file-bz ,.file-bz2 ,.file-cpio ,.file-gz ,.file-rar ,.file-tgz ,.file-tnf ,.file-z ,.file-zip ,.file-zoo {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/zip.png) ! important}
+.file-ppt ,.file-odp ,.file-ppz ,.file-ppt {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/pps.png) ! important}
+.file-msg {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/message.png) ! important}
+.file-dwg ,.file-sxd ,.file-dhw ,.file-svg ,.file-ps ,.file-eps ,.file-wmf ,.file-fig ,.file-msod ,.file-qpic {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/vectorgfx.png) ! important}
+.file-ics {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/vcalendar.png) ! important}
+.file-chm ,.file-info ,.file-hlp ,.file-help {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/info.png) ! important}
+.file-aac ,.file-ac3 ,.file-aifc ,.file-aiff ,.file-ape ,.file-au ,.file-flac ,.file-m3u ,.file-m4a ,.file-mac ,.file-mid ,.file-midi ,.file-mp2 ,.file-mp3 ,.file-ogg ,.file-psid ,.file-ra ,.file-ram ,.file-sf ,.file-sid ,.file-spx ,.file-wav ,.file-wma ,.file-wv ,.file-wvc {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/sound.png) ! important}
+.file-asc ,.file-cer ,.file-cert ,.file-crt ,.file-der ,.file-gpg ,.file-gpg ,.file-p10 ,.file-p12 ,.file-p7c ,.file-p7m ,.file-p7s ,.file-pem ,.file-sig {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/file_locked.png) ! important}
+.file-bin ,.file-cue ,.file-img ,.file-iso ,.file-mdf ,.file-nrg {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/cdimage.png) ! important}
+.file-jar ,.file-java ,.file-class {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/java_src.png) ! important}
+.file-sql {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/source_s.png) ! important}
+.file-moov ,.file-mov ,.file-qt {background-image: url(../javascripts/housekeeping/system/modules/bloney//images/mime/quicktime.png) ! important}
+.icon-ob {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/ob_16.png) ! important}
+.icon-graph {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/chart_curve.png) ! important}
+.icon-chart {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/chart_bar.png) ! important}
+.icon-prefs {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/application_form.png) ! important}
+.icon-ok {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/ok16.png) ! important}
+.icon-view-tile {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/application_view_tile.png) ! important}
+.icon-stat-data {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/kate_16.png) ! important}
+.icon-rename {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/textfield_rename.png) ! important}
+.icon-add-col {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/page_white_add.png) ! important}
+.icon-del-col {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/page_white_delete.png) ! important}
+.icon-save-table {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/table_save.png) ! important}
+.icon-add-tab {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/tab_add.png) ! important}
+.icon-del-tab {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/tab_delete.png) ! important}
+.icon-go-tab {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/tab_go.png) ! important}
+.icon-add-table {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/table_add.png) ! important}
+.icon-del-table {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/table_delete.png) ! important}
+.icon-admin {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/adv_settings_16.png) ! important}
+.icon-grid {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/application_view_columns.png) !important}
+.icon-key {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/key.png) ! important}
+.icon-key2 {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/key_16.png) ! important}
+.icon-expand-all {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/expand-all.gif) ! important}
+.icon-collapse-all {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/collapse-all.gif) ! important}
+.icon-expand {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/expand-all.gif) ! important}
+.icon-collapse {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/collapse-all.gif) ! important}
+.icon-tree-orgboard {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/chart_organisation.png) ! important}
+.icon-tree-area {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/post_title.png) ! important}
+.icon-tree-post {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/page_white.png) ! important}
+.icon-plus {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/add.png) ! important}
+.icon-minus {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/delete.png) ! important}
+.icon-house_16 {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/house_16.png) ! important}
+.icon-user {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/user2_16.png) ! important}
+.icon-trash-empty {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/bin_empty.png) ! important}
+.icon-trash-closed {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/bin_closed.png) ! important}
+.icon-disk {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/disk.png) ! important}
+.icon-disk-bullet {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/bullet_disk.png) ! important}
+.icon-undo {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/arrow_undo.png) ! important}
+.icon-db-refresh {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/database_refresh.png) ! important}
+.icon-db-gear {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/database_gear.png) ! important}
+.icon-magnifier {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/magnifier.png) ! important}
+.icon-wrench {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/wrench_16.png) ! important}
+.icon-wrench-orange {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/wrench_orange.png) ! important}
+.icon-star {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/star.png) ! important}
+.icon-lock-go {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/lock_go.png) ! important}
+.icon-group-add {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/group_add.png) ! important}
+.icon-group-del {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/group_delete.png) ! important}
+.icon-stat-portal {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/stat_portal_16.png) ! important}
+.icon-stat-list {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/stat_list_16.png) ! important}
+.icon-cancel {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/cancel16.png) ! important}
+.icon-cross {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/cross.png) ! important}
+.icon-defaults {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/arrow_rotate_clockwise.png) ! important}
+.icon-load {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/database_go.png) ! important}
+.icon-reconfigure {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/database_gear.png) ! important}
+.icon-upload {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/up.png) ! important}
+.icon-folder-add {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/folder_add.png) ! important}
+.icon-open {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/application_go.png) ! important}
+.icon-open-self {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/application.png) ! important}
+.icon-open-popup {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/application_double.png) ! important}
+.icon-open-blank {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/application_cascade.png) ! important}
+.icon-open-download {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/application_put.png) ! important}
+.icon-refresh {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/arrow_refresh.png) ! important}
+.icon-pencil {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/pencil.png) ! important}
+.icon-stop {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/control_stop.png) ! important}
+.icon-email {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/email.png) ! important}
+.icon-email-compose {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/email_edit.png) ! important}
+.icon-coins {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/coins.png) ! important}
+.icon-clock {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/clock.png) ! important}
+.icon-zoom {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/zoom.png) ! important}
+.icon-print {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/printer.png) ! important}
+.icon-folder-component {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/folder_brick.png) ! important}
+.icon-plugin {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/plugin.png) ! important}
+.icon-extension {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/brick.png) ! important}
+.icon-function {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/flag_yellow.png) ! important}
+.icon-bulb {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/lightbulb.png) ! important}
+.icon-bulb-off {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/lightbulb_off.png) ! important}
+.icon-copy {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/page_white_copy.png) ! important}
+.icon-star {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/award_star_gold_3.png) ! important}
+.icon-edit-record {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/table_edit.png) ! important}
+.icon-actions {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/lightning.png) ! important}
+.icon-form-add {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/layout_add.png) ! important}
+.icon-html {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/html.png) ! important}
+.icon-script {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/script.png) ! important}
+.icon-php {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/script_code.png) ! important}
+.icon-css {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/css.png) ! important}
+.icon-run {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/application_go.png) ! important}
+.icon-info {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/information.png) ! important}
+.icon-error {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/cancel.png) ! important}
+.icon-warn {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/error.png) ! important}
+.icon-wages {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/euro_16.png) ! important}
+.icon-calculator {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/calculator.png) ! important}
+.icon-add-wage {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/coins_add.png) ! important}
+.icon-del-wage {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/bin_closed.png) ! important}
+.icon-manual {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/book_open.png) ! important}
+.icon-lock {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/lock16.png) ! important}
+.icon-lock-open {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/unlock16.png) ! important}
+.icon-arrow-down {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/arrow_down.png) ! important}
+.icon-arrow-right {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/arrow_right.png) ! important}
+.icon-delete {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/bin_empty.png) ! important}
+.icon-tree {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/tree_16.png) ! important}
+.icon-form-edit {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/application_form_edit.png) ! important}
+.icon-form-add {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/application_form_add.png) ! important}
+.icon-filter {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/view-filter16.png) ! important}
+.icon-filter-active {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/view-filter-go16.png) ! important}
+.icon-stat-cat {background-image:url(../javascripts/housekeeping/system/modules/bloney//images/stat-cat_16.png) ! important}
+.x-form-field-wrap .trigger-tag-add {background-image: url(../img/trigger-tag-add.png); cursor:pointer}
+.x-form-field-wrap .trigger-tag {background-image: url(../img/trigger-tag.png); cursor:pointer}
+.x-form-field-wrap .x-trigger-disabled {cursor:default; opacity:0.5; background-position:0 0}
+.x-form-field-wrap .trigger-tree {background-image: url(../img/trigger-tree.png); cursor:pointer}

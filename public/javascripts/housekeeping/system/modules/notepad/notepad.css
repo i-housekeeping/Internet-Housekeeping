@@ -1,0 +1,10 @@
+.notepad-shortcut img {
+    background-image: url(images/notes48x48.png);
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/notepad/images/notes48x48.png', sizingMethod='scale');
+}
+.notepad-icon {
+    background-image: url(images/notes16x16.png)  !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}

@@ -1,0 +1,105 @@
+--- 
+wallpapers_005: 
+  name: Eos
+  updated_at: 
+  record_sts: ACTV
+  id: "5"
+  path_to_thumbnail: javascripts/housekeeping/resources/wallpapers/thumbnails/eos.jpg
+  created_at: 
+  path_to_file: javascripts/housekeeping/resources/wallpapers/eos.jpg
+wallpapers_006: 
+  name: Fields of Peace
+  updated_at: 
+  record_sts: ACTV
+  id: "6"
+  path_to_thumbnail: javascripts/housekeeping/resources/wallpapers/thumbnails/fields-of-peace.jpg
+  created_at: 
+  path_to_file: javascripts/housekeeping/resources/wallpapers/fields-of-peace.jpg
+wallpapers_007: 
+  name: Fresh Morning
+  updated_at: 
+  record_sts: ACTV
+  id: "7"
+  path_to_thumbnail: javascripts/housekeeping/resources/wallpapers/thumbnails/fresh-morning.jpg
+  created_at: 
+  path_to_file: javascripts/housekeeping/resources/wallpapers/fresh-morning.jpg
+wallpapers_008: 
+  name: Ladybuggin
+  updated_at: 
+  record_sts: ACTV
+  id: "8"
+  path_to_thumbnail: javascripts/housekeeping/resources/wallpapers/thumbnails/ladybuggin.jpg
+  created_at: 
+  path_to_file: javascripts/housekeeping/resources/wallpapers/ladybuggin.jpg
+wallpapers_009: 
+  name: Summer
+  updated_at: 
+  record_sts: ACTV
+  id: "9"
+  path_to_thumbnail: javascripts/housekeeping/resources/wallpapers/thumbnails/summer.jpg
+  created_at: 
+  path_to_file: javascripts/housekeeping/resources/wallpapers/summer.jpg
+wallpapers_010: 
+  name: Blue Swirl
+  updated_at: 
+  record_sts: ACTV
+  id: "10"
+  path_to_thumbnail: javascripts/housekeeping/resources/wallpapers/thumbnails/blue-swirl.jpg
+  created_at: 
+  path_to_file: javascripts/housekeeping/resources/wallpapers/blue-swirl.jpg
+wallpapers_011: 
+  name: Blue Psychedelic
+  updated_at: 
+  record_sts: ACTV
+  id: "11"
+  path_to_thumbnail: javascripts/housekeeping/resources/wallpapers/thumbnails/blue-psychedelic.jpg
+  created_at: 
+  path_to_file: javascripts/housekeeping/resources/wallpapers/blue-psychedelic.jpg
+wallpapers_012: 
+  name: Blue Curtain
+  updated_at: 
+  record_sts: ACTV
+  id: "12"
+  path_to_thumbnail: javascripts/housekeeping/resources/wallpapers/thumbnails/blue-curtain.jpg
+  created_at: 
+  path_to_file: javascripts/housekeeping/resources/wallpapers/blue-curtain.jpg
+wallpapers_001: 
+  name: Blank
+  updated_at: 
+  record_sts: ACTV
+  id: "1"
+  path_to_thumbnail: javascripts/housekeeping/resources/wallpapers/thumbnails/blank.gif
+  created_at: 
+  path_to_file: javascripts/housekeeping/resources/wallpapers/blank.gif
+wallpapers_013: 
+  name: Dark Day
+  updated_at: 
+  record_sts: ACTV
+  id: "14"
+  path_to_thumbnail: javascripts/housekeeping/resources/wallpapers/thumbnails/darkday.jpg
+  created_at: 
+  path_to_file: javascripts/housekeeping/resources/wallpapers/darkday.jpg
+wallpapers_002: 
+  name: Colorado Farm
+  updated_at: 
+  record_sts: ACTV
+  id: "2"
+  path_to_thumbnail: javascripts/housekeeping/resources/wallpapers/thumbnails/colorado-farm.jpg
+  created_at: 
+  path_to_file: javascripts/housekeeping/resources/wallpapers/colorado-farm.jpg
+wallpapers_003: 
+  name: Curls On Green
+  updated_at: 
+  record_sts: ACTV
+  id: "3"
+  path_to_thumbnail: javascripts/housekeeping/resources/wallpapers/thumbnails/curls-on-green.jpg
+  created_at: 
+  path_to_file: javascripts/housekeeping/resources/wallpapers/curls-on-green.jpg
+wallpapers_004: 
+  name: Emotion
+  updated_at: 
+  record_sts: ACTV
+  id: "4"
+  path_to_thumbnail: javascripts/housekeeping/resources/wallpapers/thumbnails/emotion.jpg
+  created_at: 
+  path_to_file: javascripts/housekeeping/resources/wallpapers/emotion.jpg

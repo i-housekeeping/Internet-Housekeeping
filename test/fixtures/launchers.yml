@@ -1,0 +1,37 @@
+--- 
+launchers_001: 
+  name: autorun
+  updated_at: 
+  record_sts: ACTV
+  id: "1"
+  created_at: 
+launchers_002: 
+  name: contextmenu
+  updated_at: 
+  record_sts: ACTV
+  id: "2"
+  created_at: 
+launchers_003: 
+  name: quickstart
+  updated_at: 
+  record_sts: ACTV
+  id: "3"
+  created_at: 
+launchers_004: 
+  name: shortcut
+  updated_at: 
+  record_sts: ACTV
+  id: "4"
+  created_at: 
+launchers_005: 
+  name: startmenu
+  updated_at: 
+  record_sts: ACTV
+  id: "5"
+  created_at: 
+launchers_006: 
+  name: startmenutool
+  updated_at: 
+  record_sts: ACTV
+  id: "6"
+  created_at: 

@@ -1,0 +1,142 @@
+/* Some icons courtesty of http://famfamfam.com. */
+
+/* Collaboration of Bookmarks and Navigateur. */
+/* Css from the Navigateur Module by Frankxx */
+.bookmarks-shortcut img {
+    background-image: url(images/kaddressbook48x48.png);
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/bookmarks/images/kaddressbook48x48.png', sizingMethod='scale');
+}
+
+.bookmarks-icon {
+    background-image:url(images/kaddressbook16x16.png) !important;
+	background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.icon-printer {
+	background-image:url(images/printer.png) !important;
+}
+
+.icon-house {
+	background-image:url(images/house.png) !important;
+}
+
+.icon-go {
+	background-image:url(images/bullet_go.png) !important;
+}
+
+.icon-precedent {
+	background-image:url(images/arrow_left.png) !important;
+}
+
+.icon-suivant {
+	background-image:url(images/arrow_right.png) !important;
+}
+
+.icon-favoris {
+	background-image:url(images/star.png) !important;
+}
+
+.icon-favoris-add {
+	background-image:url(images/star_add.png) !important;
+}
+
+.icon-info {
+	background-image:url(images/information.png) !important;
+}
+
+.icon-preferences {
+	background-image:url(images/wrench_orange.png) !important;
+}
+
+.icon-refresh {
+	background-image:url(images/arrow_refresh.png) !important;
+}
+
+.icon-newWin {
+	background-image:url(images/book_open.png) !important;
+}
+
+.icon-export {
+	background-image:url(images/anchor.png) !important;
+}
+
+.icon-save {
+	background-image:url(images/server_go.png) !important;
+}
+
+
+.icon-link {
+	background-image:url(images/link.png) !important;
+}
+
+.icon-linkBreak {
+	background-image:url(images/link_break.png) !important;
+}
+
+.icon-link {
+	background-image:url(images/link.png) !important;
+}
+
+.icon-linkDelete {
+	background-image:url(images/link_delete.png) !important;
+}
+
+.icon-linkEdit {
+	background-image:url(images/link_edit.png) !important;
+}
+
+.icon-linkError {
+	background-image:url(images/link_error.png) !important;
+}
+
+.icon-linkGo {
+	background-image:url(images/link_go.png) !important;
+}
+
+
+.icon-folderAdd {
+	background-image:url(images/folder_add.png) !important;
+}
+
+.icon-folderStar {
+	background-image:url(images/folder_star.png) !important;
+}
+
+
+.icon-tab {
+	background-image:url(images/tab.png) !important;
+}
+
+.icon-tabAdd {
+	background-image:url(images/tab_add.png) !important;
+}
+
+.icon-tabDelete {
+	background-image:url(images/tab_delete.png) !important;
+}
+
+.icon-tabEdit {
+	background-image:url(images/tab_edit.png) !important;
+}
+
+.icon-tabGo {
+	background-image:url(images/tab_go.png) !important;
+}
+
+
+.icon-newWinDesktop {
+	background-image:url(images/book_open.png) !important;
+}
+
+.icon-newWinBrowser {
+	background-image:url(images/book_go.png) !important;
+}
+
+
+
+.icon-grid {
+	background-image:url(images/database_connect.png) !important;
+}
+

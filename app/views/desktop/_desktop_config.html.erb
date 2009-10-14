@@ -1,0 +1,6 @@
+<% javascript_tag  do -%>
+			window.log = Ext.emptyFn;
+			Ext.namespace('app');
+			app.config = <%=@return_data[:config].to_json%>
+			app.initTime = new Date();
+<% end -%>

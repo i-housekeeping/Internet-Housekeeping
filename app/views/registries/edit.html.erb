@@ -1,0 +1,12 @@
+<h1>Editing registry</h1>
+
+<% form_for(@registry) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @registry %> |
+<%= link_to 'Back', registries_path %>

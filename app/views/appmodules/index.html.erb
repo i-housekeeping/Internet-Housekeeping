@@ -1,0 +1,18 @@
+<h1>Listing appmodules</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% for appmodule in @appmodules %>
+  <tr>
+    <td><%= link_to 'Show', appmodule %></td>
+    <td><%= link_to 'Edit', edit_appmodule_path(appmodule) %></td>
+    <td><%= link_to 'Destroy', appmodule, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New appmodule', new_appmodule_path %>

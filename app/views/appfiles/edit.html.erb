@@ -1,0 +1,12 @@
+<h1>Editing appfile</h1>
+
+<% form_for(@appfile) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @appfile %> |
+<%= link_to 'Back', appfiles_path %>

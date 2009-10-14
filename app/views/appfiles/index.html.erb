@@ -1,0 +1,18 @@
+<h1>Listing appfiles</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% for appfile in @appfiles %>
+  <tr>
+    <td><%= link_to 'Show', appfile %></td>
+    <td><%= link_to 'Edit', edit_appfile_path(appfile) %></td>
+    <td><%= link_to 'Destroy', appfile, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New appfile', new_appfile_path %>

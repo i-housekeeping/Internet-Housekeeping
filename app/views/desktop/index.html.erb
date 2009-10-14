@@ -1,0 +1,17 @@
+<%= render :partial => "desktop_config", :locals => {:return_data => @return_data }%>  
+<%= javascript_include_merged :desktop %>
+<% javascript_tag  do -%>
+		<%= @loaded_js[:system]%>
+		<%= @loaded_js[:core]%>
+		<% for appmodule in @loaded_js[:app] %>
+			app.register({
+							"tooltip":"<%=appmodule.description%>",
+							"shortcutIconCls":"<%=appmodule.moduleId%>-shortcut",
+							"moduleType":"app",
+							"iconCls":"<%=appmodule.moduleId%>-icon",
+							"text":"<%=appmodule.moduleName.sub("QoDesk.","")%>",
+							"pkg":"<%=appmodule.moduleName%>",
+							"moduleId":"<%=appmodule.moduleId%>"
+					});
+		<% end %> 
+<% end -%>

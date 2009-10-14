@@ -1,0 +1,12 @@
+<h1>Editing wallpaper</h1>
+
+<% form_for(@wallpaper) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @wallpaper %> |
+<%= link_to 'Back', wallpapers_path %>

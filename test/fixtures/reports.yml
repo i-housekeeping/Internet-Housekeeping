@@ -1,0 +1,10 @@
+--- 
+reports_001: 
+  last_update: 
+  name: Balance Sheet
+  record_sts: ACTV
+  id: "1"
+  description: Balance Sheet
+  content: Cashrecords
+  link: /cashrecords
+  report_type: Position

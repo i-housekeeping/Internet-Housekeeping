@@ -1,0 +1,340 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Cross-domain CSS Proxy (Ext.ux.CssProxy) (CSSHttpRequest)</title>
+
+    <link rel="stylesheet" type="text/css" href="/stylesheets/ext-all.css" />
+ 	<link rel="stylesheet" type="text/css" href="/javascripts/housekeeping/resources/themes/xtheme-gray-extend/css/xtheme-gray-extend.css" />
+	<script type='text/javascript' src='http://www.google.com/jsapi'></script>
+ 	<script type="text/javascript" src="/javascripts/ext-base.js"></script>
+
+    <script type="text/javascript" src="/javascripts/ext-all-debug.js"></script>
+    <script type="text/javascript" src="/javascripts/housekeeping/lib/CSSProxy.js"></script>
+	
+    <style type="text/css">
+        html, body {
+            background-color: white;
+        }
+        .container {
+            padding: 20px;
+        }
+        pre {
+            margin: 10px;
+            padding: 5px;
+            border: 1px solid black;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+        }
+        #response img {
+            padding: 3px;
+        }
+        .even {
+            background: #ccc;
+        }
+    </style>
+
+<script type="text/javascript">
+    var c = 0;
+
+    var insertResponse = function(e) {
+        e.addClass( c++ % 2 ? 'even' : 'odd' );
+        Ext.get('response').insertFirst(e);
+    };
+
+    var textResponse = function(r) {
+        var e = document.createElement('pre');
+        e = Ext.get(e); e.update(r);
+        insertResponse(e);
+    };
+
+    var jsonResponse = function(r) {
+        r = Ext.decode(r); // convert to json
+        var e = document.createElement('pre');
+        e = Ext.get(e); e.update(Ext.util.Format.htmlEncode(r+' = '+Ext.encode(r)));
+        insertResponse(e);
+    };
+
+    var flickrResponse = function(r) {
+        r = Ext.decode(r);
+        if(!r.items)
+            r.items = r.photo;
+        r.items.length = 6;
+        var e = document.createElement('div');
+        e = Ext.get(e);
+        Ext.each(r.items, function(item, i) {
+            var a = document.createElement('a');
+            a.href = item.link;
+            a.title = item.title;
+            var img = document.createElement('img');
+            img.src = item.media.m.replace(/_m/, '_s');
+            a.appendChild(img);
+            e.appendChild(a);
+        });
+        insertResponse(e);
+    };
+	
+	Ext.ux.GDataTableAdapter = function(config) {
+    // hashmap to convert from Ext data types
+    // datatypes
+    var convert = {
+        'auto': 'string',
+        'string': 'string',
+        'int': 'number',
+        'float': 'number',
+        'boolean': 'boolean',
+        'date':'date'    
+    };
+      
+    return {
+        adapt: function(config) {
+            var store = Ext.StoreMgr.lookup(config.store || config.ds);
+            var tbl = new google.visualization.DataTable();
+            var cols = config.columns;
+            for (var i = 0; i < cols.length; i++) {
+                var c = cols[i];
+                var id = c.dataIndex || c;
+                var f = store.fields.get(id);
+                tbl.addColumn(convert[f.type], c.label || c, id);
+            }
+            var rs = store.getRange();
+            tbl.addRows(rs.length);
+            for (var i = 0; i < rs.length; i++) {
+                for (var j = 0; j < cols.length; j++) {
+                    var fld = store.fields.itemAt(j);        
+                    tbl.setValue(i, j, rs[i].get(fld.name));
+                }
+            }
+            return tbl;
+        }
+    };
+      
+}();
+
+
+
+Ext.ux.GVisualizationPanel = Ext.extend(Ext.Panel, {
+    // These are required by Google API
+    // To add more visualizations you can extend
+    // visualizationPkgs
+    visualizationAPI: 'visualization',
+    visualizationAPIVer: '1',
+    visualizationPkgs: {
+        'intensitymap': 'IntensityMap',
+        'orgchart': 'OrgChart',
+        'linechart': 'LineChart',
+        'gauge': 'Gauge',
+        'scatterchart': 'ScatterChart'    
+    },
+    
+    /**
+     * visualizationPkg {String} 
+     * (Required) Valid values are intesitymap, orgchart, gauge and scatterchart
+     * The error "Module: 'visualization' with package: '' not found!" will be
+     * thrown if you do not use this configuration.
+     */
+    visualizationPkg: '',
+    
+    /**
+     * html {String}
+     * Initial html to show before loading the visualization
+     */
+    html: 'Loading...',
+    
+    /**
+     * store {Ext.data.Store/String}
+     * Any valid instance of a store and/or storeId
+     */    
+    store: null,
+
+    // Overriden methods
+    initComponent: function() {
+        if (typeof this.visualizationPkg === 'object') {
+            Ext.apply(this.visualizationPkgs, this.visualizationPkg);            
+            for (var key in this.visualizationPkg) {
+                this.visualizationPkg = key;
+                break;
+            }
+        }
+        google.load(
+            this.visualizationAPI,
+            this.visualizationAPIVer,
+            {
+                packages: [this.visualizationPkg],
+                callback: this.onLoadCallback.createDelegate(this)
+            }
+        );        
+        this.store = Ext.StoreMgr.lookup(this.store);
+        Ext.ux.GVisualizationPanel.superclass.initComponent.call(this);
+    },
+    
+    // custom methods
+    onLoadCallback: function() {
+        var tableCfg = {
+            store: this.store,
+            columns: this.columns
+        };
+        this.datatable = Ext.ux.GDataTableAdapter.adapt(tableCfg);
+        
+        var cls = this.visualizationPkgs[this.visualizationPkg];
+        this.body.update('');
+        this.visualization = new google.visualization[cls](this.body.dom);
+        
+        var relaySelect = function() {
+            this.fireEvent('select', this, this.visualization);
+        };
+        google.visualization.events.addListener(this.visualization, 'select', relaySelect.createDelegate(this));
+        this.visualization.draw(this.datatable, Ext.apply({}, this.visualizationCfg));
+    }    
+});
+Ext.reg('gvisualization', Ext.ux.GVisualizationPanel);
+
+var store = new Ext.data.SimpleStore({
+	fields: [
+		{
+			name: 'pointDate',
+			type: 'date'
+		},
+		{
+			name: 'pointClose',
+			type: 'float'
+		},
+		{
+			name: 'pointNetChg',
+			type: 'float'
+		},
+		{
+			name: 'pointPctChg',
+			type: 'float'
+		},
+		{
+			name: 'pointNews',
+			type: 'string'
+		}
+	],
+	data: [
+		['10/13/2008',9387.61,936.42,11.10,' U.S. stocks join global rally on <a href=\"http://www.marketwatch.com/news/story/us-stocks-end-sharply-higher/story.aspx?guid={CA02B2A7-AB72-466D-BA2A-25A2EDD97B29}\" target=\"_blank\">government plans<\/a>.'],
+		['3/16/2000',10630.60,499.19,4.93,' Mar 16, 2000 highlights here.'],
+		['7/24/2002',8191.29,488.95,6.35,' Jul 24, 2002 highlights here.'],
+		['9/30/2008',10850.66,485.21,4.68,' Sep 30, 2008 highlights here.'],
+		['7/29/2002',8711.88,447.49,5.41,' Jul 29, 2002 highlights here.'],
+		['3/18/2008',12392.66,420.41,3.51,' Mar 18, 2008 highlights here.'],
+		['3/11/2008',12156.81,416.66,3.55,' Mar 11, 2008 highlights here.'],
+		['9/18/2008',11019.69,410.03,3.86,' Sep 18, 2008 highlights here.'],
+		['4/5/2001',9918.05,402.63,4.23,' Apr 5, 2001 highlights here.'],
+		['4/18/2001',10615.83,399.10,3.91,' Apr 18, 2001 highlights here.'],
+		['4/1/2008',12654.36,391.47,3.19,' April Fools Day, 2008'],
+		['9/8/1998',8020.78,380.53,4.98,'Sep 8, 1998 highlights here.'],
+		['10/15/2002',8255.68,378.28,4.80,'Oct 15, 2002 highlights here.'],
+		['9/19/2008',11388.44,368.75,3.35,'Sep 19, 2008 highlights here.'],
+		['9/24/2001',8603.86,368.05,4.47,'Sep 24, 2001 highlights here.'],
+		['10/1/2002',7938.79,346.86,4.57,''],
+		['5/16/2001',11215.92,342.95,3.15,''],
+		['2/5/2000',10898.72,338.62,3.21,''],
+		['10/28/1997',7498.32,337.17,4.71,''],
+		['9/18/2007',13739.39,335.97,2.51,''],
+		['8/5/2008',11615.77,331.62,2.94,'']
+	]
+});
+
+var timeline = new Ext.ux.GVisualizationPanel({
+	renderTo: 'dow-highlights',
+	id: 'timeline',
+	visualizationPkg: {'annotatedtimeline': 'AnnotatedTimeLine'},
+	visualizationCfg: {
+		allowHtml: true,
+		displayAnnotations: true,
+		displayExactValues: true,
+		wmode: 'transparent'
+	},
+	height: 400,
+	title: 'Greatest DJIA Daily Point Gains',
+	store: store,
+	columns: [
+		{
+			dataIndex: 'pointDate',
+			label: 'Date'
+		},
+		{
+			dataIndex: 'pointClose',
+			label: 'Close'
+		},
+		{
+			dataIndex: 'pointNetChg',
+			label: 'Net Chg'
+		},
+		{
+			dataIndex: 'pointPctChg',
+			label: 'Pct Chg'
+		},
+		{
+			dataIndex: 'pointNews'
+		}
+	]
+});
+    
+
+
+	
+
+	
+
+
+
+
+
+
+
+</script>
+   
+   
+  
+  
+</head>
+<body>
+<div class="container">
+<h3>Cross-domain CSS Proxy (Ext.ux.CssProxy)</h3>
+
+Ext.ux.CssProxy allows for cross-domain ajax like <a href="http://extjs.com/deploy/dev/docs/?class=Ext.data.ScriptTagProxy">Ext.data.ScriptTagProxy</a>, but with some differences.<br/>
+When you use Ext.data.ScriptTagProxy (JSONP), you allow untrusted JavaScript to execute in your domain's context.<br/>
+With Ext.ux.CssProxy and CSSHttpRequest, the data is parsed out of specially crafted CSS avoiding any JavaScript execution.<br/>
+See <a href="http://nb.io/hacks/csshttprequest/">CSSHttpRequest</a> for more information on how to generate the CSS.<br/>
+<br/>
+Author: <a href="http://xant.us/">David W Davis</a><br/>
+
+Version: 1.0<br/>
+License: <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License</a>, Version 2.0<br/>
+Ext.ux.CssProxy is based on CSSHttpRequest.<br/>
+Get the <a href="../../lib/css-proxy/css-proxy.js">Source</a><br/>
+<br/>
+<h4>Changelog</h4>
+<ul>
+<li>v1.0: First public version based on CSSHttpRequest</li>
+
+</ul>
+<br/>
+<h4>Demos</h4>
+<div id="bind-grid"></div>
+
+
+Ext grid loaded from <a class="json-test" href="http://xantus.org/css-proxy/demo.css">http://xantus.org/css-proxy/demo.css</a><br/><br/>
+These examples load from <a href="http://nb.io/">http://nb.io/</a>
+<ul>
+    <li><b><a class="text-test" href="http://s.nb.io/_s/csshttprequest/examples/hello-world.css">Hello World</a></b> (text)</li>
+
+    <li><b><a class="text-test" href="http://s.nb.io/hacks/csshttprequest/lorem/">Lorem Ipsum</a></b> (text)</li>
+    <li><b><a class="text-test" href="http://s.nb.io/hacks/csshttprequest/time/">Time</a></b> (text)</li>
+    <li><b><a class="json-test" href="http://s.nb.io/hacks/csshttprequest/time-json/">Time</a></b> (JSON)</li>
+    <li><b><a class="flickr-test" href="http://s.nb.io/hacks/csshttprequest/flickr/tags/favorite/">Flickr tag search</a></b> (JSON)</li>
+
+    <!-- http://api.flickr.com/services/feeds/photos_public.gne?tags=favorite&amp;format=json&amp;nojsoncallback=1 -->
+</ul>
+<div id="response"></div>
+</div>
+<div id="dow-highlights"></div>
+
+
+</body>
+</html>

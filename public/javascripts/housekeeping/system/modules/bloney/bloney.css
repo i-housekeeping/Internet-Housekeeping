@@ -1,0 +1,1592 @@
+.bloney-shortcut img {
+    background-image: url(images/kpercentage48x48.png);
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascripts/housekeeping/system/modules/bloney/images/kpercentage48x48.png', sizingMethod='scale');
+}
+
+.bloney-icon {
+    background-image: url(images/kpercentage16x16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.contacts-icon {
+    background-image: url(images/personal_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.archive-contacts-icon {
+    background-image: url(images/save_all_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+.restore-contacts-icon {
+    background-image: url(images/revert_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+.clean-contacts-icon {
+    background-image: url(images/filenew_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+.delete-contacts-icon {
+    background-image: url(images/fileclose_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+.save-contacts-icon {
+    background-image: url(images/filesave_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+.email-contacts-icon {
+    background-image: url(images/mail_send_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+.accounts-icon {
+    background-image: url(images/lock_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+.banks-icon {
+    background-image: url(images/gohome_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.reports-icon {
+    background-image: url(images/kcmpartitions_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.advisor-icon {
+    background-image: url(images/agent_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+.strategy-icon {
+    background-image: url(images/package_games_strategy_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.import-icon {
+    background-image: url(images/down_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.export-icon {
+    background-image: url(images/up_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.cashrecord-icon {
+    background-image: url(images/cashrecords.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.cashrecord-next-icon {
+    background-image: url(images/finish_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.cashrecord-prev-icon {
+    background-image: url(images/start_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.cashrecord-now-icon {
+    background-image: url(images/date_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.cashrecord-plus-icon {
+    background-image: url(images/viewmag_plus_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.cashrecord-minus-icon {
+    background-image: url(images/viewmag_minus_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.cashrecord-refresh-icon {
+    background-image: url(images/rebuild_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.cashrecord-template-icon {
+    background-image: url(images/compfile_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.document-icon {
+    background-image: url(images/dvi_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.document_send_icon{
+	background-image: url(images/mail_new_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.document_upload_icon{
+	background-image: url(images/cdimage_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.document_archived_icon{
+	background-image: url(images/file_locked_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.document_archived_icon{
+	background-image: url(images/file_locked_16.png) !important;
+    background-color:transparent;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.documents_image {
+	background-image: url(images/folder_blue_48.png) !important;
+    background-color:transparent;
+    background-position:left center;
+    background-repeat:no-repeat;
+}
+
+.documents-attachment-icon {
+	background-image: url(images/attach_16.png) !important;
+    background-color:transparent;
+    background-position:left center;
+    background-repeat:no-repeat;
+}
+.banking_options_icon {
+	background-image: url(images/txt_16.png) !important;
+    background-color:transparent;
+    background-position:left center;
+    background-repeat:no-repeat;
+}
+
+.banking_balance_icon {
+	background-image: url(images/undo_16.png) !important;
+    background-color:transparent;
+    background-position:left center;
+    background-repeat:no-repeat;
+}
+
+.reports_image {
+	background-image: url(images/kchart_48.png) !important;
+    background-color:transparent;
+    background-position:left center;
+    background-repeat:no-repeat;
+}
+
+.owner-icon {
+	background-image: url(images/kfm_16.png) !important;
+    background-color:transparent;
+    background-position:left center;
+    background-repeat:no-repeat;
+}
+
+.companyuser-icon {
+	background-image: url(images/kgpg_identity_16.png) !important;
+    background-color:transparent;
+    background-position:left center;
+    background-repeat:no-repeat;
+}
+
+.passwordgen-icon {
+	background-image: url(images/kgpg_gen_16.png) !important;
+    background-color:transparent;
+    background-position:left center;
+    background-repeat:no-repeat;
+}
+
+.x-toolbar button {
+	color : #000000;
+}
+
+/******************************************************************************/
+/* Logo*/
+/******************************************************************************/
+#header-content #logo-message {	
+	position: absolute;
+	margin: 0; padding: 0;	
+	height:40px; width: 170px; 
+	font: bold 30px Verdana;
+	letter-spacing: -1px;
+	color: #FFFFFF;
+	text-transform: none;
+	text-decoration: none;
+	border-right: 2px solid #FFFFFF;
+	left: 30px; top: 5px;
+}
+
+#header-content #slogan-message {
+	position: absolute;	
+	font: bold 11px "Trebuchet MS";
+	letter-spacing: 0px;
+	color: #FFFFFF;	
+	margin: 0; padding: 1px 0;
+	text-transform: none;
+	
+	/* change the values of left and top to adjust the position of the slogan */
+	top: 7px; left: 210px;
+}
+
+#header-content #logo-text  {	
+	position: absolute;
+	margin: 0; padding: 0;	
+	height:40px; width: 178px; 
+	background: transparent url(images/logo.png) no-repeat right bottom;
+	font: bold 35px Verdana;
+	letter-spacing: -1px;
+	color: #308785;
+	text-transform: none;
+	text-decoration: none;
+	border: none;
+	left: 40px; top: 15px;
+}
+#header-content h1 span {
+	position: absolute;
+	left: 45px;	
+	font: bold 2em  Verdana  ;
+}
+#header-content #slogan {
+	position: absolute;	
+	font: bold 11px "Trebuchet MS";
+	letter-spacing: 0px;
+	color: #555;	
+	margin: 0; padding: 1px 0;
+	text-transform: none;
+	border-bottom: 2px solid #308785;
+	
+	/* change the values of left and top to adjust the position of the slogan */
+	top: 7px; left: 80px;
+}
+
+/******************************************************************************/
+/*                        Notifications                                       */
+/******************************************************************************/
+.alert_on {
+	background: red;
+}
+
+.alert_time {
+	font-weight: bold;
+	color : #15428B;
+}
+/******************************************************************************/
+/*                        Authorize                                           */
+/******************************************************************************/
+body {
+	background-color:#93B0CC;
+}
+
+#login-win .x-window-mc {
+	background:#FFFFFF none repeat scroll 0%;
+	border:1px solid #EEEEEE;
+}
+#login-logo .x-plain-body {
+	/*background:#F9F9F9 url(../images/bloney.jpg) no-repeat scroll center;*/
+}
+#login-form .x-plain-body {
+	background:#FFFFFF none repeat scroll 0%;
+	color:#222222;
+	padding:5px 35px;
+}
+#login-win .x-window-body {
+	background:#FFFFFF none repeat scroll 0% 50%;
+	border:1px solid #99BBE8;
+}
+
+#signup-win .x-window-mc {
+	background:#FFFFFF none repeat scroll 0%;
+	border:1px solid #EEEEEE;
+}
+#signup-form .x-plain-body {
+	background:#FFFFFF none repeat scroll 0%;
+	color:#222222;
+	padding:5px 35px;
+}
+#signup-win .x-window-body {
+	background:#FFFFFF none repeat scroll 0% 50%;
+	border:1px solid #99BBE8;
+}
+
+#welcome-win .x-window-mc {
+	background:#FFFFFF none repeat scroll 0%;
+	border:1px solid #EEEEEE;
+}
+#welcome-logo .x-plain-body {
+	/*background:#F9F9F9 url(../images/bloney.jpg) no-repeat scroll center;*/
+}
+#welcome-form .x-plain-body {
+	background:#FFFFFF none repeat scroll 0%;
+	color:#222222;
+	padding:5px 35px;
+}
+#welcome-win .x-window-body {
+	background:#FFFFFF none repeat scroll 0% 50%;
+	border:1px solid #99BBE8;
+}
+/******************************************************************************/
+/*                        Dashboard                                           */
+/******************************************************************************/
+.x-column-tree .x-tree-node {
+    zoom:1;
+}
+.x-column-tree .x-tree-node-el {
+    /*border-bottom:1px solid #eee; borders? */
+    zoom:1;
+}
+.x-column-tree .x-tree-selected {
+    background: #d9e8fb;
+}
+.x-column-tree  .x-tree-node a {
+    line-height:18px;
+    vertical-align:middle;
+}
+.x-column-tree  .x-tree-node a span{
+
+}
+.x-column-tree  .x-tree-node .x-tree-selected a span{
+	background:transparent;
+	color:#000;
+}
+.x-tree-col {
+    float:left;
+    overflow:hidden;
+    padding:0 1px;
+    zoom:1;
+}
+
+.x-tree-col-text, .x-tree-hd-text {
+    overflow:hidden;
+    -o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+    padding:3px 3px 3px 5px;
+    white-space: nowrap;
+    font:normal 11px arial, tahoma, helvetica, sans-serif;
+}
+
+.x-tree-headers {
+    background: #f9f9f9 url(../images/default/grid/grid3-hrow.gif) repeat-x  bottom;
+	cursor:default;
+    zoom:1;
+}
+
+.x-tree-hd {
+    float:left;
+    overflow:hidden;
+    border-left:1px solid #eee;
+    border-right:1px solid #d0d0d0;
+}
+
+.task {
+    background-image:url(../shared/icons/fam/cog.png) !important;
+}
+.task-folder {
+    background-image:url(../shared/icons/fam/folder_go.png) !important;
+}
+
+.x-tree {
+	background:#FFFFFF none repeat scroll 0 0 !important;
+}
+
+.x-portal .x-panel-dd-spacer {
+    margin-bottom:10px;
+}
+
+.x-portlet{
+	padding-bottom:5px;
+}
+/* Clean up the look of the portlets */
+.x-portlet .x-panel-ml {
+    padding-left:2px;
+}
+.x-portlet .x-panel-mr {
+    padding-right:2px;
+}
+.x-portlet .x-panel-bl {
+    padding-left:2px;
+}
+
+.x-portlet .x-panel-br {
+    padding-right:2px;
+}
+.x-portlet .x-panel-body {
+    background:white;
+}
+.x-portlet .x-panel-mc {
+    padding-top:2px;
+}
+.x-portlet .x-panel-bc .x-panel-footer {
+    padding-bottom:2px;
+}
+.x-portlet .x-panel-nofooter .x-panel-bc {
+    height:2px;
+}
+
+/******************************************************************************/
+/*                        Cashrecords Calculator                              */
+/******************************************************************************/
+.ux-calc {
+	background: #EEEEEE;
+}
+.ux-calc-container {
+	border: 1px solid #C7D8ED;
+}
+.ux-calc-container td {
+	font-family: tahoma, arial, helvetica, sans-serif;
+	font-size: 14px;
+	line-height: 18px;
+	border: 1px outset #C7D8ED;
+}
+.ux-calc-digit, .ux-calc-equals {
+	font-weight: bold;
+}
+.ux-calc-operator, .ux-calc-equals {
+	color: blue;
+}
+.ux-calc-memory {
+	color: red;
+}
+.ux-calc-memstore {
+	border: 1px inset #C7D8ED !important;
+	background-color: #D1D1D1;
+}
+.ux-calc-btn-hover {
+	background: #C7D8ED;
+	cursor: pointer;
+}
+.ux-calc-input {
+	text-align: right;
+}
+
+.ux-calc-misc { }
+.ux-calc-ok { }
+/*Calculator end*/
+
+
+/******************************************************************************/
+/*                        Else   .............                                */
+/******************************************************************************/
+.msg .x-box-mc {
+    font-size:14px;
+}
+#msg-div {
+    position:absolute;
+    left:35%;
+    top:10px;
+    width:250px;
+    z-index:20000;
+}
+.blist .x-btn-text {
+    background-image: url(../images/list-items.gif)
+}
+.bmenu .x-btn-text {
+    background-image: url(../images/cashrecords.png)
+}
+.menu-title{
+    background: #ebeadb url(../images/default/grid/grid-hrow.gif) repeat-x;
+    border-bottom:1px solid #99bbe8;
+    color:#15428b;
+    font:bold 10px tahoma,arial,verdana,sans-serif;
+    display:block;
+    padding:3px;
+}
+
+.calendar .x-menu-item-icon {
+    background-image:url(../images/default/shared/calendar.gif);
+}
+
+.search .x-menu-item-icon {
+    background-image:url(../images/Gif/Orange/Search.gif);
+}
+.filter .x-menu-item-icon {
+    background-image:url(../images/Gif/Orange/PlayerSlow.gif);
+}
+.navigate .x-menu-item-icon {
+    background-image:url(../images/Gif/Orange/Rotate.gif);
+}
+.configure .x-menu-item-icon {
+    background-image:url(../images/Gif/Orange/Gears.gif);
+}
+
+.icon-expand-all {
+background-image:url(../images/Gif/Orange/Plus.gif)  !important;
+}
+
+.icon-collapse-all {
+background-image:url(../images/Gif/Orange/Minus.gif) !important;
+}
+
+.icon-home {
+background-image:url(../images/Gif/Orange/Home.gif)  !important;
+}
+
+.icon-edit {
+background-image:url(../images/Gif/Orange/Write.gif)  !important;
+}
+
+.icon-ok {
+background-image:url(../images/Gif/Orange/Ok.gif) !important;
+}
+
+.icon-no {
+background-image:url(../images/Gif/Orange/No.gif)  !important;
+}
+
+.folder {
+background-image:url(../images/Gif/Orange/Folder.gif)  !important;
+}
+
+.document {
+background-image:url(../images/Gif/Orange/Document.gif)  !important;
+}
+
+.tabstoolbar .x-tab-strip-text{
+    font-size:90%;
+    font-weight:bold;
+    font-family:verdana;
+}
+/******************************************************************************/
+/*                        Help                                                */
+/******************************************************************************/
+#help_box {
+	background:#EFFAFF none repeat scroll 0%;
+	border:1px solid #8EACCF;
+	margin:3px;
+	padding:5px;
+}
+
+#help_title {
+	font-weight: bold;
+	font-size : 20px;
+	margin:5px 0pt;
+	padding:5px;
+}
+#help_description {
+	margin:5px 0pt;
+	padding:5px;
+}
+#help_image{
+	margin:5px 0pt;
+	padding:5px;
+}
+#help_content{
+	margin:5px 0pt;
+	padding:5px;
+}
+.search-item {
+	margin:5px 5px 9px;
+	padding:0 5px 10px 0;
+}
+.search-item .member {
+	font:bold 12px tahoma,arial,sans-serif;
+	color:#444;
+	margin:5px;
+	overflow:hidden;
+	white-space:nowrap;
+	zoom:1;
+}
+
+.search-item .cls {
+	font:normal 12px tahoma,arial,sans-serif;
+	color:#444;
+	margin:5px;
+	overflow:hidden;
+	text-align:left;
+	white-space:nowrap;
+	zoom:1;
+}
+.search-item p {
+	font:normal 11px tahoma,arial,sans-serif;
+	clear:both;
+	margin: 0 5px 5px 28px;
+	color:#444;
+	zoom:1;
+}
+#search .loading-indicator {
+	position:static !important;
+}
+#search h3 {
+	font:normal 12px tahoma,arial,sans-serif;
+	color:#444;
+	margin:10px;
+}
+.inner-link .item-icon, .bookmark .item-icon{
+	margin-right:3px;
+}
+.inner-link, .bookmark {
+	margin-left:10px;
+}
+
+/* tree checkbox, height/width needed b/c of IE spacing weirdly, breaks lines */
+input.l-tcb {
+	height:13px;
+	width:13px;
+	margin-left:2px
+}
+
+
+/* fix scrolling issue with treeobj in a contentpanel 
+ * and loss of icons when a node is expanded
+*/
+.ext-ie .x-tree {
+	position:static !important;
+}
+#compbalance_title {
+	text-align: center;
+	font-size : 16px;
+}
+
+#compbalance_table {
+	
+	/*border:1px solid #8EACCF;*/
+	margin : 0 0 0 40px;
+	
+}
+#compbalance_table caption{
+	font-size : 16px;
+	text-align: center;
+}
+
+#compbalance_table td {
+	font-size : 16px;	
+	
+}
+
+#compbalance_table th {
+	font-weight: bold;
+	font-size : 16px;
+	
+}
+.statement {
+	
+	text-align: left;
+}
+.yesterday {
+	
+	text-align: right;
+}
+.today {
+	
+	text-align: right;
+}
+.tommorow {
+	background:#EFFAFF none repeat scroll 0%;
+	text-align: right;
+}
+
+.categories_graph{
+	margin-left :5px;	
+}
+
+#bloneyaccount_title {
+	text-align: center;
+	font-size : 16px;
+}
+
+#bloneyaccount_table  {
+	margin : 0 0 0 10px;	
+	
+}
+
+#bloneyaccount_table {
+	background-color:#FFFFFF;
+    border: solid #000 0px;
+    width: 200px;
+}
+#bloneyaccount_table td {
+	padding: 5px;
+    border: solid #000 0px;
+	font-size : 14px;	
+}
+
+.property {
+	font-weight: bold;
+    text-align: left;
+    width: 150px;
+    background-color: #EFFAFF;
+}
+
+.checkbox {
+	color: #000000;
+    text-align: right;
+    background-color: #EFFAFF;
+}
+
+.expert_header {
+	background-color: #EFFAFF;
+}
+/*************************************************************************************************/
+/* styles for rows */
+.ux-row-action-cell .x-grid3-cell-inner {
+	padding:1px 0 0 0;
+}
+.ux-row-action-item {
+	float:left;
+	min-width:16px;
+	height:16px;
+	background-repeat:no-repeat;
+	margin: 0 5px 0 0;
+	cursor:pointer;
+	overflow:hidden;
+}
+.ext-ie .ux-row-action-item {
+	width:16px;
+}
+.ext-ie .ux-row-action-text {
+	width:auto;
+}
+.ux-row-action-item span {
+	vertical-align:middle;
+	padding:0 0 0 20px;
+	line-height:18px;
+}
+.ext-ie .ux-row-action-item span {
+	width:auto;
+}
+
+/* styles for groups */
+.x-grid-group-hd div {
+	position:relative;
+	height:16px;
+}
+.ux-grow-action-item {
+	min-width:16px;
+	height:16px;
+	background-repeat:no-repeat;
+	background-position: 0 50% ! important;
+	margin: 0 0 0 4px;
+	padding: 0 ! important;
+	cursor:pointer;
+	float:left;
+}
+.ext-ie .ux-grow-action-item {
+	width:16px;
+}
+.ux-action-right {
+	float:right;
+	margin: 0 3px 0 2px;
+	padding: 0 ! important;
+}
+.ux-grow-action-text {
+	padding: 0 ! important;
+	margin:0 ! important;
+	background:transparent none ! important;
+	float:left;
+}
+
+.icon-ob {
+	background-image:url(../images/ob_16.png) ! important;
+}
+.icon-ok {
+	background-image:url(../images/ok16.png) ! important;
+}
+.icon-stat-data {
+	background-image:url(../images/kate_16.png) ! important;
+}
+.icon-admin {
+	background-image:url(../images/adv_settings_16.png) ! important;
+}
+.icon-key2 {
+	background-image:url(../images/key_16.png) ! important;
+}
+.icon-expand-all {
+	background-image:url(../images/expand-all.gif) ! important;
+}
+.icon-collapse-all {
+	background-image:url(../images/collapse-all.gif) ! important;
+}
+
+.icon-user {
+	background-image:url(../images/user2_16.png) ! important;
+}
+.icon-wrench {
+	background-image:url(../images/wrench_16.png) ! important;
+}
+.icon-stat-portal {
+	background-image:url(../images/stat_portal_16.png) ! important;
+}
+.icon-stat-list {
+	background-image:url(../images/stat_list_16.png) ! important;
+}
+.icon-cancel {
+	background-image:url(../images/cancel16.png) ! important;
+}
+.icon-wages {
+	background-image:url(../images/euro_16.png) ! important;
+}
+.icon-lock {
+	background-image:url(../images/lock16.png) ! important;
+}
+.icon-lock-open {
+	background-image:url(../images/unlock16.png) ! important;
+}
+.icon-upload {
+	background-image:url(../images/up.png) ! important;
+}
+.icon-plus {
+	background-image:url(../images/add.png) ! important;
+}
+.icon-minus {
+	background-image:url(../images/delete.png) ! important;
+}
+.icon-cross {
+	background-image:url(../images/cross.png) ! important;
+}
+.icon-stop {
+	background-image:url(../images/control_stop.png) ! important;
+}
+.icon-working {
+	background-image:url(../images/default/grid/wait.gif) ! important;
+}
+
+
+.ux-up-item {
+	line-height:17px;
+	height:17px;
+	cursor:default;
+/*	border: 1px solid transparent; */
+	margin-bottom:1px;
+	position:relative;
+	background-color:#f0f0f0;
+	background-image:url(../images/white_bg.png);
+	background-repeat:no-repeat
+}
+.ux-up-icon-file {
+	width:16px;
+	height:16px;
+	vertical-align:-3px;
+	margin-right:4px;
+	background-image:url(../images/default/tree/leaf.gif);
+	float:left;
+}
+.ux-up-item-selected {
+	/*
+	border-color:#c0c0c0;
+	background-color:#f0f0f0;
+	*/
+}
+.ux-up-indicator {
+	background-color:yellow;
+	height:17px;
+	width:40px;
+	position:absolute;
+	opacity:0.4;
+}
+.ux-up-icon-state {
+	width:16px;
+	float:right;
+	margin-right:2px;
+	cursor:pointer;
+	z-index:-1;
+}
+.ux-up-icon-queued {
+	background-image:url(../images/page_white_get.png);
+}
+.ux-up-icon-uploading {
+	background-image:url(../images/default/grid/wait.gif);
+}
+.ux-up-icon-done {
+	background-image:url(../images/accept.png);
+}
+.ux-up-icon-failed {
+	background-image:url(../images/error.png);
+}
+.ux-up-icon-stopped {
+	background-image:url(../images/stop.png);
+}
+.ux-up-text {
+	float:left;
+}
+.ux-ftm-nodename {
+	color:black;
+	font-weight:bold;
+	cursor:default ! important;
+}
+/*---------------------------------------------------------------------
+                                   Spinner 
+----------------------------------------------------------------------*/
+.x-form-spinner-proxy{
+	/*background-color:#ff00cc;*/
+}
+.x-form-field-wrap .x-form-spinner-trigger {
+    background:transparent url(images/spinner.gif) no-repeat 0 0;
+}
+.x-form-field-wrap .x-form-spinner-overup{
+    background-position:-17px 0;
+}
+.x-form-field-wrap .x-form-spinner-clickup{
+    background-position:-34px 0;
+}
+.x-form-field-wrap .x-form-spinner-overdown{
+    background-position:-51px 0;
+}
+.x-form-field-wrap .x-form-spinner-clickdown{
+    background-position:-68px 0;
+}
+.x-trigger-wrap-focus .x-form-spinner-trigger{
+    background-position:-85px 0;
+}
+.x-trigger-wrap-focus .x-form-spinner-overup{
+    background-position:-102px 0;
+}
+.x-trigger-wrap-focus .x-form-spinner-clickup{
+    background-position:-119px 0;
+}
+.x-trigger-wrap-focus .x-form-spinner-overdown{
+    background-position:-136px 0;
+}
+.x-trigger-wrap-focus .x-form-spinner-clickdown{
+    background-position:-153px 0;
+}
+.x-trigger-wrap-focus .x-form-trigger{
+    border-bottom: 1px solid #7eadd9;
+}
+
+.x-form-field-wrap .x-form-spinner-splitter {
+	line-height:1px;
+	font-size:1px;
+    background:transparent url(images/spinner-split.gif) no-repeat 0 0;
+	position:absolute;
+	cursor: n-resize;
+}
+.x-trigger-wrap-focus .x-form-spinner-splitter{
+    background-position:-14px 0;
+}
+.align-right {
+    text-align: right;
+    padding-right:20px;	
+	background: #FFFFFF;
+	color : #000000;	
+}
+.x-panel-body-noheader, .x-panel-mc .x-panel-body {
+border-color:#FFFFFF;
+}
+
+
+/** 
+ *
+ * Mimetypes for FileTree and others
+ *
+ * $Id: filetype.css 51 2008-03-10 01:52:18Z jozo $
+ *
+ */
+
+ .file-pdf
+,.file-ai
+{
+	background-image: url(images/mime/pdf_document.png) ! important;
+}
+.file-txt {
+	background-image: url(images/mime/txt.png) ! important;
+}
+ .file-bmp  
+,.file-cgm  
+,.file-dcm  
+,.file-dds  
+,.file-exr  
+,.file-gif  
+,.file-hdr  
+,.file-ico  
+,.file-jng  
+,.file-jp2  
+,.file-jpeg  
+,.file-jpg  
+,.file-pbm  
+,.file-pbmraw  
+,.file-pcd  
+,.file-pcx  
+,.file-pgm  
+,.file-pgmraw  
+,.file-pic  
+,.file-png  
+,.file-pnm  
+,.file-psd  
+,.file-raw  
+,.file-rgb  
+,.file-rgba  
+,.file-tga  
+,.file-tif  
+,.file-tiff  
+,.file-xbm  
+,.file-xcf  
+,.file-xpm  
+{
+	background-image: url(images/mime/image.png) ! important;
+}
+ .file-conf  
+,.file-vim 
+{
+	background-image: url(images/mime/source.png) ! important;
+}
+ .file-html  
+,.file-htm  
+,.file-sgml  
+,.file-xhtml  
+,.file-xml  
+{
+	background-image: url(images/mime/html.png) ! important;
+}
+.file-sh  {
+	background-image: url(images/mime/shellscript.png) ! important;
+}
+ .file-3g2 
+,.file-3gp 
+,.file-asf 
+,.file-asx  
+,.file-avi  
+,.file-flc 
+,.file-fli 
+,.file-flv 
+,.file-mkv 
+,.file-mng 
+,.file-mp4 
+,.file-mpeg 
+,.file-mpg 
+,.file-ogm 
+,.file-rv 
+,.file-wmp 
+,.file-wmv 
+{
+	background-image: url(images/mime/video.png) ! important;
+}
+ .file-ttf  
+,.file-otf 
+{
+	background-image: url(images/mime/font_truetype.png) ! important;
+}
+ .file-exe  
+,.file-dll 
+{
+	background-image: url(images/mime/exec_wine.png) ! important;
+}
+ .file-doc  
+,.file-odt 
+,.file-rtf 
+{
+	background-image: url(images/mime/wordprocessing.png) ! important;
+}
+ .file-xls  
+,.file-ods 
+,.file-xlc 
+,.file-xll 
+,.file-xlm 
+,.file-xlw 
+,.file-wpd 
+,.file-abw 
+{
+	background-image: url(images/mime/spreadsheet_document.png) ! important;
+}
+.file-js  {
+	background-image: url(images/mime/source_j.png) ! important;
+}
+.file-css  {
+	background-image: url(images/mime/source_c.png) ! important;
+}
+.file-php  {
+	background-image: url(images/mime/source_php.png) ! important;
+}
+ .file-7z 
+,.file-a 
+,.file-ace 
+,.file-arj  
+,.file-bz 
+,.file-bz2 
+,.file-cpio  
+,.file-gz 
+,.file-rar 
+,.file-tgz 
+,.file-tnf 
+,.file-z  
+,.file-zip  
+,.file-zoo  
+{
+	background-image: url(images/mime/zip.png) ! important;
+}
+ .file-ppt  
+,.file-odp 
+,.file-ppz 
+,.file-ppt 
+{
+	background-image: url(images/mime/pps.png) ! important;
+}
+.file-msg  {
+	background-image: url(images/mime/message.png) ! important;
+}
+ .file-dwg  
+,.file-sxd 
+,.file-dhw 
+,.file-svg 
+,.file-ps 
+,.file-eps 
+,.file-wmf 
+,.file-fig 
+,.file-msod  
+,.file-qpic  
+{
+	background-image: url(images/mime/vectorgfx.png) ! important;
+}
+.file-ics 
+{
+	background-image: url(images/mime/vcalendar.png) ! important;
+}
+ .file-chm 
+,.file-info 
+,.file-hlp 
+,.file-help 
+{
+	background-image: url(images/mime/info.png) ! important;
+}
+ .file-aac 
+,.file-ac3 
+,.file-aifc 
+,.file-aiff 
+,.file-ape 
+,.file-au 
+,.file-flac 
+,.file-m3u 
+,.file-m4a 
+,.file-mac 
+,.file-mid 
+,.file-midi 
+,.file-mp2 
+,.file-mp3 
+,.file-ogg 
+,.file-psid 
+,.file-ra 
+,.file-ram 
+,.file-sf 
+,.file-sid 
+,.file-spx 
+,.file-wav 
+,.file-wma 
+,.file-wv 
+,.file-wvc 
+{
+	background-image: url(images/mime/sound.png) ! important;
+}
+ .file-asc 
+,.file-cer 
+,.file-cert 
+,.file-crt 
+,.file-der 
+,.file-gpg 
+,.file-gpg 
+,.file-p10 
+,.file-p12 
+,.file-p7c 
+,.file-p7m 
+,.file-p7s 
+,.file-pem 
+,.file-sig 
+{
+	background-image: url(images/mime/file_locked.png) ! important;
+}
+ .file-bin 
+,.file-cue 
+,.file-img 
+,.file-iso 
+,.file-mdf 
+,.file-nrg 
+{
+	background-image: url(images/mime/cdimage.png) ! important;
+}
+ .file-jar 
+,.file-java 
+,.file-class 
+{
+	background-image: url(images/mime/java_src.png) ! important;
+}
+.file-sql 
+{
+	background-image: url(images/mime/source_s.png) ! important;
+}
+ .file-moov 
+,.file-mov 
+,.file-qt 
+{
+	background-image: url(images/mime/quicktime.png) ! important;
+}
+
+/* eof */
+/*  
+// Icon Classes */
+.icon-ob {
+	background-image:url(images/ob_16.png) ! important;
+}
+.icon-graph {
+	background-image:url(images/chart_curve.png) ! important;
+}
+.icon-chart {
+	background-image:url(images/chart_bar.png) ! important;
+}
+.icon-prefs {
+	background-image:url(images/application_form.png) ! important;
+}
+.icon-ok {
+	background-image:url(images/ok16.png) ! important;
+}
+.icon-view-tile {
+	background-image:url(images/application_view_tile.png) ! important;
+}
+.icon-stat-data {
+	background-image:url(images/kate_16.png) ! important;
+}
+.icon-rename {
+	background-image:url(images/textfield_rename.png) ! important;
+}
+.icon-add-col {
+	background-image:url(images/page_white_add.png) ! important;
+}
+.icon-del-col {
+	background-image:url(images/page_white_delete.png) ! important;
+}
+.icon-save-table {
+	background-image:url(images/table_save.png) ! important;
+}
+.icon-add-tab {
+	background-image:url(images/tab_add.png) ! important;
+}
+.icon-del-tab {
+	background-image:url(images/tab_delete.png) ! important;
+}
+.icon-go-tab {
+	background-image:url(images/tab_go.png) ! important;
+}
+.icon-add-table {
+	background-image:url(images/table_add.png) ! important;
+}
+.icon-del-table {
+	background-image:url(images/table_delete.png) ! important;
+}
+.icon-admin {
+	background-image:url(images/adv_settings_16.png) ! important;
+}
+.icon-grid {
+    background-image:url(images/application_view_columns.png) !important;
+}
+.icon-key {
+	background-image:url(images/key.png) ! important;
+}
+.icon-key2 {
+	background-image:url(images/key_16.png) ! important;
+}
+.icon-expand-all {
+	background-image:url(images/expand-all.gif) ! important;
+}
+.icon-collapse-all {
+	background-image:url(images/collapse-all.gif) ! important;
+}
+.icon-expand {
+	background-image:url(images/expand-all.gif) ! important;
+}
+.icon-collapse {
+	background-image:url(images/collapse-all.gif) ! important;
+}
+.icon-tree-orgboard {
+	background-image:url(images/chart_organisation.png) ! important;
+}
+.icon-tree-area {
+	background-image:url(images/post_title.png) ! important;
+}
+.icon-tree-post {
+	background-image:url(images/page_white.png) ! important;
+}
+.icon-plus {
+	background-image:url(images/add.png) ! important;
+}
+.icon-minus {
+	background-image:url(images/delete.png) ! important;
+}
+.icon-house_16 {
+	background-image:url(images/house_16.png) ! important;
+}
+.icon-user {
+	background-image:url(images/user2_16.png) ! important;
+}
+.icon-trash-empty {
+	background-image:url(images/bin_empty.png) ! important;
+}
+.icon-trash-closed {
+	background-image:url(images/bin_closed.png) ! important;
+}
+.icon-disk {
+	background-image:url(images/disk.png) ! important;
+}
+.icon-disk-bullet {
+	background-image:url(images/bullet_disk.png) ! important;
+}
+.icon-undo {
+	background-image:url(images/arrow_undo.png) ! important;
+}
+.icon-db-refresh {
+	background-image:url(images/database_refresh.png) ! important;
+}
+.icon-db-gear {
+	background-image:url(images/database_gear.png) ! important;
+}
+.icon-magnifier {
+	background-image:url(images/magnifier.png) ! important;
+}
+.icon-wrench {
+	background-image:url(images/wrench_16.png) ! important;
+}
+.icon-wrench-orange {
+	background-image:url(images/wrench_orange.png) ! important;
+}
+.icon-star {
+	background-image:url(images/star.png) ! important;
+}
+.icon-lock-go {
+	background-image:url(images/lock_go.png) ! important;
+}
+.icon-group-add {
+	background-image:url(images/group_add.png) ! important;
+}
+.icon-group-del {
+	background-image:url(images/group_delete.png) ! important;
+}
+.icon-stat-portal {
+	background-image:url(images/stat_portal_16.png) ! important;
+}
+.icon-stat-list {
+	background-image:url(images/stat_list_16.png) ! important;
+}
+.icon-cancel {
+	background-image:url(images/cancel16.png) ! important;
+}
+.icon-cross {
+	background-image:url(images/cross.png) ! important;
+}
+.icon-defaults {
+	background-image:url(images/arrow_rotate_clockwise.png) ! important;
+}
+.icon-load {
+	background-image:url(images/database_go.png) ! important;
+}
+.icon-reconfigure {
+	background-image:url(images/database_gear.png) ! important;
+}
+.icon-upload {
+	background-image:url(images/up.png) ! important;
+}
+.icon-folder-add {
+	background-image:url(images/folder_add.png) ! important;
+}
+.icon-open {
+	background-image:url(images/application_go.png) ! important;
+}
+.icon-open-self {
+	background-image:url(images/application.png) ! important;
+}
+.icon-open-popup {
+	background-image:url(images/application_double.png) ! important;
+}
+.icon-open-blank {
+	background-image:url(images/application_cascade.png) ! important;
+}
+.icon-open-download {
+	background-image:url(images/application_put.png) ! important;
+}
+.icon-refresh {
+	background-image:url(images/arrow_refresh.png) ! important;
+}
+.icon-pencil {
+	background-image:url(images/pencil.png) ! important;
+}
+.icon-stop {
+	background-image:url(images/control_stop.png) ! important;
+}
+.icon-email {
+	background-image:url(images/email.png) ! important;
+}
+.icon-email-compose {
+	background-image:url(images/email_edit.png) ! important;
+}
+.icon-coins {
+	background-image:url(images/coins.png) ! important;
+}
+.icon-clock {
+	background-image:url(images/clock.png) ! important;
+}
+.icon-zoom {
+	background-image:url(images/zoom.png) ! important;
+}
+.icon-print {
+	background-image:url(images/printer.png) ! important;
+}
+.icon-folder-component {
+	background-image:url(images/folder_brick.png) ! important;
+}
+.icon-plugin {
+	background-image:url(images/plugin.png) ! important;
+}
+.icon-extension {
+	background-image:url(images/brick.png) ! important;
+}
+.icon-function {
+	background-image:url(images/flag_yellow.png) ! important;
+}
+.icon-bulb {
+	background-image:url(images/lightbulb.png) ! important;
+}
+.icon-bulb-off {
+	background-image:url(images/lightbulb_off.png) ! important;
+}
+.icon-copy {
+	background-image:url(images/page_white_copy.png) ! important;
+}
+.icon-star {
+	background-image:url(images/award_star_gold_3.png) ! important;
+}
+.icon-edit-record {
+	background-image:url(images/table_edit.png) ! important;
+}
+.icon-actions {
+	background-image:url(images/lightning.png) ! important;
+}
+.icon-form-add {
+	background-image:url(images/layout_add.png) ! important;
+}
+.icon-html {
+	background-image:url(images/html.png) ! important;
+}
+.icon-script {
+	background-image:url(images/script.png) ! important;
+}
+.icon-php {
+	background-image:url(images/script_code.png) ! important;
+}
+.icon-css {
+	background-image:url(images/css.png) ! important;
+}
+.icon-run {
+	background-image:url(images/application_go.png) ! important;
+}
+.icon-info {
+	background-image:url(images/information.png) ! important;
+}
+.icon-error {
+	background-image:url(images/cancel.png) ! important;
+}
+.icon-warn {
+	background-image:url(images/error.png) ! important;
+}
+.icon-wages {
+	background-image:url(images/euro_16.png) ! important;
+}
+.icon-calculator {
+	background-image:url(images/calculator.png) ! important;
+}
+.icon-add-wage {
+	background-image:url(images/coins_add.png) ! important;
+}
+.icon-del-wage {
+	background-image:url(images/bin_closed.png) ! important;
+}
+.icon-manual {
+	background-image:url(images/book_open.png) ! important;
+}
+.icon-lock {
+	background-image:url(images/lock16.png) ! important;
+}
+.icon-lock-open {
+	background-image:url(images/unlock16.png) ! important;
+}
+.icon-arrow-down {
+	background-image:url(images/arrow_down.png) ! important;
+}
+.icon-arrow-right {
+	background-image:url(images/arrow_right.png) ! important;
+}
+.icon-delete {
+	background-image:url(images/bin_empty.png) ! important;
+}
+.icon-tree {
+	background-image:url(images/tree_16.png) ! important;
+}
+.icon-form-edit {
+	background-image:url(images/application_form_edit.png) ! important;
+}
+.icon-form-add {
+	background-image:url(images/application_form_add.png) ! important;
+}
+.icon-filter {
+	background-image:url(images/view-filter16.png) ! important;
+}
+.icon-filter-active {
+	background-image:url(images/view-filter-go16.png) ! important;
+}
+.icon-stat-cat {
+	background-image:url(images/stat-cat_16.png) ! important;
+}
+.x-form-field-wrap .trigger-tag-add {
+	background-image: url(../img/trigger-tag-add.png);
+	cursor:pointer;
+}
+.x-form-field-wrap .trigger-tag {
+	background-image: url(../img/trigger-tag.png);
+	cursor:pointer;
+}
+.x-form-field-wrap .x-trigger-disabled {
+	cursor:default;
+	opacity:0.5;
+	background-position:0 0;
+}
+.x-form-field-wrap .trigger-tree {
+	background-image: url(../img/trigger-tree.png);
+	cursor:pointer;
+}
+
+
+/*  Icon Classes end */
+

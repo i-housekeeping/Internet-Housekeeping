@@ -1,0 +1,69 @@
+--- 
+javascripts: 
+- base: 
+  - ext-base
+  - ext-all-debug
+  - ext-basex
+  - housekeeping/system/core/gjsapi/gjsapi
+  - housekeeping/lib/CSSProxy
+- desktop:
+  - housekeeping/lib/Sprocket/PubSub
+  - housekeeping/system/core/Window
+  - housekeeping/lib/Sprocket/Socket2
+  - housekeeping/lib/Sprocket/Filter
+  - housekeeping/lib/Sprocket/Filter/Line
+  - housekeeping/lib/Sprocket/Filter/JSON
+  - housekeeping/authorize/cookies
+  - housekeeping/system/core/StartMenu
+  - housekeeping/system/core/TaskBar
+  - housekeeping/system/core/Desktop
+  - housekeeping/system/core/App
+  - housekeeping/system/core/Module
+  - housekeeping/system/core/DesktopConfig
+  - housekeeping/system/core/network/Sprocket
+  - housekeeping/system/core/Shortcut
+  - housekeeping/system/core/network/NetworkStatus
+  - housekeeping/system/core/sound/soundmanager2
+  - housekeeping/system/core/sound/sound-manager
+  - housekeeping/lib/miframe
+  - housekeeping/lib/CSSProxy
+  - housekeeping/system/core/AppData
+  - housekeeping/lib/google-map
+- authorize:
+  - ext-base
+  - ext-all
+  - ext-basex
+  - housekeeping/authorize/authorize 
+  - housekeeping/authorize/cookies 
+  - housekeeping/lib/CSSProxy
+stylesheets: 
+- base: 
+  - ext-all
+- modules:
+  - ../javascripts/housekeeping/system/modules/about/about
+  - ../javascripts/housekeeping/system/modules/admin-modules/admin-modules
+  - ../javascripts/housekeeping/system/modules/bookmarks/bookmarks
+  - ../javascripts/housekeeping/system/modules/notepad/notepad
+  - ../javascripts/housekeeping/system/modules/qo-preferences/qo-preferences
+  - ../javascripts/housekeeping/system/modules/tasks/tasks
+  - ../javascripts/housekeeping/system/modules/collaborate/collaborate
+  - ../javascripts/housekeeping/system/modules/my-google/my-google
+  - ../javascripts/housekeeping/system/modules/bloney/bloney
+- authorize:
+  - ext-all
+  - ../javascripts/housekeeping/authorize/authorize 
+  - ../javascripts/housekeeping/resources/themes/xtheme-slate/css/xtheme-slate
+- desktop:
+  - ext-all
+  - desktop
+  - ../javascripts/housekeeping/resources/themes/xtheme-slate/css/xtheme-slate
+  - ../javascripts/housekeeping/system/modules/about/about
+  - ../javascripts/housekeeping/system/modules/admin-modules/admin-modules
+  - ../javascripts/housekeeping/system/modules/bookmarks/bookmarks
+  - ../javascripts/housekeeping/system/modules/notepad/notepad
+  - ../javascripts/housekeeping/system/modules/qo-preferences/qo-preferences
+  - ../javascripts/housekeeping/system/modules/tasks/tasks
+  - ../javascripts/housekeeping/system/modules/collaborate/collaborate
+  - ../javascripts/housekeeping/system/modules/my-google/my-google
+  - ../javascripts/housekeeping/system/modules/bloney/bloney
+  - ../javascripts/housekeeping/system/core/sound/sound-manager
