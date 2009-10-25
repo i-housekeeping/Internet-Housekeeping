@@ -160,7 +160,7 @@ ReminderColumn = function(){
 				},'-',{
 					text: 'Set Default Time...',
 					handler: function(){
-						Ext.WindowMgr.getPrefWindow();
+						Ext.WindowMgr.getPrefWindow().show();
 					}
 				}]
 			});
@@ -226,6 +226,21 @@ TaskGrid = function(){
 	// custom columns
 	var completeColumn = new CompleteColumn();
 	var reminderColumn = new ReminderColumn();
+	 var ntDue = this.ntDue = new Ext.form.DateField(  {
+				id:'dueDate',
+                header: "Due Date",
+				value: new Date(),
+                width: 150,
+                sortable: true,
+				format : "d/m/Y",
+                renderer: Ext.util.Format.dateRenderer('D d/m/Y'),
+                dataIndex: 'dueDate',
+                groupRenderer: Ext.util.Format.createTextDateRenderer(),
+                groupName: 'Due',
+                editor: new Ext.form.DateField({
+                    format : "d/m/Y"
+                })
+            });
 	
 	TaskGrid.superclass.constructor.call(this, {
 		id:'tasks-grid',
@@ -258,25 +273,15 @@ TaskGrid = function(){
                 sortable: true,
                 dataIndex: 'listId',
                 editor: new ListSelector({
-			        store:tx.data.tasklists
+			        store:tx.data.tasklists,
+					root_listType:'TASK',
+					root_text: "Ecco Tasks"
 			    }),
 				renderer : function(v){
 					return tx.data.tasklists.getName(v);
 				}
             },
-            {
-				id:'dueDate',
-                header: "Due Date",
-                width: 150,
-                sortable: true,
-                renderer: Ext.util.Format.dateRenderer('D m/d/Y'),
-                dataIndex: 'dueDate',
-                groupRenderer: Ext.util.Format.createTextDateRenderer(),
-                groupName: 'Due',
-                editor: new Ext.form.DateField({
-                    format : "m/d/Y"
-                })
-            },
+            ntDue,
 			reminderColumn
         ],
 
@@ -296,16 +301,22 @@ TaskGrid = function(){
 		scope: this
 	});
 	
+	this.on('celldblclick', this.onCellDblClick, this);
 	this.on('rowcontextmenu', this.onRowContext, this);
 	this.on('afteredit', this.onAfterEdit, this);
+	this.getColumnModel().on('headerchange', this.onDateChange, this);
 };
 
 Ext.extend(TaskGrid, Ext.grid.EditorGridPanel, {
-	onCellDblClick: function(g, row){
+	onDateChange : function(f, index, oldValue){
+		var ids = 4;
+	},
+	
+	onCellDblClick: function(grid, rowIndex, columnIndex, e){
 		clearTimeout(this.autoEditTimer); // allow dbl click without starting edit
-		var id = this.store.getAt(row).id;
+		var id = grid.getStore().getAt(rowIndex).id;
 		
-		Ext.WindowMgr.getTaskWindow(id);
+		Ext.WindowMgr.getTaskWindow(id).show();
 	},
 
     // private
@@ -325,6 +336,7 @@ Ext.extend(TaskGrid, Ext.grid.EditorGridPanel, {
 	
 	onAfterEdit : function(e){
         tx.data.tasks.updateTask(e.record.data);
+		
     },
 	
 	onRowContext : function(grid, row, e){
@@ -391,18 +403,21 @@ TaskHeader = function(grid){
         emptyText: 'Add a task...'
     });
 
-    var ntCat = new ListSelector({
+    var ntCat = this.ntCat = new ListSelector({
         renderTo: 'new-task-cat',
         disabled:true,
         store:tx.data.tasklists,
-		listenForLoad: true
+		listenForLoad: true,
+		root_listType:'TASK',
+		root_text: "Ecco Tasks"
     });
 
-    var ntDue = new Ext.form.DateField({
+    var ntDue = this.ntDue = new Ext.form.DateField({
         renderTo: 'new-task-due',
         value: new Date(),
         disabled:true,
-        format : "m/d/Y"
+        format : "d/m/Y",
+		//altFormats : "d/m/Y"
     });
 
     // syncs the header fields' widths with the grid column widths
@@ -482,7 +497,7 @@ TaskHeader = function(grid){
  */
 
 Ext.WindowMgr.getTaskWindow = function(taskId){
-	var win, winId = 'task' + taskId;
+	var win, winId = 'wind_task';//'task' + taskId;
 	if (win = this.get(winId)) {
 		win.instance.orderToFront();
 	}
@@ -490,8 +505,8 @@ Ext.WindowMgr.getTaskWindow = function(taskId){
 			var store = tx.data.tasks;
 		    var task = store.lookup(taskId);
 			
-			var win_height = app.desktop.getWinHeight()*0.6;
-			var win_width = app.desktop.getWinWidth()*0.5;
+			var win_height = app.desktop.getWinHeight()*0.45;
+			var win_width = app.desktop.getWinWidth()*0.4;
 			
 			var tp =  new Ext.TabPanel({
                     autoTabs:true,
@@ -516,13 +531,13 @@ Ext.WindowMgr.getTaskWindow = function(taskId){
                 });
 			
 					
-			win = new Ext.Window({
-				id: winId,
+			win = app.desktop.createWindow({
+				id: 'wind_task', //winId,
 				title: 'Task - ' + Ext.util.Format.ellipsis(task.data.title, 40),
 				width: win_width ,
             	height: win_height ,
 				maximizable: false,
-				resizable: false,
+				resizable: true,
 				layout : 'fit',
 				items:[ tp ]
 			});
@@ -541,7 +556,8 @@ Ext.WindowMgr.getReminderWindow = function(taskId){
 	} else {
 		var store = tx.data.tasks;
 	    var task = store.lookup(taskId);
-		bulkUpdate({
+		/*
+bulkUpdate({
 			'task-title' : Ext.util.Format.ellipsis(task.data.title, 80),
 			'task-due' : task.data.dueDate ? task.data.dueDate.format('F d, Y') : 'None'
 		});
@@ -551,7 +567,8 @@ Ext.WindowMgr.getReminderWindow = function(taskId){
 				Ext.fly(id).update(o[id]);
 			}
 		}
-		win = new Ext.Window({
+*/
+		win = app.desktop.createWindow({
 			id: winId,
 			title: 'Reminder - ' + Ext.util.Format.ellipsis(task.data.title, 40),
 			width:400,
@@ -562,14 +579,14 @@ Ext.WindowMgr.getReminderWindow = function(taskId){
 						{
 							text: 'Dismiss',
 							minWidth: 80,
-							renderTo: 'btns',
+							//renderTo: 'btns',
 							handler: function(){
 								win.close();
 							}
 						},{
 							text: 'Snooze',
 							minWidth: 80,
-							renderTo: 'btns',
+							//renderTo: 'btns',
 							handler: function(){
 								var min = parseInt(Ext.get('snooze-time').getValue(), 10);
 								var reminder = new Date().add('mi', min);
@@ -583,6 +600,7 @@ Ext.WindowMgr.getReminderWindow = function(taskId){
 							}
 						}	
 			]
+
 		});
 	}
 	return win;
@@ -593,31 +611,78 @@ Ext.WindowMgr.getAboutWindow = function(){
 	if(win = this.get(winId)) {
 		win.instance.orderToFront();
 	} else {
-		win = new Ext.Window({
+		win = app.desktop.createWindow({
 			title : 'About Simple Tasks',
 			id: winId,
 			autoLoad : {url: '/javascripts/housekeeping/system/modules/tasks/about.html?v='+app.version},
 			width:350,
 			height:300,
-			resizable: false,
-            type:'utility'
+			resizable: false
         });
 	}
 	return win;
 }
+
+
+
 
 Ext.WindowMgr.getPrefWindow = function(){
 	var win, winId = 'tasks_preferences';
 	if(win = this.get(winId)) {
 		win.instance.orderToFront();
 	} else {
-		win = new Ext.Window({
+		//var win = window.nativeWindow;
+		//var opener = Ext.air.NativeWindow.getRootHtmlWindow();
+		
+		//var d = new Date().clearTime(true);
+		//d = d.add('mi', opener.Ext.state.Manager.get('defaultReminder'));
+		
+		//var time = new Ext.get('time');
+		//time.dom.value = d.format('g:i A');
+		
+		win = app.desktop.createWindow({
 			id: winId,
-			file: 'preferences.html',
 			width:240,
 			height:150,
 			resizable: false,
-            type:'utility'
+            items : [//{text:'When setting quick reminders, default the time to:'},
+						{
+									xtype:"combo",
+									//fieldLabel:"Country",
+									width : '150',
+									store: Times,
+									displayField:'time',
+									valueField: 'time_name',
+									hiddenName: 'timeId',
+									typeAhead: true,
+									id:'s_time',
+									mode: 'local',
+									triggerAction: 'all',
+									selectOnFocus:true,
+									allowBlank:false
+								}]/*
+,
+			buttons : [{
+				text: 'OK',
+				minWidth: 80,
+				renderTo: 'btns',
+				handler: function(){
+					var t = Date.parseDate(time.getValue(), 'g:i A');
+					if(t){
+						var m = t.getMinutes() + (t.getHours()*60);
+						//opener.Ext.state.Manager.set('defaultReminder', m);
+					}
+					win.close();
+				}
+			},{
+				text: 'Cancel',
+				minWidth: 80,
+				renderTo: 'btns',
+				handler: function(){
+					win.close();
+				}
+			}]
+*/
         });
 	}
 	return win;
@@ -630,7 +695,15 @@ Ext.WindowMgr.getPrefWindow = function(){
  * 
  * http://extjs.com/license
  */
-
+Ext.override(Ext.Panel, {
+	setHtml : function(html){
+		if(this.el){
+			this.body.update(html);
+		}else{
+			this.html = html;
+		}
+	}
+});
 tx.ReminderManager = function(){
 	var table;
 	
@@ -638,11 +711,12 @@ tx.ReminderManager = function(){
 	var date =  new Date();		
 	table.load({params: {
 				format : 'jsonc',
-				reminder_time :date.format("m-d-Y H:i:s")
+				reminder_time :date.format("d-m-Y H:i:s")
 			}});
 		for(var i = 0, len = table.data.items.length; i < len; i++){
 			showReminder.defer(10, window, [table.data.items[i].data]);
 		}	
+	   //Ext.getCmp('calendar').setHtml(Ext.getCmp('calendar').defaultSrc);
 	};
 	
 	var showReminder = function(task){
@@ -650,6 +724,7 @@ tx.ReminderManager = function(){
     var o;
 		if (o = tx.data.tasks.getById(task.taskId)) { // if currently loaded
 			o.set('reminder', '');
+			tx.data.tasks.updateTask(o);
 		}
 		else {   // else update db directly
 /*

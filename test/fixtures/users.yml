@@ -1,51 +1,47 @@
 --- 
-users_004: 
-  password_salt: 13a69401f80018d8913f3bccb7d16f8407a76ea3
-  updated_at: 2009-09-22 19:24:18
-  domain_description: 
-  crypted_password: e017dcdeee491e6f0afc783e5eeefdf9dabe80b1
-  record_sts: ACTV
-  domain: test
-  role_id: "3"
-  style_id: "4"
-  id: "4"
-  login: test
-  created_at: 2009-09-19 21:53:15
-  email: test@test.tes
 users_001: 
-  password_salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
-  updated_at: 2009-09-21 14:56:52
+  last_login_at: 2009-10-22 06:43:07
+  updated_at: 2009-10-22 14:27:42
+  last_request_at: 2009-10-22 14:27:42
   domain_description: 
-  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1
+  crypted_password: ffc8977f3d526817e46436f7f7f9130134ca854e87a6a60dbec5184d92db9510dd0d6a4f1c1cdec4ed396963dd51660843a0cbb58ffe808d80848b8ad0145c52
+  style_id: "3"
+  current_login_ip: 127.0.0.1
+  perishable_token: ZIilJdYJkCg5kWVJNV-O
+  single_access_token: mPzn69NZkkHC-P21A25S
   record_sts: ACTV
+  current_login_at: 2009-10-22 07:00:16
+  password_salt: z10dzauL5sFccbTWP4hO
   domain: welcome
-  role_id: "1"
+  role_id: "3"
+  failed_login_count: "0"
   id: "1"
-  login: quentin
-  created_at: 2009-03-02 20:57:46
-  email: quentin@example.com
-users_002: 
-  password_salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
-  updated_at: 2009-09-21 15:17:23
-  domain_description: 
-  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1
-  record_sts: ACTV
-  domain: welcome
-  role_id: "1"
-  id: "2"
-  login: aaron
-  created_at: 2009-03-06 20:57:46
-  email: aaron@example.com
-users_003: 
-  password_salt: 7b4e24a4311e551b90dd91cc16e7bdf8f729a7b6
-  updated_at: 2009-09-21 14:57:04
-  domain_description: 
-  crypted_password: e3ca69c8a988841c007192bd54172a8147217efa
-  record_sts: ACTV
-  domain: welcome
-  role_id: "1"
-  style_id: "4"
-  id: "3"
+  login_count: "12"
+  persistence_token: d57198eab07716a17ff190b3c12efb72699a5d2997d3d9527e7364a9616b4cf15c4d5deb953e17088acb98f7085d5c4d4732cf0dfc3c084e6d7e0b9d4a44dccb
   login: welcome
-  created_at: 2009-03-06 20:57:46
-  email: begining@gmail.com
+  created_at: 2009-10-15 09:25:03
+  last_login_ip: 127.0.0.1
+  email: welcome@welcome.wel
+users_002: 
+  last_login_at: 
+  updated_at: 2009-10-15 09:55:16
+  last_request_at: 2009-10-15 09:55:16
+  domain_description: 
+  crypted_password: 137ed2c467d3ee5220a65e8262a3059457255e27e830d178c7ffe1cd125aa5114027e42eaa79eb829fb30c4b37c972a50fa5a33e00861e134041017d21cb4396
+  style_id: "3"
+  current_login_ip: 127.0.0.1
+  perishable_token: zIvpdvDE2PeQ37AgeMTz
+  single_access_token: ivJyfmYFMrJeCafwA0Ex
+  record_sts: ACTV
+  current_login_at: 2009-10-15 09:55:16
+  password_salt: ZK8SdRDIEoYBlv6WC0Ld
+  domain: test
+  role_id: "1"
+  failed_login_count: "0"
+  id: "2"
+  login_count: "1"
+  persistence_token: 56c3e6fc5508d8332a638569c5357a051bddcc1fa28ef72bb4e31eef77499ff588e11295707c4ff72bef5d376411f9d34e2257a137878634da871d81cbdc4ee4
+  login: test
+  created_at: 2009-10-15 09:55:16
+  last_login_ip: 
+  email: test@test.tst

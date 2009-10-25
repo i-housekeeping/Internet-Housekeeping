@@ -1,3 +1,102 @@
+Times = new Ext.data.SimpleStore({
+	fields: ['time', 'time_name'],
+	data: [['12:00 AM','12:00 AM'],
+	['12:15 AM','12:15 AM'],
+    ['12:30 AM','12:30 AM'],
+    ['12:45 AM','12:45 AM'],
+    ['1:00 AM','1:00 AM'],
+    ['1:15 AM','1:15 AM'],
+    ['1:30 AM','1:30 AM'],
+    ['1:45 AM','1:45 AM'],
+    ['2:00 AM','2:00 AM'],
+    ['2:15 AM','2:15 AM'],
+    ['2:30 AM','2:30 AM'],
+    ['2:45 AM','2:45 AM'],
+    ['3:00 AM','3:00 AM'],
+    ['3:15 AM','3:15 AM'],
+    ['3:30 AM','3:30 AM'],
+    ['3:45 AM','3:45 AM'],
+    ['4:00 AM','4:00 AM'],
+    ['4:15 AM','4:15 AM'],
+    ['4:30 AM','4:30 AM'],
+    ['4:45 AM','4:45 AM'],
+    ['5:00 AM','5:00 AM'],
+    ['5:15 AM','5:15 AM'],
+    ['5:30 AM','5:30 AM'],
+    ['5:45 AM','5:45 AM'],
+    ['6:00 AM','6:00 AM'],
+    ['6:15 AM','6:15 AM'],
+    ['6:30 AM','6:30 AM'],
+    ['6:45 AM','6:45 AM'],
+    ['7:00 AM','7:00 AM'],
+    ['7:15 AM','7:15 AM'],
+    ['7:30 AM','7:30 AM'],
+    ['7:45 AM','7:45 AM'],
+    ['8:00 AM','8:00 AM'],
+    ['8:15 AM','8:15 AM'],
+    ['8:30 AM','8:30 AM'],
+    ['8:45 AM','8:45 AM'],
+    ['9:00 AM','9:00 AM'],
+    ['9:15 AM','9:15 AM'],
+    ['9:30 AM','9:30 AM'],
+    ['9:45 AM','9:45 AM'],
+    ['10:00 AM','10:00 AM'],
+    ['10:15 AM','10:15 AM'],
+    ['10:30 AM','10:30 AM'],
+    ['10:45 AM','10:45 AM'],
+    ['11:00 AM','11:00 AM'],
+    ['11:15 AM','11:15 AM'],
+    ['11:30 AM','11:30 AM'],
+    ['11:45 AM','11:45 AM'],
+    ['12:00 PM','12:00 PM'],
+    ['12:15 PM','12:15 PM'],
+    ['12:30 PM','12:30 PM'],
+    ['12:45 PM','12:45 PM'],
+    ['1:00 PM','1:00 PM'],
+    ['1:15 PM','1:15 PM'],
+    ['1:30 PM','1:30 PM'],
+    ['1:45 PM','1:45 PM'],
+    ['2:00 PM','2:00 PM'],
+    ['2:15 PM','2:15 PM'],
+    ['2:30 PM','2:30 PM'],
+    ['2:45 PM','2:45 PM'],
+    ['3:00 PM','3:00 PM'],
+    ['3:15 PM','3:15 PM'],
+    ['3:30 PM','3:30 PM'],
+    ['3:45 PM','3:45 PM'],
+    ['4:00 PM','4:00 PM'],
+    ['4:15 PM','4:15 PM'],
+    ['4:30 PM','4:30 PM'],
+    ['4:45 PM','4:45 PM'],
+    ['5:00 PM','5:00 PM'],
+    ['5:15 PM','5:15 PM'],
+    ['5:30 PM','5:30 PM'],
+    ['5:45 PM','5:45 PM'],
+    ['6:00 PM','6:00 PM'],
+    ['6:15 PM','6:15 PM'],
+    ['6:30 PM','6:30 PM'],
+    ['6:45 PM','6:45 PM'],
+    ['7:00 PM','7:00 PM'],
+    ['7:15 PM','7:15 PM'],
+    ['7:30 PM','7:30 PM'],
+    ['7:45 PM','7:45 PM'],
+    ['8:00 PM','8:00 PM'],
+    ['8:15 PM','8:15 PM'],
+    ['8:30 PM','8:30 PM'],
+    ['8:45 PM','8:45 PM'],
+    ['9:00 PM','9:00 PM'],
+    ['9:15 PM','9:15 PM'],
+    ['9:30 PM','9:30 PM'],
+    ['9:45 PM','9:45 PM'],
+    ['10:00 PM','10:00 PM'],
+    ['10:15 PM','10:15 PM'],
+    ['10:30 PM','10:30 PM'],
+    ['10:45 PM','10:45 PM'],
+    ['11:00 PM','11:00 PM'],
+    ['11:15 PM','11:15 PM'],
+    ['11:30 PM','11:30 PM'],
+    ['11:45 PM','11:45 PM']]
+});
 Notes = function( config) {
 
     Ext.apply(this, config);
@@ -74,6 +173,176 @@ Notes.NotesRenderers = {
     }
 };
 
+/**
+ *
+ * @class GCalendarPanel
+ * @extends Ext.Panel
+ */
+
+Ext.override(Ext.Panel, {
+	setHtml : function(html){
+		if(this.el){
+			this.body.update(html);
+		}else{
+			this.html = html;
+		}
+	}
+});
+
+GCalendarPanel = function(config){
+        Ext.apply(this, config);
+        
+		GCalendarPanel.superclass.constructor.call(this);        
+		google.setOnLoadCallback(this.getMyFeed);
+};
+
+Ext.extend(GCalendarPanel,	Ext.Panel, {
+	refresh :  function(){
+		this.setHtml(this.defaultSrc);
+	},
+	
+	getMyFeed : function(){
+		// init the Google data JS client library with an error handler
+		  google.gdata.client.init(this.handleGDError);
+		  // load the code.google.com developer calendar
+		  this.loadDeveloperCalendar();
+
+	},
+	
+	/**
+	 * Loads the Google Developers Event Calendar
+	 */
+	loadDeveloperCalendar : function () {
+	  this.loadCalendarByAddress('i.housekeeping@google.com');
+	},
+
+	/**
+	 * Determines the full calendarUrl based upon the calendarAddress
+	 * argument and calls loadCalendar with the calendarUrl value.
+	 *
+	 * @param {string} calendarAddress is the email-style address for the calendar
+	 */ 
+	loadCalendarByAddress : function (calendarAddress) {
+	  var calendarUrl = 'http://www.google.com/calendar/feeds/' +
+	                    calendarAddress + 
+	                    '/public/full';
+	  this.loadCalendar(calendarUrl);
+	},
+	
+	/**
+	 * Uses Google data JS client library to retrieve a calendar feed from the specified
+	 * URL.  The feed is controlled by several query parameters and a callback 
+	 * function is called to process the feed results.
+	 *
+	 * @param {string} calendarUrl is the URL for a public calendar feed
+	 */  
+	loadCalendar : function (calendarUrl) {
+	  var service = new 
+	      google.gdata.calendar.CalendarService('gdata-js-client-samples-simple');
+	  var query = new google.gdata.calendar.CalendarEventQuery(calendarUrl);
+	  query.setOrderBy('starttime');
+	  query.setSortOrder('ascending');
+	  query.setFutureEvents(true);
+	  query.setSingleEvents(true);
+	  query.setMaxResults(10);
+	
+	  service.getEventsFeed(query, this.listEvents, this.handleGDError);
+	},
+	
+	/**
+	 * Callback function for the Google data JS client library to call when an error
+	 * occurs during the retrieval of the feed.  Details available depend partly
+	 * on the web browser, but this shows a few basic examples. In the case of
+	 * a privileged environment using ClientLogin authentication, there may also
+	 * be an e.type attribute in some cases.
+	 *
+	 * @param {Error} e is an instance of an Error 
+	 */
+	handleGDError: function (e) {
+	  document.getElementById('jsSourceFinal').setAttribute('style', 
+	      'display:none');
+	  if (e instanceof Error) {
+	    /* alert with the error line number, file and message */
+	    alert('Error at line ' + e.lineNumber +
+	          ' in ' + e.fileName + '\n' +
+	          'Message: ' + e.message);
+	    /* if available, output HTTP error code and status text */
+	    if (e.cause) {
+	      var status = e.cause.status;
+	      var statusText = e.cause.statusText;
+	      alert('Root cause: HTTP error ' + status + ' with status text of: ' + 
+	            statusText);
+	    }
+	  } else {
+	    alert(e.toString());
+	  }
+	},
+
+	/**
+	 * Callback function for the Google data JS client library to call with a feed 
+	 * of events retrieved.
+	 *
+	 * Creates an unordered list of events in a human-readable form.  This list of
+	 * events is added into a div called 'events'.  The title for the calendar is
+	 * placed in a div called 'calendarTitle'
+	 *
+	 * @param {json} feedRoot is the root of the feed, containing all entries 
+	 */ 
+	listEvents : function (feedRoot) {
+	  var entries = feedRoot.feed.getEntries();
+	  var eventDiv = document.getElementById('events');
+	  if (eventDiv.childNodes.length > 0) {
+	    eventDiv.removeChild(eventDiv.childNodes[0]);
+	  }	  
+	  /* create a new unordered list */
+	  var ul = document.createElement('ul');
+	  /* set the calendarTitle div with the name of the calendar */
+	  document.getElementById('calendarTitle').innerHTML = 
+	    "Calendar: " + feedRoot.feed.title.$t;
+	  /* loop through each event in the feed */
+	  var len = entries.length;
+	  for (var i = 0; i < len; i++) {
+	    var entry = entries[i];
+	    var title = entry.getTitle().getText();
+	    var startDateTime = null;
+	    var startJSDate = null;
+	    var times = entry.getTimes();
+	    if (times.length > 0) {
+	      startDateTime = times[0].getStartTime();
+	      startJSDate = startDateTime.getDate();
+	    }
+	    var entryLinkHref = null;
+	    if (entry.getHtmlLink() != null) {
+	      entryLinkHref = entry.getHtmlLink().getHref();
+	    }
+	    var dateString = (startJSDate.getMonth() + 1) + "/" + startJSDate.getDate();
+	    if (!startDateTime.isDateOnly()) {
+	      dateString += " " + startJSDate.getHours() + ":" + 
+	          padNumber(startJSDate.getMinutes());
+	    }
+	    var li = document.createElement('li');
+	
+	    /* if we have a link to the event, create an 'a' element */
+	    if (entryLinkHref != null) {
+	      entryLink = document.createElement('a');
+	      entryLink.setAttribute('href', entryLinkHref);
+	      entryLink.appendChild(document.createTextNode(title));
+	      li.appendChild(entryLink);
+	      li.appendChild(document.createTextNode(' - ' + dateString));
+	    } else {
+	      li.appendChild(document.createTextNode(title + ' - ' + dateString));
+	    }	    
+	
+	    /* append the list item onto the unordered list */
+	    ul.appendChild(li);
+	  }
+	  eventDiv.appendChild(ul);
+	}
+ 
+});
+
+Ext.reg('gcakendarpanel',GCalendarPanel);
+
 TaskForm = function (config){
 	Ext.apply(config);
 	
@@ -81,6 +350,7 @@ TaskForm = function (config){
 	this.completed = false;
 	this.currentId++;
 	this.taskId = config.taskId || "";
+	this.config = config;
 	
 	this.tb = new Ext.Toolbar({
 		region: 'north',
@@ -171,7 +441,9 @@ TaskForm = function (config){
 						
 						iconCls : 'bookmarks-icon',
 						text : 'Add Bookmark',
-						handler : function(){}
+						handler : function(){
+							Bookmarks.Favorits.createMashupWnd();
+						}
 			}/*
 ,{
 				iconCls: 'icon-view-detailed',
@@ -210,7 +482,7 @@ TaskForm = function (config){
 		fieldLabel: 'Due Date',
 		name: 'dueDate',
 		width: 135,
-		format: 'm/d/Y'
+		format: 'd/m/Y'
 	});
 	
 
@@ -218,7 +490,9 @@ TaskForm = function (config){
         fieldLabel: 'Task List',
 		name: 'listId',
 		store: tx.data.tasklists,
-		anchor: '100%'
+		anchor: '100%',
+		root_listType:'TASK',
+		root_text: "Ecco Tasks"
     });
 	
 	this.list.on('render', function(){
@@ -238,7 +512,7 @@ TaskForm = function (config){
 		name: 'reminder',
 		disabled: true,
 		timeFormat: 'g:i A',
-		dateFormat: 'm/d/Y',
+		dateFormat: 'd/m/Y',
 		timeConfig: {
 			//tpl: opener.Templates.timeField,
 			listClass:'x-combo-list-small',
@@ -277,8 +551,13 @@ TaskForm = function (config){
 					tp.saveData();
 					if(Ext.getCmp('notes_win'))
 						Ext.getCmp('notes_win').close();
-					Ext.getCmp(config.win_id).close();
+					Ext.getCmp('wind_task').close();
 				}
+			}
+		},{
+			text: 'Close',
+			handler: function(){
+				Ext.getCmp('wind_task').close();
 			}
 		}],
 				
@@ -363,6 +642,7 @@ Ext.extend(TaskForm, Ext.Panel, {
 				tm.hasReminder.setValue(task.data.reminder);
 				tm.form.getForm().loadRecord(task);
 				tm.setCompleted(task.data.completed);
+				Ext.getCmp('calendar').reset();
 			}
 		}catch(e){
 			var f = e;
@@ -375,7 +655,7 @@ Ext.extend(TaskForm, Ext.Panel, {
 			task = tx.data.tasks.createTask(
 						this.subject.getValue(), 
 						this.list.getRawValue(), 
-						this.dueDate.getValue(), 
+						this.dueDate.getValue().format('d-m-Y H:i:s'), 
 						this.description.getValue(),
 						this.completed
 					);

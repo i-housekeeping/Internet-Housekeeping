@@ -51,6 +51,7 @@ QoDesk.TasksList = Ext.extend(Ext.app.Module, {
 			text: 'Tasks List',
 			tooltip: '<b>Tasks List</b><br />'
 		}
+		
 	},
 
 	createWindow : function(){
@@ -67,8 +68,10 @@ QoDesk.TasksList = Ext.extend(Ext.app.Module, {
 					text: 'New Task',
 					iconCls: 'icon-active',
 					tooltip: 'New Task',
-					handler: function(){
+					handler: function(node){
+						node.select();
 						taskHeader.ntTitle.focus();
+						taskHeader.ntCat.setValue(node.id);
 					}
 				}),
 
@@ -274,19 +277,32 @@ QoDesk.TasksList = Ext.extend(Ext.app.Module, {
 						}, ' ', ' ', ' '		
 				]
 			});
-	
+			
+			width  = (app.desktop.getWinWidth()*0.95 - 250)/2;
+			
+			var calendar = this.calendar =  new GCalendarPanel({
+							id		    : 'calendar',
+							iconCls     : 'cashrecord-now-icon',
+							margins     : '3 3 3 0',
+							title		: 'Tasks Calendar',
+							region      : 'east',
+							defaultSrc :      '<iframe src="http://www.google.com/calendar/embed?title=%D7%9E%D7%A1%D7%99%D7%9E%D7%95%D7%AA&amp;mode=WEEK&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=i.housekeeping%40gmail.com&amp;color=%2328754E&amp;ctz=Asia%2FJerusalem" style=" border-width:0 " width="'+ width +'" height="600" frameborder="0" scrolling="no"></iframe>',
+							html :      '<iframe src="http://www.google.com/calendar/embed?title=%D7%9E%D7%A1%D7%99%D7%9E%D7%95%D7%AA&amp;mode=WEEK&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=i.housekeeping%40gmail.com&amp;color=%2328754E&amp;ctz=Asia%2FJerusalem" style=" border-width:0 " width="'+ width +'" height="600" frameborder="0" scrolling="no"></iframe>',
+							loadMask	: {msg:'Loading Calendar...'},
+							scope 		: this
+						});
 			
 			win = app.desktop.createWindow({
 				title: 'Tasks List',
 				id: 'tasks-list-win',
 				iconCls: 'tasks-icon',
 				maximizable: true,
-				width:  app.desktop.getWinWidth()*0.7,
-				height: app.desktop.getWinHeight()*0.8,
+				width:  app.desktop.getWinWidth()*0.95,
+				height: app.desktop.getWinHeight()*0.85,
 				minWidth: 300,
 				minHeight: 200,
 				layout: 'border',
-				items: [tb, tree, grid]
+				items: [tb, tree,  grid, calendar]
 			});
 			
 			grid.on('keydown', function(e){
@@ -310,6 +326,7 @@ QoDesk.TasksList = Ext.extend(Ext.app.Module, {
 
 			var taskHeader = new TaskHeader(grid);
 			root.listType = 'TASK';
+			root.text = "Ecco Tasks";
 			tx.data.tasklists.init(tree,root);
 			tx.data.tasks.init();
 			
@@ -346,14 +363,15 @@ QoDesk.TasksList = Ext.extend(Ext.app.Module, {
 				loadList(node ? node.id : null);
 			});
 		
-			//setTimeout( "Ext.getCmp('tasks-tree').getRootNode().reload()", 999 ); 
 		
 			if(Ext.state.Manager.get('defaultReminder') === undefined){
 				Ext.state.Manager.set('defaultReminder', 9 * 60); // default to 9am
 			}
 		
-			//tx.ReminderManager.init();
-		
+			tx.ReminderManager.init();
+			
+			
+			
 			grid.body.on('dragover', function(e){
 				if(e.hasFormat(grid.ddText)){
 					e.preventDefault();
@@ -405,7 +423,145 @@ QoDesk.TasksList = Ext.extend(Ext.app.Module, {
         	}
         
         	win.show();
-    	}
+    	},
+		
+		getMyFeed : function(){
+		// init the Google data JS client library with an error handler
+		  google.gdata.client.init(this.handleGDError);
+		  // load the code.google.com developer calendar
+		  this.loadDeveloperCalendar();
+
+	},
+	
+	/**
+	 * Loads the Google Developers Event Calendar
+	 */
+	loadDeveloperCalendar : function () {
+	  this.loadCalendarByAddress('i.housekeeping@google.com');
+	},
+
+	/**
+	 * Determines the full calendarUrl based upon the calendarAddress
+	 * argument and calls loadCalendar with the calendarUrl value.
+	 *
+	 * @param {string} calendarAddress is the email-style address for the calendar
+	 */ 
+	loadCalendarByAddress : function (calendarAddress) {
+	  var calendarUrl = 'http://www.google.com/calendar/feeds/' +
+	                    calendarAddress + 
+	                    '/public/full';
+	  this.loadCalendar(calendarUrl);
+	},
+	
+	/**
+	 * Uses Google data JS client library to retrieve a calendar feed from the specified
+	 * URL.  The feed is controlled by several query parameters and a callback 
+	 * function is called to process the feed results.
+	 *
+	 * @param {string} calendarUrl is the URL for a public calendar feed
+	 */  
+	loadCalendar : function (calendarUrl) {
+	  var service = new 
+	      google.gdata.calendar.CalendarService('gdata-js-client-samples-simple');
+	  var query = new google.gdata.calendar.CalendarEventQuery(calendarUrl);
+	  query.setOrderBy('starttime');
+	  query.setSortOrder('ascending');
+	  query.setFutureEvents(true);
+	  query.setSingleEvents(true);
+	  query.setMaxResults(10);
+	
+	  service.getEventsFeed(query, this.listEvents, this.handleGDError);
+	},
+	
+	/**
+	 * Callback function for the Google data JS client library to call when an error
+	 * occurs during the retrieval of the feed.  Details available depend partly
+	 * on the web browser, but this shows a few basic examples. In the case of
+	 * a privileged environment using ClientLogin authentication, there may also
+	 * be an e.type attribute in some cases.
+	 *
+	 * @param {Error} e is an instance of an Error 
+	 */
+	handleGDError: function (e) {
+	  document.getElementById('jsSourceFinal').setAttribute('style', 
+	      'display:none');
+	  if (e instanceof Error) {
+	    /* alert with the error line number, file and message */
+	    alert('Error at line ' + e.lineNumber +
+	          ' in ' + e.fileName + '\n' +
+	          'Message: ' + e.message);
+	    /* if available, output HTTP error code and status text */
+	    if (e.cause) {
+	      var status = e.cause.status;
+	      var statusText = e.cause.statusText;
+	      alert('Root cause: HTTP error ' + status + ' with status text of: ' + 
+	            statusText);
+	    }
+	  } else {
+	    alert(e.toString());
+	  }
+	},
+
+	/**
+	 * Callback function for the Google data JS client library to call with a feed 
+	 * of events retrieved.
+	 *
+	 * Creates an unordered list of events in a human-readable form.  This list of
+	 * events is added into a div called 'events'.  The title for the calendar is
+	 * placed in a div called 'calendarTitle'
+	 *
+	 * @param {json} feedRoot is the root of the feed, containing all entries 
+	 */ 
+	listEvents : function (feedRoot) {
+	  var entries = feedRoot.feed.getEntries();
+	  var eventDiv = document.getElementById('events');
+	  if (eventDiv.childNodes.length > 0) {
+	    eventDiv.removeChild(eventDiv.childNodes[0]);
+	  }	  
+	  /* create a new unordered list */
+	  var ul = document.createElement('ul');
+	  /* set the calendarTitle div with the name of the calendar */
+	  document.getElementById('calendarTitle').innerHTML = 
+	    "Calendar: " + feedRoot.feed.title.$t;
+	  /* loop through each event in the feed */
+	  var len = entries.length;
+	  for (var i = 0; i < len; i++) {
+	    var entry = entries[i];
+	    var title = entry.getTitle().getText();
+	    var startDateTime = null;
+	    var startJSDate = null;
+	    var times = entry.getTimes();
+	    if (times.length > 0) {
+	      startDateTime = times[0].getStartTime();
+	      startJSDate = startDateTime.getDate();
+	    }
+	    var entryLinkHref = null;
+	    if (entry.getHtmlLink() != null) {
+	      entryLinkHref = entry.getHtmlLink().getHref();
+	    }
+	    var dateString = (startJSDate.getMonth() + 1) + "/" + startJSDate.getDate();
+	    if (!startDateTime.isDateOnly()) {
+	      dateString += " " + startJSDate.getHours() + ":" + 
+	          padNumber(startJSDate.getMinutes());
+	    }
+	    var li = document.createElement('li');
+	
+	    /* if we have a link to the event, create an 'a' element */
+	    if (entryLinkHref != null) {
+	      entryLink = document.createElement('a');
+	      entryLink.setAttribute('href', entryLinkHref);
+	      entryLink.appendChild(document.createTextNode(title));
+	      li.appendChild(entryLink);
+	      li.appendChild(document.createTextNode(' - ' + dateString));
+	    } else {
+	      li.appendChild(document.createTextNode(title + ' - ' + dateString));
+	    }	    
+	
+	    /* append the list item onto the unordered list */
+	    ul.appendChild(li);
+	  }
+	  eventDiv.appendChild(ul);
+	}
     
 });
 

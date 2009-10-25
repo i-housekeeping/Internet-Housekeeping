@@ -1,4 +1,3 @@
-Bookmarks = {};
 
 Bookmarks.SearchField = Ext.extend(Ext.form.TwinTriggerField, {
     initComponent : function(){
@@ -87,7 +86,9 @@ Bookmarks.GridFavorits = function(config){
         store : tx.data.collaboratelists,
 		listenForLoad: true,
 		width: orig_width*0.2,
-		displayField : 'listName'
+		displayField : 'listName',
+		root_listType:'COLLABORATE',
+		root_text: "Ecco Bookmarks"
     });
 	
 	this.columns =[
@@ -451,8 +452,8 @@ QoDesk.Bookmarks = Ext.extend(Ext.app.Module, {
 	moduleSize	: 'relative',  // EX: desktop size * (.5=50% X .6=60%).
 
 	// Currently using the 'relative' option to size the module.
-	moduleHeight: '.900',
-	moduleWidth	: '.900',
+	moduleHeight: '.850',
+	moduleWidth	: '.950',
 
 	// Used for a new Window option.
 	widgetHeight	: '.500',
@@ -552,8 +553,8 @@ QoDesk.Bookmarks = Ext.extend(Ext.app.Module, {
 	formpaneltitle	: 'Add New Favorite',
 
 	// ff = form field Label.
-	ffLabelNom		: 'Title',
-	ffLabelAdresse		: 'Url',
+	ffLabelNom		: 'Tab Title',
+	ffLabelAdresse		: 'URL Address',
 	ffLabelCommentaires	: 'Tags/Comments',
 
 	formTitleAddBookmark	: 'Add New Bookmark',
@@ -954,7 +955,9 @@ QoDesk.Bookmarks = Ext.extend(Ext.app.Module, {
 							text 	: this.ttTreeTextLinkAdd
 						},
 						handler: function() {
-							 Bookmarks.Favorits.createMashupWnd();
+							 var config = {};
+							 config.current_url = Ext.getCmp('tabPanel').activeTab.iframe.src;
+							 Bookmarks.Favorits.createMashupWnd(config);
 						},
 						scope: this
 					},'-',
@@ -964,6 +967,7 @@ QoDesk.Bookmarks = Ext.extend(Ext.app.Module, {
 							title 	: this.ttprinttitle,
 							text 	: this.ttprinttext
 						},
+						disabled : true,
 						handler	: function(){
 							notifyWin = desktop.showNotification({
 								title 	: this.notifyTitleSendPrint,
@@ -1043,7 +1047,7 @@ QoDesk.Bookmarks = Ext.extend(Ext.app.Module, {
 					bodyStyle	: 'padding: 2px;',
 
 					deferredRender		: true,
-
+					plugins     : new Ext.ux.TabCloseMenu(),
 					plain			: true,
 
 					layoutOnTabChange	: true,
@@ -1089,6 +1093,7 @@ QoDesk.Bookmarks = Ext.extend(Ext.app.Module, {
 			});
 						
 			root.listType = 'COLLABORATE';
+			root.text = "Ecco Bookmarks";
 			tx.data.collaboratelists.init(tree,root);
 			tx.data.collaborates.init()
 			tree.root.select();

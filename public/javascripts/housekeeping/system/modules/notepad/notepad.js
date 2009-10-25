@@ -424,7 +424,9 @@ Mashup.TaskForm = function (config){
         fieldLabel: 'Task List',
 		name: 'listId',
 		store: tx.data.tasklists,
-		anchor: '100%'
+		anchor: '100%',
+		root_listType:'COLLABORATE',
+		root_text: "Ecco Bookmarks"
     });
 	
 	this.list.on('render', function(){
@@ -786,7 +788,9 @@ Mashup.CashForm = function (config){
         fieldLabel: 'Task List',
 		name: 'listId',
 		store: tx.data.categorylists,
-		anchor: '100%'
+		anchor: '100%',
+		root_listType:'CATEGORY',
+		root_text: "Ecco Categories"
     });
 	
 	this.list.on('render', function(){
@@ -1148,7 +1152,9 @@ Mashup.CollaborateForm = function (config){
         fieldLabel: 'Task List',
 		name: 'listId',
 		store: tx.data.collaboratelists,
-		anchor: '100%'
+		anchor: '100%',
+		root_listType:'COLLABORATE',
+		root_text: "Ecco Bookmarks"
     });
 	
 	this.list.on('render', function(){

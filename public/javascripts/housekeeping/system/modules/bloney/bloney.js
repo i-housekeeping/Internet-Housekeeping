@@ -525,6 +525,7 @@ CashflowPanel = function(config){
     });
 
 	root.listType = 'CATEGORY';
+	root.text = "Ecco Categories";
 	tx.data.categorylists.init(tree,root);
 	tx.data.cashrecords.init();
 	tree.root.select();
@@ -830,21 +831,20 @@ QoDesk.Bloney = Ext.extend(Ext.app.Module, {
                 title: 'Bloney - Blog your Money',
                 id: 'bloney-win',
                 layout:'border',
-                width:  app.desktop.getWinWidth()*0.87,
-                height: app.desktop.getWinHeight()*0.92,
+                width:  app.desktop.getWinWidth()*0.95,
+                height: app.desktop.getWinHeight()*0.85,
                 iconCls: 'bloney-icon',
                 bodyStyle:'color:#000',
                 plain: true,
                 items: [bloneyToolbar , bloneyTabs]
             });
+			
+			Ext.getCmp('bloneytoolbar').render('bloney_header');
+			Ext.getCmp('bloneytoolbar').renderToolbar();
+		
+			Ext.getCmp('tabs_toolbar').el.select(".x-tab-strip-text").setStyle("font-size","110%");
+			Ext.getCmp("tabs_toolbar").el.select(".x-tab-strip-text").setStyle("font-weight","bold");
         }
-		
-		Ext.getCmp('bloneytoolbar').render('bloney_header');
-		Ext.getCmp('bloneytoolbar').renderToolbar();
-		
-		Ext.getCmp('tabs_toolbar').el.select(".x-tab-strip-text").setStyle("font-size","110%");
-		Ext.getCmp("tabs_toolbar").el.select(".x-tab-strip-text").setStyle("font-weight","bold");
-		 
 		win.show();
     }
 

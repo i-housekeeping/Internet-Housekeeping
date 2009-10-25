@@ -7,7 +7,7 @@ module ApplicationHelper
   def hskpng_desktop_stylesheet_tags
     sources = %w(/stylesheets/ext-all /stylesheets/desktop)
     
-    sources_modules = %w(about admin-modules bookmarks notepad qo-preferences tasks videoplayer collaborate my-google bloney)
+    sources_modules = %w(about admin-modules bookmarks notepad qo-preferences tasks collaborate my-google bloney)
     sources_modules.collect do |source|
       sources << "/javascripts/housekeeping/system/modules/#{source}/#{source}"
     end
@@ -79,7 +79,7 @@ module ApplicationHelper
   end
   
   def hskpng_modules_javascript_tags
-      sources = %w(about notepad qo-preferences videoplayer)  
+      sources = %w(about notepad qo-preferences)  
       sources.collect do |source|
         #source << "-min" if RAILS_ENV == "production"
         source = javascript_path("housekeeping/system/modules/#{source}/"+source)

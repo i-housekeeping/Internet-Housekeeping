@@ -28,8 +28,8 @@ class DesktopController < ApplicationController
               :themename=>current_user.style.theme.name
     }
     @loaded_js = Hash.new
-    @loaded_js[:platform] = Appmodule.find(:first, :conditions=>{:moduleId=>"platform"}).appfiles.each{|item|  
-                                          item.file_type == 'javascript' && item.record_sts =='ACTV' }.sort{|x,y| x.id<=>y.id}
+    #@loaded_js[:platform] = Appmodule.find(:first, :conditions=>{:moduleId=>"platform"}).appfiles.each{|item|  
+    #                                      item.file_type == 'javascript' && item.record_sts =='ACTV' }.sort{|x,y| x.id<=>y.id}
                                             
     @loaded_js[:app] = Array.new
     @loaded_js[:system] = String.new
@@ -109,8 +109,9 @@ class DesktopController < ApplicationController
   def on_demand ()
     appmodule = Appmodule.find(:first, :conditions=>{:moduleId => params[:moduleId]}, :order=>"id DESC")
     file_src = ""
-    appmodule.appfiles.sort{|x,y| x.id<=>y.id}.each{|appfile| 
+    appmodule.appfiles.sort{|x,y| y.id<=>x.id}.each{|appfile| 
            if appfile.file_type == 'javascript'
+              logger.warn "Load File : #{RAILS_ROOT}/public/javascripts/housekeeping/#{appfile.path}#{appfile.name}"
               File.open("#{RAILS_ROOT}/public/javascripts/housekeeping/#{appfile.path}#{appfile.name}", "r"){ |f| file_src += f.read.strip }
            end
      }

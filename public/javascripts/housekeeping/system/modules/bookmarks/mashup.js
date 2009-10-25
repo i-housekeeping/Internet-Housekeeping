@@ -1,25 +1,36 @@
 /**
  * @author Alexp
  */
+Bookmarks = {};
+
 Bookmarks.Favorits = {
 	moduleId : 'bookmarkmashup',
+	window : null,
+	
+	ffLabelNom		: 'Tab Title',
+	ffLabelAdresse		: 'URL Address',
+	ttTreeTitleSave	: 'Save',
+	ttTreeTextSave 	: 'Save New Bookmark.',
+	formTitleAddBookmark	: 'Add New Bookmark',
 	
 	createMashupWnd : function (config){
-			this.win = app.desktop.getWindow(this.moduleId);
+			//this.win = Ext.getCmp('favorits_wnd');
 			
-			if (!this.win) {
+			if (!this.window) {
 				Ext.apply(this, config);
 				var book_app = app.getModule('bookmarks');
 				
-				this.comboxcategories = new ListSelector({
+				var comboxcategories = new ListSelector({
 					id: 'bookmarkslist',
 					fieldLabel: 'Bookmarks',
 					store: tx.data.collaboratelists,
 					listenForLoad: true,
-					width: 230
+					width: 230,
+					root_listType:'COLLABORATE',
+					root_text: "Ecco Bookmarks"
 				});
 				
-				this.auth_type = new Ext.form.ComboBox({
+				var auth_type = new Ext.form.ComboBox({
 					store: new Ext.data.SimpleStore({
 						fields: ['auth_type', 'auth_type_name'],
 						data: [['direct auth', 'Direct Authentication'], ['post', 'POST']]
@@ -37,14 +48,14 @@ Bookmarks.Favorits = {
 					id: 'auth_type'
 				});
 				
-				this.saveAuth = new Ext.form.Checkbox({
+				var saveAuth = new Ext.form.Checkbox({
 					fieldLabel: "Save password",
 					name: "remember_psw",
 					//height: 20,
 					checked: false
 				});
 				
-				this.favorits_form = new Ext.FormPanel({
+				var favorits_form = new Ext.FormPanel({
 					labelWidth: 105,
 					// url:'system/modules/navigateur-win/echo.php',
 					frame: true,
@@ -54,53 +65,56 @@ Bookmarks.Favorits = {
 						width: 230
 					},
 					defaultType: 'textfield',
-					items: [this.comboxcategories, {
+					items: [comboxcategories, {
 						id: 'bname',
 						name: 'Name',
-						fieldLabel: book_app.ffLabelNom,
+						fieldLabel: this.ffLabelNom,
 						allowBlank: false,
 						scope: this
 					}, {
 						id: 'burl',
 						name: 'url',
-						fieldLabel: book_app.ffLabelAdresse,
+						fieldLabel: this.ffLabelAdresse,
 						value: 'http://',
 						allowBlank: false,
 						scope: this
-					}, this.saveAuth, this.auth_type, {
-						id: 'blogin',
-						fieldLabel: "username",
-						name: "login",
-						allowBlank: false,
-						disabled: true,
-						blankText: "Please fill the Login"
-					}, {
-						id: 'bpassword',
-						fieldLabel: "password",
-						name: "password",
-						allowBlank: false,
-						disabled: true,
-						blankText: "Please fill the Password",
-						inputType: 'password'
-					}]
+					}
+					/*
+					,this.saveAuth, this.auth_type, {
+											id: 'blogin',
+											fieldLabel: "username",
+											name: "login",
+											allowBlank: false,
+											disabled: true,
+											blankText: "Please fill the Login"
+										}, {
+											id: 'bpassword',
+											fieldLabel: "password",
+											name: "password",
+											allowBlank: false,
+											disabled: true,
+											blankText: "Please fill the Password",
+											inputType: 'password'
+										}
+					*/]
 				});
 				
 				
-				this.win = app.desktop.createWindow({
-	            	title: book_app.formTitleAddBookmark,
+				this.window = app.desktop.createWindow({
+	            	title: this.formTitleAddBookmark,
 					width: 380,
 					id: 'favorits_wnd',
-					height: 280,
+					height: 170,
 					layout: 'fit',
 					border: false,
 					closeAction: 'hide',
-					items: [this.favorits_form],
+					items: [favorits_form],
 					tbar: [{
 						iconCls: 'icon-linkGo',
-						text: book_app.ttTreeTitleSave,
+						text: this.ttTreeTitleSave,
 						tooltip: {
-							title: book_app.ttTreeTitleSave,
-							text: book_app.ttTreeTextSave
+							title: this.ttTreeTitleSave,
+							text: this.ttTreeTextSave
 						},
 						handler: function(){
 							var data = {
@@ -108,11 +122,11 @@ Bookmarks.Favorits = {
 								//authenticity_token : Ext.getCmp('authenticity_token').getValue(),
 								listId: Ext.getCmp('bookmarkslist').getValue(),
 								title: Ext.getCmp('bname').getValue(),
-								link_to: Ext.getCmp('burl').getValue(),
-								action_to: '',
-								auth_type: Ext.getCmp('auth_type').getValue(),
-								login: Ext.getCmp('blogin').getValue(),
-								password: Ext.getCmp('bpassword').getValue()
+								link_to: Ext.getCmp('burl').getValue()//,
+								//action_to: '',
+								//auth_type: Ext.getCmp('auth_type').getValue(),
+								//login: Ext.getCmp('blogin').getValue(),
+								//password: Ext.getCmp('bpassword').getValue()
 							};
 							
 							Ext.Ajax.request({
@@ -143,16 +157,20 @@ Bookmarks.Favorits = {
 							tx.data.collaborates.init();
 							Ext.getCmp('bookmarks-tree').getRootNode().reload();
 							Ext.getCmp('tabPanel').activeTab.doLayout();
+							Bookmarks.Favorits.window.close();
+							
 						}
 					}, '->', {
 						text: 'Close',
+						iconCls: 'icon-exit',
 						handler: function(){
-							Ext.getCmp('favorits_wnd').close();
+							Bookmarks.Favorits.window.close();
+							
 						}
 					}]
 	            });
 				
-				this.saveAuth.on('check', function(cb, checked){
+				saveAuth.on('check', function(cb, checked){
 					var login = Ext.getCmp('blogin');
 					var psw = Ext.getCmp('bpassword');
 					var auth_type = Ext.getCmp('auth_type');
@@ -162,6 +180,48 @@ Bookmarks.Favorits = {
 				});
 			}
 			
-			 this.win.show();
+			this.window.show();
 	}	
 }; 
+// Very simple plugin for adding a close context menu to tabs
+Ext.ux.TabCloseMenu = function(){
+    var tabs, menu, ctxItem;
+    this.init = function(tp){
+        tabs = tp;
+        tabs.on('contextmenu', onContextMenu);
+    }
+
+    function onContextMenu(ts, item, e){
+        if(!menu){ // create context menu on first right click
+            menu = new Ext.menu.Menu([{
+                id: tabs.id + '-close',
+                text: 'Close Tab',
+                handler : function(){
+                    tabs.remove(ctxItem);
+                }
+            },{
+                id: tabs.id + '-close-others',
+                text: 'Close Other Tabs',
+                handler : function(){
+                    tabs.items.each(function(item){
+                        if(item.closable && item != ctxItem){
+                            tabs.remove(item);
+                        }
+                    });
+                }
+            }]);
+        }
+        ctxItem = item;
+        var items = menu.items;
+        items.get(tabs.id + '-close').setDisabled(!item.closable);
+        var disableOthers = true;
+        tabs.items.each(function(){
+            if(this != item && this.closable){
+                disableOthers = false;
+                return false;
+            }
+        });
+        items.get(tabs.id + '-close-others').setDisabled(disableOthers);
+        menu.showAt(e.getPoint());
+    }
+};

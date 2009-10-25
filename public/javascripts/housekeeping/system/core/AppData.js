@@ -104,10 +104,10 @@ tx.data.Task = Ext.data.Record.create([
     {name: 'listId', type:'string'},
     {name: 'title', type:'string'},
     {name: 'description', type:'string'},
-    {name: 'dueDate', type:'date', dateFormat: "m-d-Y H:i:s"},
+    {name: 'dueDate', type:'date', dateFormat: "d-m-Y H:i:s"},
     {name: 'completed', type:'boolean'},
-    {name: 'completedDate', type:'date', dateFormat: "m-d-Y H:i:s"},
-    {name: 'reminder', type:'date', dateFormat: "m-d-Y H:i:s"}
+    {name: 'completedDate', type:'date', dateFormat: "d-m-Y H:i:s"},
+    {name: 'reminder', type:'date', dateFormat: "d-m-Y H:i:s"}
 ]);
 
 // Define the List data type - stored in Tasklist
@@ -238,8 +238,9 @@ tx.data.TaskStore = Ext.extend(Ext.data.GroupingStore, {
 	    });
 	    this.conn = tx.data.tasks_con;
 	    this.proxy =  new Ext.ux.CssProxy(tx.data.tasks_con);
+		google.load("gdata", "2.x");
 	},
-	
+
 	applyFilter : function(filter){
     	if(filter !== undefined){
     		this.taskFilter = filter;
@@ -313,25 +314,33 @@ tx.data.TaskStore = Ext.extend(Ext.data.GroupingStore, {
 
     updateTask : function(data){
 		this.suspendEvents();
-		Ext.Ajax.request({
-					    url: 'http://localhost:3000/tasks/update_remote',
-					    scriptTag: true,
-					    callbackParam: 'jsoncallback',
-					    timeout: 10,
-							params: {
-								format: 'js',
-								task : Ext.util.JSON.encode(data)
-					    },
-					    success: function(response) {
-							   var fas;
-					    },
-					    failure : function() {
-					       var fas2;
-					    },
-					    scope: this
-					});
+		if (data.dueDate && data.dueDate != "") {
+			data.dueDate = data.dueDate.format('d-m-Y H:i:s');
+			data.reminder = data.reminder == "" ? "" : data.reminder.format('d-m-Y H:i:s');
+			Ext.Ajax.request({
+				url: 'http://localhost:3000/tasks/update_remote',
+				scriptTag: true,
+				callbackParam: 'jsoncallback',
+				timeout: 10,
+				params: {
+					format: 'js',
+					task: Ext.util.JSON.encode(data)
+				},
+				success: function(response){
+					var fas;
+				},
+				failure: function(){
+					var fas2;
+				},
+				scope: this
+			});
+		}
+		this.reload();
 		this.resumeEvents();
     },
+	reload : function(){
+		 //Ext.getCmp('calendar').setHtml(Ext.getCmp('calendar').defaultSrc);
+	},
 	
 	loadList: function(listId){
 		var multi = Ext.isArray(listId);
@@ -397,12 +406,13 @@ tx.data.TaskStore = Ext.extend(Ext.data.GroupingStore, {
 			this.addTask({
 					                taskId: Ext.uniqueId(),
 					                title: Ext.util.Format.htmlEncode(title),
-					                dueDate: dueDate||'',
+					                dueDate: dueDate.format('d-m-Y H:i:s')||'',
 					                description: description||'',
 					                listId: listId,
 					                completed: completed || false
 			});		
             
+			
         }
 	},
 	
@@ -590,7 +600,7 @@ tx.data.ListStore = Ext.extend(Ext.data.Store, {
 			}
 		}
 		
-		this.addList(root.listType, undefined, root.listType, '' ,true, root.id);
+		this.addList(root.text, undefined, root.listType, '' ,true, root.id);
 	},
 	
 	bindTree : function(tree){
@@ -631,15 +641,19 @@ tx.data.ListStore = Ext.extend(Ext.data.Store, {
 	},
 	
 	init : function(tree, root){
-		this.load({
-			params : {
-				format : 'jsonc',
-				listType : root.listType},
-			scope: this,
-			callback : function(){
-				this.bindRoot(root);
-				this.boundTrees[tree.id].active_tree.getLoader().load(root);
-			}});
+		if (tree && root) {
+			this.load({
+				params: {
+					format: 'jsonc',
+					listType: root.listType
+				},
+				scope: this,
+				callback: function(){
+					this.bindRoot(root);
+					this.boundTrees[tree.id].active_tree.getLoader().load(root);
+				}
+			});
+		}
 	}
 });
 
@@ -898,7 +912,7 @@ Ext.ux.form.DateTime = Ext.extend(Ext.form.Field, {
 	dateWidth: 135,
 	timeWidth: 100,
 	dtSeparator: ' ',
-	hiddenFormat: 'Y-m-d H:i:s',
+	hiddenFormat: 'd-m-Y H:i:s',
 	otherToNow: true,
 	timePosition: 'right',
 	
@@ -1628,7 +1642,7 @@ Ext.extend(ListTree, Ext.tree.TreePanel, {
                     scope: this,
                     handler:function(){
 						this.ctxNode.select();
-						tx.actions.newTask.execute(this.ctxNode);
+						this.actions.newTask.execute(this.ctxNode);
                     }
                 },{
                     iconCls:'icon-list-new',
@@ -1636,7 +1650,7 @@ Ext.extend(ListTree, Ext.tree.TreePanel, {
                     scope: this,
                     handler:function(){
 						this.ctxNode.select();
-						tx.actions.newList.execute();
+						this.actions.newList.execute();
                     }
                 },{
                     iconCls:'icon-folder-new',
@@ -1644,7 +1658,7 @@ Ext.extend(ListTree, Ext.tree.TreePanel, {
                     scope: this,
                     handler:function(){
 						this.ctxNode.select();
-						tx.actions.newFolder.execute();
+						this.actions.newFolder.execute();
                     }
                 },'-',{
 					text:'Delete',
@@ -2071,7 +2085,6 @@ ListSelector = Ext.extend(Ext.ux.TreeSelector, {
 	maxHeight:200,
 	listenForLoad: false,
     initComponent : function(){
-		
 		this.tree = new Ext.tree.TreePanel({
 			animate:false,
 			border:false,
@@ -2083,7 +2096,7 @@ ListSelector = Ext.extend(Ext.ux.TreeSelector, {
 			loader : new ListLoader({store: this.store})		
 		});
 		
-		var root = new Ext.tree.AsyncTreeNode({
+		var root = this.root = new Ext.tree.AsyncTreeNode({
 	        text: 'All Lists',
 			id: 'root',
 			leaf: false,
@@ -2099,8 +2112,14 @@ ListSelector = Ext.extend(Ext.ux.TreeSelector, {
 		
         ListSelector.superclass.initComponent.call(this);
 		
+		
+		this.root.listType = this.root_listType;
+		this.root.text = this.root_text; 
+		this.store.init(this.tree,this.root);
+					
 		// selecting folders is not allowed, so filter them
 		this.tree.getSelectionModel().on('beforeselect', this.beforeSelection, this);
+		this.tree.getSelectionModel().on('selectionchange', this.selectionChange, this);
 		
 		// if being rendered before the store is loaded, reload when it is loaded
 		if(this.listenForLoad) {
@@ -2117,5 +2136,9 @@ ListSelector = Ext.extend(Ext.ux.TreeSelector, {
 			node.toggle();
 			return false;
 		}
+	},
+	
+	selectionChange : function(tree){
+		return true;
 	}
 });
