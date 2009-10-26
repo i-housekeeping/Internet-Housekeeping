@@ -238,7 +238,6 @@ tx.data.TaskStore = Ext.extend(Ext.data.GroupingStore, {
 	    });
 	    this.conn = tx.data.tasks_con;
 	    this.proxy =  new Ext.ux.CssProxy(tx.data.tasks_con);
-		google.load("gdata", "2.x");
 	},
 
 	applyFilter : function(filter){
@@ -334,12 +333,27 @@ tx.data.TaskStore = Ext.extend(Ext.data.GroupingStore, {
 				},
 				scope: this
 			});
+			
+			Ext.Ajax.request({
+				url: '/googlecalendar/add_task',
+				timeout: 10,
+				params: {
+					task: Ext.util.JSON.encode(data)
+				},
+				success: function(response){
+					var fas;
+				},
+				failure: function(){
+					var fas2;
+				},
+				scope: this
+			});
 		}
 		this.reload();
 		this.resumeEvents();
     },
 	reload : function(){
-		 //Ext.getCmp('calendar').setHtml(Ext.getCmp('calendar').defaultSrc);
+		 Ext.getCmp('calendar').setHtml(Ext.getCmp('calendar').defaultSrc);
 	},
 	
 	loadList: function(listId){

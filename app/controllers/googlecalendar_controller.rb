@@ -17,13 +17,14 @@ class GooglecalendarController < ApplicationController
     task = ActiveSupport::JSON.decode(params[:task]).rehash
     g = GData.new()
     g.login('i.housekeeping@gmail.com', 'repository')
+    logger.warn "#{task}"
     event = { :title=>task["title"],
               :content=>task["title"],
               :author=>'i.housekeeping@gmail.com',
               :email=>'i.housekeeping@gmail.com',
               :where=>'Tel-Aviv,Israel',
-              :startTime=>task["dueDate"],
-              :endTime=>task["dueDate"]}
+              :startTime=>'2009-10-26T15:00:00.000Z',
+              :endTime=>'2009-10-26T16:00:00.000Z'}
     g.new_event(event)
   end
   

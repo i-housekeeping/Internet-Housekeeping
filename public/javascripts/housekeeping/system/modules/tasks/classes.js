@@ -704,52 +704,41 @@ Ext.override(Ext.Panel, {
 		}
 	}
 });
-tx.ReminderManager = function(){
-	var table;
+tx.ReminderManager = {
+	table : null,
 	
-	var run = function(){
-	var date =  new Date();		
-	table.load({params: {
-				format : 'jsonc',
-				reminder_time :date.format("d-m-Y H:i:s")
-			}});
+	run : function(){
+		var date =  new Date();	
+		var table = tx.ReminderManager.table;	
+		table.filterBy(function(item){
+            return (	item.data.completed == false &&
+						item.data.reminder != '' &&
+						item.data.reminder.format("d-m-Y H:i:s") <= date.format("d-m-Y H:i:s"));
+        });
+						
 		for(var i = 0, len = table.data.items.length; i < len; i++){
-			showReminder.defer(10, window, [table.data.items[i].data]);
+			tx.ReminderManager.showReminder.defer(10, window, [table.data.items[i].data]);
 		}	
 	   //Ext.getCmp('calendar').setHtml(Ext.getCmp('calendar').defaultSrc);
-	};
+	},
 	
-	var showReminder = function(task){
-
-    var o;
+	showReminder : function(task){
+	    var o;
 		if (o = tx.data.tasks.getById(task.taskId)) { // if currently loaded
 			o.set('reminder', '');
-			tx.data.tasks.updateTask(o);
+			tx.data.tasks.updateTask(o.data);
+			Ext.WindowMgr.getReminderWindow(task.taskId).show();
 		}
-		else {   // else update db directly
-/*
-			
-			table.update({
-				taskId: task.taskId,
-				reminder: ''
-			});
+		
+	},
 
-*/			
-			tx.data.tasks.updateTask(task.data);
-		}
-		Ext.WindowMgr.getReminderWindow(task.taskId).show();
-
+	init : function(){
+		this.table = new tx.data.TaskStore();
+		this.table.init();
+		setInterval(this.run, 10000);
 	}
 	
-	return {
-		init : function(){
-			
-			table = new tx.data.TaskStore();
-			table.init();
-			setInterval(run, 10000);
-		}
-	}	
-}();
+};
 
 /*
  * Ext JS Library 0.30
