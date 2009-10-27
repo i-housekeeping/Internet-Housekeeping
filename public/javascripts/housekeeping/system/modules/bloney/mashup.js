@@ -242,7 +242,39 @@ Countries = new Ext.data.SimpleStore({
 		['Zaire','Zaire'],
 		['Zambia','Zambia'],
 		['Zimbabwe','Zimbabwe']]
-})
+});
+
+AlphaNumber = new Ext.data.SimpleStore({
+		fields: ['alpha', 'alpha_name'],
+		data: [['All','All'],
+			   ['123','123'],
+			   ['A','A'],
+			   ['B','B'],
+			   ['C','C'],
+			   ['D','D'],
+			   ['E','E'],
+			   ['F','F'],
+			   ['G','G'],
+			   ['H','H'],
+			   ['I','I'],
+			   ['J','J'],
+			   ['K','K'],
+			   ['L','L'],
+			   ['M','M'],
+			   ['N','N'],
+			   ['O','O'],
+			   ['P','P'],
+			   ['Q','Q'],
+			   ['R','R'],
+			   ['S','S'],
+			   ['T','T'],
+			   ['U','U'],
+			   ['V','V'],
+			   ['W','W'],
+			   ['X','X'],
+			   ['Y','Y'],
+			   ['Z','Z']]
+});
 
 Ext.ux.MultiGroupingStore = Ext.extend(Ext.data.GroupingStore, {
     sortInfo: [],

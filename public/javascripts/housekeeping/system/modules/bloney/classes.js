@@ -3144,11 +3144,22 @@ BloneyContact.ContactsGrid = function(config){
         displayInfo: true,
         displayMsg: 'Displaying contacts {0} - {1} of {2}',
         emptyMsg: "No topics to display",
-		items : [{
-			xtype : 'combo',
-			label : 'Something',
-			id : 'alpha'	
-		}]       
+		items : ['-',
+				'Filter by -> ',
+				{
+					xtype : 'combo',
+					id : 'alpha',	
+					store : AlphaNumber,
+					width : 70,
+					displayField:'alpha',
+					valueField: 'alpha_name',
+					hiddenName: 'alphaId',
+					typeAhead: true,
+					mode: 'local',
+					triggerAction: 'all',
+					selectOnFocus:true,
+					allowBlank:false
+				}]       
     });
 	
 	BloneyContact.ContactsGrid.superclass.constructor.call(this, {
@@ -3156,7 +3167,7 @@ BloneyContact.ContactsGrid = function(config){
 		 sm : this.selmodel,
 		 columns: this.columns,
          view: this.viewConfig,
-		bbar: this.pagingBar
+		 bbar: this.pagingBar
 	});
 	
 	this.on('rowcontextmenu', this.onContextClick, this);
@@ -3763,10 +3774,10 @@ BloneyContact.MainWnd = function(config){
 						width : config.width*0.185,
 						store: new Ext.data.SimpleStore({
 								fields: ['abbr', 'state'],
-								data : [['INDIVIDUAL','My Contacts - no account relationshup'],
-										['VENDOR','Vendor - who pay me money'],
-										['COMPANY','Company - to whom I pay money'],
-										['EXPERT','Expert - my coach']]
+								data : [['INDIVIDUAL','Contacts'],
+										['VENDOR','Customers '],
+										['COMPANY','Suppliers'],
+										['EXPERT','Experts']]
 						}),
 						displayField:'state',
 						valueField: 'abbr',
@@ -3775,7 +3786,7 @@ BloneyContact.MainWnd = function(config){
 						id:'s_contact_type',
 						mode: 'local',
 						triggerAction: 'all',
-						emptyText:'Select a company type...',
+						emptyText:'Select a contact type...',
 						selectOnFocus:true,
 						allowBlank:false
 					},{
@@ -4953,21 +4964,10 @@ BloneyAccount.MainWnd = function(config){
 						    		addControl: new GSmallMapControl(),
 						    		setCenter: {
 						    			//geoCodeAddr: 'Petah-Tiqwa ,Israel',
-										lat: 32.0886111,
-						    			'long': 34.8722222,
+										lat: 32.099554,
+						    			'long': 34.874897,
 						    			marker: {title: 'Bank'}
-						    		}/*
-,
-						    		markers: [{
-						    			lat: 42.339641,
-						    			'long': -71.094224,
-						    			marker: {title: 'Boston Museum of Fine Arts'}
-						    		},{
-						    			lat: 42.339419,
-						    			'long': -71.09077,
-						    			marker: {title: 'Northeastern University'}
-						    		}]
-*/
+						    		}
 								}]
 					}]
             }]
