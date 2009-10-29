@@ -44,8 +44,8 @@ QoDesk.MyGoogle = Ext.extend(Ext.app.Module, {
 			iconCls: 'my-google-icon',
 			scope: this,
 			shortcutIconCls: 'my-google-shortcut',
-			text: 'About',
-			tooltip: '<strong>Google Personal Mashup</strong>'
+			text: 'My Google',
+			tooltip: '<b>Google Personal Mashup</b>'
 		}
 		
 		
@@ -110,7 +110,7 @@ QoDesk.MyGoogle = Ext.extend(Ext.app.Module, {
 	                    {
 	                        id		    : 'gmail',
 							title		: 'google gmail',
-							defaultSrc	: 'http://www.gmail.com',
+							defaultSrc	: 'https://www.google.com/accounts/ServiceLogin?service=mail&passive=true&rm=false&continue=http%3A%2F%2Fmail.google.com%2Fmail%2F%3Fui%3Dhtml%26zy%3Dl&bsv=zpwhtygjntrz&scc=1&ltmpl=default&ltmplcache=2',
 							xtype		: 'iframepanel',
 							loadMask	: {msg:'Loading Gmail...'},
 							scope 		: this

@@ -272,6 +272,21 @@ tx.data.TaskStore = Ext.extend(Ext.data.GroupingStore, {
 					    },
 					    scope: this
 					});	
+					
+		Ext.Ajax.request({
+				url: '/googlecalendar/add_task',
+				timeout: 10,
+				params: {
+					task: Ext.util.JSON.encode(data)
+				},
+				success: function(response){
+					var fas;
+				},
+				failure: function(){
+					var fas2;
+				},
+				scope: this
+			});
 	    this.resumeEvents();	
 	},
 	
@@ -334,20 +349,6 @@ tx.data.TaskStore = Ext.extend(Ext.data.GroupingStore, {
 				scope: this
 			});
 			
-			Ext.Ajax.request({
-				url: '/googlecalendar/add_task',
-				timeout: 10,
-				params: {
-					task: Ext.util.JSON.encode(data)
-				},
-				success: function(response){
-					var fas;
-				},
-				failure: function(){
-					var fas2;
-				},
-				scope: this
-			});
 		}
 		this.reload();
 		this.resumeEvents();
@@ -1301,7 +1302,7 @@ function fixDate(d){
 
 function fixDateMember(o, name){
 	if(o[name]){
-		o[name] = new Date(o[name].getTime());
+		o[name] = new Date((typeof(o[name])=='string') ? new Date(o[name]).getTime() : o[name].getTime());
 	}
 }
 /**

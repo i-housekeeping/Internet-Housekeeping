@@ -44,7 +44,7 @@ QoDesk.AdminModules = Ext.extend(Ext.app.Module, {
 			scope: this,
 			shortcutIconCls: 'admin-modules-shortcut',
 			text: 'Module Admin',
-			tooltip: '<b>Module Admin</b><br />Configure the desktop modules'
+			tooltip: '<b>Module Admin</b>'
 		}
 	},
 

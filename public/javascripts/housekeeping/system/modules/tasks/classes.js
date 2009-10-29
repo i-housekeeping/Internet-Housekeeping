@@ -568,6 +568,36 @@ bulkUpdate({
 			}
 		}
 */
+
+		
+		var form = new Ext.form.FormPanel({
+		        baseCls: 'x-plain',
+				labelWidth : 165,
+		        defaultType: 'textfield',
+		        items: [{
+							xtype : 'label',
+							text : 'Due at : '+ task.data.dueDate,
+							iconCls : 'cashrecord-now-icon',
+							id : 'reminder_text'
+						},{
+							xtype:"combo",
+							width : 105,
+							store: Reminders,
+							displayField:'reminder_name',
+							valueField: 'reminder',
+							fieldLabel : '<b>Remind me again in  </b>',
+							labelSeparator : ' : ',
+							hiddenName: 'reminderId',
+							typeAhead: true,
+							id:'s_reminder',
+							mode: 'local',
+							triggerAction: 'all',
+							selectOnFocus:true,
+							allowBlank:false
+						}]
+    	});
+		
+		
 		win = app.desktop.createWindow({
 			id: winId,
 			title: 'Reminder - ' + Ext.util.Format.ellipsis(task.data.title, 40),
@@ -575,26 +605,26 @@ bulkUpdate({
 			height:140,
 			maximizable: false,
 			resizable: false,
+			layout : 'fit',
+			bodyStyle:'padding:5px;',
+			items : [ form ],
 			buttons : [
 						{
 							text: 'Dismiss',
 							minWidth: 80,
-							//renderTo: 'btns',
 							handler: function(){
 								win.close();
 							}
 						},{
 							text: 'Snooze',
 							minWidth: 80,
-							//renderTo: 'btns',
 							handler: function(){
-								var min = parseInt(Ext.get('snooze-time').getValue(), 10);
+								var min = parseInt(Ext.getCmp('s_reminder').getValue(), 10);
 								var reminder = new Date().add('mi', min);
-								var o = tx.data.tasks.getById(taskId);
+								var o = tx.data.tasks.getById(task.data.taskId);
 								if(o){
 									o.set('reminder', reminder);
-								}else{
-									store.proxy.table.updateBy({reminder: reminder}, 'where taskId = ?', [taskId]);
+									tx.data.tasks.updateTask(o.data);
 								}
 								win.close();
 							}
@@ -602,6 +632,7 @@ bulkUpdate({
 			]
 
 		});
+		
 	}
 	return win;
 }
@@ -628,61 +659,64 @@ Ext.WindowMgr.getAboutWindow = function(){
 
 Ext.WindowMgr.getPrefWindow = function(){
 	var win, winId = 'tasks_preferences';
-	if(win = this.get(winId)) {
-		win.instance.orderToFront();
+	if(win = Ext.getCmp(winId)) {
+		return win;
 	} else {
-		//var win = window.nativeWindow;
-		//var opener = Ext.air.NativeWindow.getRootHtmlWindow();
 		
-		//var d = new Date().clearTime(true);
-		//d = d.add('mi', opener.Ext.state.Manager.get('defaultReminder'));
-		
-		//var time = new Ext.get('time');
-		//time.dom.value = d.format('g:i A');
+		var d = new Date().clearTime(true);
+		d = d.add('mi', Ext.state.Manager.get('defaultReminder'));
+				
+		var form = new Ext.form.FormPanel({
+		        baseCls: 'x-plain',
+				labelWidth : 135,
+		        defaultType: 'textfield',
+		        items: [{
+							xtype:"combo",
+							width : 105,
+							store: Times,
+							displayField:'time',
+							valueField: 'time_name',
+							fieldLabel : '<b>Default reminder time </b>',
+							labelSeparator : ' - ',
+							hiddenName: 'timeId',
+							typeAhead: true,
+							id:'s_time',
+							mode: 'local',
+							triggerAction: 'all',
+							selectOnFocus:true,
+							allowBlank:false,
+            				anchor: '100% 15'
+						}]
+    	});
+
 		
 		win = app.desktop.createWindow({
 			id: winId,
-			width:240,
-			height:150,
+			title : 'Task Preferences',
+			width:250,
+			height:135,
 			resizable: false,
-            items : [//{text:'When setting quick reminders, default the time to:'},
-						{
-									xtype:"combo",
-									//fieldLabel:"Country",
-									width : '150',
-									store: Times,
-									displayField:'time',
-									valueField: 'time_name',
-									hiddenName: 'timeId',
-									typeAhead: true,
-									id:'s_time',
-									mode: 'local',
-									triggerAction: 'all',
-									selectOnFocus:true,
-									allowBlank:false
-								}]/*
-,
+			layout : 'fit',
+			bodyStyle:'padding:5px;',
+			items : [ form ],
 			buttons : [{
-				text: 'OK',
-				minWidth: 80,
-				renderTo: 'btns',
+				text: 'Set',
+				minWidth: 85,
 				handler: function(){
-					var t = Date.parseDate(time.getValue(), 'g:i A');
+					var t = Date.parseDate(Ext.getCmp('s_time').getValue(), 'g:i A');
 					if(t){
 						var m = t.getMinutes() + (t.getHours()*60);
-						//opener.Ext.state.Manager.set('defaultReminder', m);
+						Ext.state.Manager.set('defaultReminder', m);
 					}
 					win.close();
 				}
 			},{
 				text: 'Cancel',
-				minWidth: 80,
-				renderTo: 'btns',
+				minWidth: 85,
 				handler: function(){
 					win.close();
 				}
 			}]
-*/
         });
 	}
 	return win;
@@ -710,6 +744,11 @@ tx.ReminderManager = {
 	run : function(){
 		var date =  new Date();	
 		var table = tx.ReminderManager.table;	
+		table.load({
+			params : {
+				format : 'jsonc',
+				description : 'TASK'
+		}});
 		table.filterBy(function(item){
             return (	item.data.completed == false &&
 						item.data.reminder != '' &&
@@ -726,6 +765,7 @@ tx.ReminderManager = {
 	    var o;
 		if (o = tx.data.tasks.getById(task.taskId)) { // if currently loaded
 			o.set('reminder', '');
+			o.set('dueDate',new Date(o.data.dueDate));
 			tx.data.tasks.updateTask(o.data);
 			Ext.WindowMgr.getReminderWindow(task.taskId).show();
 		}

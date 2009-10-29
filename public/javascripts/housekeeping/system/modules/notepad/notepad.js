@@ -46,7 +46,7 @@ QoDesk.Notepad = Ext.extend(Ext.app.Module, {
 			scope: this,
 			shortcutIconCls: 'notepad-shortcut',
 			text: 'Notepad',
-			tooltip: '<b>Notepad</b><br />Jot down notes'
+			tooltip: '<b>Dayly Review</b>'
 		};
         this.currentId = 0;
         //this.fetchNotes();

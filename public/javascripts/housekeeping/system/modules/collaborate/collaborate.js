@@ -43,8 +43,8 @@ QoDesk.Collaborate = Ext.extend(Ext.app.Module, {
 			iconCls: 'collaborate-icon',
 			scope: this,
 			shortcutIconCls: 'collaborate-shortcut',
-			text: 'About',
-			tooltip: '<strong>Collaborate and Share your info</strong>'
+			text: 'Collaborate',
+			tooltip: '<b>Collaborate and Share your info</b>'
 		}
 	},
 

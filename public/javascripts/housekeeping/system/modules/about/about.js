@@ -44,7 +44,7 @@ QoDesk.AboutCometDesktop = Ext.extend(Ext.app.Module, {
 			scope: this,
 			shortcutIconCls: 'about-cometdesktop-shortcut',
 			text: 'About',
-			tooltip: '<strong>About Webtop</strong>'
+			tooltip: '<b>About Webtop</b>'
 		}
 	},
 

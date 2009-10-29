@@ -68,7 +68,7 @@ QoDesk.QoPreferences = Ext.extend(Ext.app.Module, {
             scope: this,
             shortcutIconCls: 'pref-shortcut',
             text: 'Preferences',
-            tooltip: '<b>Preferences</b><br />Allows you to configure your desktop'
+            tooltip: '<b>Preferences</b>'
         }
     },
 

@@ -575,7 +575,7 @@ QoDesk.Bookmarks = Ext.extend(Ext.app.Module, {
 			scope: this,
 			shortcutIconCls: 'bookmarks-shortcut',
 			text: 'Bookmarks',
-			tooltip: '<strong>Bookmarks Navigator Module</strong><br /> For saving personal bookmarks.'
+			tooltip: '<b>Bookmarks Navigator Module</b>'
 		}
 	},
   

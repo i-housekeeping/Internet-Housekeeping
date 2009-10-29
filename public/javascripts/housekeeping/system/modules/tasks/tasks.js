@@ -49,7 +49,7 @@ QoDesk.TasksList = Ext.extend(Ext.app.Module, {
 			scope: this,
 			shortcutIconCls: 'tasks-shortcut',
 			text: 'Tasks List',
-			tooltip: '<b>Tasks List</b><br />'
+			tooltip: '<b>Tasks List</b>'
 		}
 		
 	},
@@ -278,17 +278,19 @@ QoDesk.TasksList = Ext.extend(Ext.app.Module, {
 				]
 			});
 			
-			width  = (app.desktop.getWinWidth()*0.95 - 250)/2;
-
+			var cal_width  = (app.desktop.getWinWidth()*0.95 - 250)/2;
+			var cal_height = parseInt(app.desktop.getWinHeight()*0.85) - 90;
 			var calendar = this.calendar =  new GCalendarPanel({
 							id		    : 'calendar',
 							iconCls     : 'cashrecord-now-icon',
 							margins     : '3 3 3 0',
 							title		: 'Tasks Calendar',
 							region      : 'east',
-							defaultSrc :      '<iframe src="http://www.google.com/calendar/embed?title=%D7%9E%D7%A1%D7%99%D7%9E%D7%95%D7%AA&amp;mode=WEEK&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=i.housekeeping%40gmail.com&amp;color=%2328754E&amp;ctz=Asia%2FJerusalem" style=" border-width:0 " width="'+ width +'" height="600" frameborder="0" scrolling="no"></iframe>',
-							html :      '<iframe src="http://www.google.com/calendar/embed?title=%D7%9E%D7%A1%D7%99%D7%9E%D7%95%D7%AA&amp;mode=WEEK&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=i.housekeeping%40gmail.com&amp;color=%2328754E&amp;ctz=Asia%2FJerusalem" style=" border-width:0 " width="'+ width +'" height="600" frameborder="0" scrolling="no"></iframe>',
+							layout      : 'fit',
+							defaultSrc : '<iframe src="http://www.google.com/calendar/embed?title=%D7%9E%D7%A1%D7%99%D7%9E%D7%95%D7%AA&amp;mode=WEEK&amp;height='+ cal_height +'&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=i.housekeeping%40gmail.com&amp;color=%2328754E&amp;ctz=Asia%2FJerusalem" style=" border-width:0 " width="'+ cal_width +'" height="'+ cal_height +'" frameborder="0" scrolling="no"></iframe>',
+							html :      ' <iframe src="http://www.google.com/calendar/embed?title=%D7%9E%D7%A1%D7%99%D7%9E%D7%95%D7%AA&amp;mode=WEEK&amp;height='+ cal_height +'&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=i.housekeeping%40gmail.com&amp;color=%2328754E&amp;ctz=Asia%2FJerusalem" style=" border-width:0 " width="'+ cal_width +'" height="'+ cal_height +'" frameborder="0" scrolling="no"></iframe>',
 							loadMask	: {msg:'Loading Calendar...'},
+							collapsible :true,
 							scope 		: this
 						});
 			

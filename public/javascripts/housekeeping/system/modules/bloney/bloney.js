@@ -786,7 +786,7 @@ QoDesk.Bloney = Ext.extend(Ext.app.Module, {
 			scope: this,
 			shortcutIconCls: 'Bloney-shortcut',
 			text: 'About',
-			tooltip: '<strong>Bloney - Blog your Money</strong>'
+			tooltip: '<b>Bloney - Blog your Money</b>'
 		}
 	},
 
