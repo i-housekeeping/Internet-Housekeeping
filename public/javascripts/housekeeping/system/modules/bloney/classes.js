@@ -2018,12 +2018,12 @@ BloneyCashrecords.MainWnd = function(config) {
 	this.templates = new Ext.form.ComboBox({
 			store: new Ext.data.SimpleStore({
 				fields: ['template', 'template_name'],
-				data : [['direct debit','Direct Debit'],
-						['debit','Debit'],
-						['expected debit','Expected Debit'],
-						['direct credit','Direct Credit'],
-						['credit','Credit'],
-						['expected credit','Expected Credit']]
+				data : [['direct debit','Direct debit'],
+						['debit','Pay to'],
+						['expected debit','Expected payment'],
+						['direct credit','Direct credit'],
+						['credit','Receive from'],
+						['expected credit','Expected income']]
 			}),
 			displayField:'template_name',
 			valueField : 'template',
@@ -2033,7 +2033,7 @@ BloneyCashrecords.MainWnd = function(config) {
 			emptyText:'Tempalte name...',
 			selectOnFocus:true,
 			width:(config.side_width*config.width*0.65),
-			fieldLabel: 'Templates',
+			fieldLabel: '<b>Movement</b>',
 			allowBlank:false,
 			name : 'template',
 			id : 'template'
@@ -2042,13 +2042,12 @@ BloneyCashrecords.MainWnd = function(config) {
 	this.templates.on('select',function(record, index){
 	
 		
-		if((index.data.template.toString().indexOf("direct")>= 0))
+		if(index.data.template.toString().indexOf("direct")>= 0)
 		{
 			Ext.getCmp('splitfileds').expand(true);
 			Ext.getCmp('cashrecordsform').form.setValues([
 									  {id:'amount', value:'0.00'}
-						]);
-			
+						]);			 
 		}
 		else
 		{
@@ -2060,6 +2059,16 @@ BloneyCashrecords.MainWnd = function(config) {
 						]);
 		}
 		
+		if(index.data.template.toString().indexOf("debit")>= 0){
+			 Ext.getCmp('moneyfromfields').collapse(false);
+			 Ext.getCmp('moneytofields').expand(false);
+			 Ext.getCmp('wndcashrecords').receive = false;
+		}
+		else{
+			 Ext.getCmp('moneytofields').collapse(false);
+			 Ext.getCmp('moneyfromfields').expand(false);
+			 Ext.getCmp('wndcashrecords').receive = true;
+		}
 
   	});
 		
@@ -2149,7 +2158,7 @@ BloneyCashrecords.MainWnd = function(config) {
 					});				
 	this.calculatorA;
 	this.amountfield = new Ext.form.TriggerField({
-				fieldLabel: 'Amount',
+				fieldLabel: '<b>Amount</b>',
 				name: 'amount',
 				value: '0.00',
 				id :'amount'
@@ -2191,14 +2200,25 @@ BloneyCashrecords.MainWnd = function(config) {
 	});
 
 	
-	this.comboxcategories = new ListSelector({
-        id: 'categories',
-        fieldLabel: 'Categories',
+	this.comboxcategoriesfrom = new ListSelector({
+        id: 'categoriesfrom',
+        fieldLabel: 'From category',
         store : tx.data.categorylists,
 		listenForLoad: true,
 		root_listType:'CATEGORY',
 		root_text: "Ecco Categories"
     });
+	
+	this.comboxcategoriesto = new ListSelector({
+        id: 'categoriesto',
+        fieldLabel: 'To category',
+        store : tx.data.categorylists,
+		listenForLoad: true,
+		root_listType:'CATEGORY',
+		root_text: "Ecco Categories"
+    });
+	
+	this.receive = true;
 	
 	this.cashrecordsform = new Ext.FormPanel({
 			labelWidth: config.width*0.1, // label settings here cascade unless overridden
@@ -2221,18 +2241,21 @@ BloneyCashrecords.MainWnd = function(config) {
 						xtype:"hidden",
 						id:'authenticity_token'
 					},
+					this.templates,
 					{
 						xtype:'fieldset',
-						title: 'Money From',
+						title: 'Receive',
 						defaultType: 'textfield',
+						checkboxToggle:false,
+						collapsible : true,
 						width : ( config.side_width*config.width*0.9),
 						defaults: {width: config.side_width*config.width*0.50},
 						autoHeight:true,
 						id : 'moneyfromfields',
 						items :[
-							this.combofromaccount,
+							this.comboxcategoriesfrom,
 							{
-									fieldLabel: 'Pay Date',
+									fieldLabel: 'By due date',
 									xtype:"datefield",
 									name: 'accountbalancedate',
 									id: 'dr_value_date',
@@ -2243,16 +2266,19 @@ BloneyCashrecords.MainWnd = function(config) {
 						]
 					},{
 						xtype:'fieldset',
-						title: 'Money To',
+						title: 'Pay',
 						defaultType: 'textfield',
+						checkboxToggle:false,
+						collapsible : true,
+						collapsed: true,
 						width : ( config.side_width*config.width*0.9),
 						defaults: {width: config.side_width*config.width*0.50},
 						autoHeight:true,
 						id : 'moneytofields',
 						items :[
-							this.combotoaccount,
+							this.comboxcategoriesto,
 							{
-									fieldLabel: 'Receive Date',
+									fieldLabel: 'By due date',
 									id: 'cr_value_date',
 									xtype:"datefield",
 									name: 'accountbalancedate',
@@ -2261,11 +2287,34 @@ BloneyCashrecords.MainWnd = function(config) {
 						            minValue: '2009-02-01'
 							}
 						]
+					},{
+									xtype:"combo",
+									fieldLabel:"<b>Payment Type</b>",
+									store: new Ext.data.SimpleStore({
+											fields: ['payment_type', 'payment_type_desc'],
+											data : [['CASH','Cash'],
+													['CREDIT_CARD','Credit Card'],
+													['CHECK','Check'], 
+													['BANK','Bank Account']]
+									}),
+									displayField:'payment_type_desc',
+									valueField: 'payment_type',
+									hiddenName: 'payment_type_desc',
+									typeAhead: true,
+									mode: 'local',
+									triggerAction: 'all',
+									emptyText:'Select a type...',
+									selectOnFocus:true,
+									name: 'payment_type',
+									id:'paymenttype',
+									allowBlank:false
 					},
+					
 					this.amountfield,
 					{
 						xtype:'fieldset',
-						checkboxToggle:true,
+						checkboxToggle:false,
+						collapsible : true,
 						title: 'Repetitive Amount',
 						defaultType: 'textfield',
 						width : ( config.side_width*config.width*0.9),
@@ -2292,52 +2341,33 @@ BloneyCashrecords.MainWnd = function(config) {
 								this.totalamountfield,
 								this.repetetive
 						]
-					},{
-									xtype:"combo",
-									fieldLabel:"Payment Type",
-									store: new Ext.data.SimpleStore({
-											fields: ['payment_type', 'payment_type_desc'],
-											data : [['CASH','Cash'],
-													['CREDIT_CARD','Credit Card'],
-													['CHECK','Check'], 
-													['DIRECT_DEBIT','Direct Debit']]
-									}),
-									displayField:'payment_type_desc',
-									valueField: 'payment_type',
-									hiddenName: 'payment_type_desc',
-									typeAhead: true,
-									mode: 'local',
-									triggerAction: 'all',
-									emptyText:'Select a type...',
-									selectOnFocus:true,
-									name: 'payment_type',
-									id:'paymenttype',
-									allowBlank:false
 					},
-					this.comboxcategories,
-					/*
+			/*		
+					
 {
 						fieldLabel: 'Currency',
 						name: 'currency',
 						emptyText: 'BLN',
 						disabled : true
 					},
-*/                  {
+                  {
 						fieldLabel: 'Reference',
 						name: 'reference',
+						hidden : true,
 						id: 'reference',
 						value : ("REF_" + now.getYear() + now.getMonth() + now.getDay()+ now.getHours()+now.getMinutes()+now.getSeconds())
 					},
 					{
 						xtype:"textarea",
 						id:'details',
+						hidden : true,
 						height : 40,
 						maxLength : 250,
 						maxLengthText : "Maximum Length of Details is 250 characters",
 						fieldLabel:"Note",
 						name:"details",
 						allowBlank:true
-					}/*
+					}
 ,
 					new Ext.ux.form.Spinner({
 		                fieldLabel: 'Adjust Balance at',
@@ -2349,12 +2379,72 @@ BloneyCashrecords.MainWnd = function(config) {
 		            })
 */
 			],
-		bbar:[	'->',
+		bbar:[{
+					text : 'New Cashrecord',
+					id : 'new_cachrecord',
+					iconCls:'cashrecord-icon',
+					handler : function (){
+						var bReceive = (Ext.getCmp('wndcashrecords').receive == true) ? true : false;
+						var bSplit = (Ext.getCmp('wndcashrecords').split == true) ? true : false;
+						var data = { 	
+							   			cashrecordId : Ext.getCmp('cashrecord_id').getValue(),  
+										//authenticity_token : Ext.getCmp('template').getValue(),									
+										cashrec_type : Ext.getCmp('template').getValue(),
+										listId : bReceive ? Ext.getCmp('categoriesfrom').getValue() : Ext.getCmp('categoriesto').getValue(),
+				    					//reference : Ext.getCmp('reference').getValue(),
+				    					dr_account_id : Ext.getCmp('paymenttype').getValue(),
+				    					debit_amount : bReceive ? "0.00" : (bSplit ? Ext.getCmp('totalamount').getValue() : Ext.getCmp('amount').getValue()) ,
+				    					dr_value_date : Ext.getCmp('dr_value_date').getValue(),
+				    					cr_account_id : Ext.getCmp('paymenttype').getValue(),
+				    					credit_amount : bReceive ? (bSplit ? Ext.getCmp('totalamount').getValue() : Ext.getCmp('amount').getValue()): "0.00",
+				    					cr_value_date : Ext.getCmp('cr_value_date').getValue(),
+				    					original_balance : Ext.getCmp('amount').getValue(),
+				    					repetitive_type : Ext.getCmp('repetition').getValue(),
+				    					record_sequence : Ext.getCmp('numpayments').getValue(),
+				    					total_records : Ext.getCmp('numpayments').getValue(),
+				    					repetitive_amount : Ext.getCmp('totalamount').getValue(),
+				    					starting_date : Ext.getCmp('startdate').getValue(),
+				    					//details : Ext.getCmp('details').getValue()
+							};
+						
+						Ext.Ajax.request({
+						    url: tx.data.cashrecords_con.create_remote_url,
+						    scriptTag: true,
+						    callbackParam: 'jsoncallback',
+						    timeout: 10,
+								params: {
+									format: 'js',
+									cashrecord : Ext.util.JSON.encode(data)
+						    },
+						    success: function(r) {
+									Ext.getCmp('cashrecordsform').form.setValues([
+										{id:'reference', value:("REF_" + now.getYear() + now.getMonth() + now.getDay()+ now.getHours()+now.getMinutes()+now.getSeconds())}
+									]);
+								   this.publish( '/desktop/notify',{
+								            title: 'Bloney Cashrecords',
+								            iconCls: 'bloney-icon',
+								            html: r.responseObject.notice
+								        });
+						    },
+						    failure : function(r) {
+						       	    this.publish( '/desktop/notify',{
+								            title: 'Bloney Cashrecords',
+								            iconCls: 'bloney-icon',
+								            html: r.responseObject.notice
+								        });
+						    },
+						    scope: this
+						});	
+							Ext.getCmp('wndcashrecords').refresh();	
+					}		
+				}	/*
+'->',
 				{
 					text : 'Templates',
 					iconCls : 'cashrecord-template-icon'
 				},
-				this.templates]		
+				this.templates
+*/]		
 	});
 		
 		
@@ -2412,6 +2502,10 @@ BloneyCashrecords.MainWnd = function(config) {
 	
 	Ext.getCmp('splitfileds').on('expand', function() { Ext.getCmp('amount').setDisabled(true);}, this);
 	Ext.getCmp('splitfileds').on('collapse', function() { Ext.getCmp('amount').setDisabled(false);}, this);
+	Ext.getCmp('moneyfromfields').on('expand', function() { Ext.getCmp('moneytofields').collapse(true);Ext.getCmp('wndcashrecords').receive = true;}, this);
+	Ext.getCmp('moneyfromfields').on('collapse', function() { Ext.getCmp('moneytofields').expand(false);Ext.getCmp('wndcashrecords').receive = false;}, this);
+	Ext.getCmp('moneytofields').on('expand', function() { Ext.getCmp('moneyfromfields').collapse(true);Ext.getCmp('wndcashrecords').receive = false;}, this);
+	Ext.getCmp('moneytofields').on('collapse', function() { Ext.getCmp('moneyfromfields').expand(false);Ext.getCmp('wndcashrecords').receive = true;}, this);
 };
 
 Ext.extend(BloneyCashrecords.MainWnd, Ext.Window, {

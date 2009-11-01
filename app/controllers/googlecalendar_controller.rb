@@ -24,7 +24,9 @@ class GooglecalendarController < ApplicationController
               :email=>'i.housekeeping@gmail.com',
               :where=>'Tel-Aviv,Israel',
               :startTime=> DateTime.strptime(task["dueDate"],'%d-%m-%Y %H:%M:%S'),#'2009-10-26T15:00:00.000Z',
-              :endTime=> DateTime.strptime(task["dueDate"],'%d-%m-%Y %H:%M:%S')}
+              :endTime=> DateTime.strptime(task["dueDate"],'%d-%m-%Y %H:%M:%S'),
+              :reminderMinutes=> '1',
+              :reminderMethod=> 'all'}
     logger.warn "#{event}"
     g.new_event(event)
   end

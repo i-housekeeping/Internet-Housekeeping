@@ -310,56 +310,18 @@ CashflowPanel = function(config){
 				    tooltip: {text:'Account Payable, Expences and etc. ', title:'Pay Money', autoHide:true},
 				    cls: 'x-btn-text-icon blist',
 					width:100,
-				    menu:{
-						id:'reading-menu',
-						cls:'reading-menu',
-						//width:100,
-						items: [						
-							{
-								text: 'Debit',
-								handler: function () {
+					handler: function () {
 									Ext.getCmp('cashrecords').addCashrecord("debit")
 								}
-							},{
-								text: 'Direct Debit',
-								handler: function () {
-									Ext.getCmp('cashrecords').addCashrecord("direct debit")
-								}
-							},{
-								text: 'Expected Debit',
-								handler: function () {
-									Ext.getCmp('cashrecords').addCashrecord("expected debit")
-								}
-							}]
-						}
 				},{
 				    text: 'Receive Money',
 					iconCls : 'cashrecord-plus-icon',
 				    tooltip: {text:'Account receivable and etc.', title:'Receive Money', autoHide:true},
 				    cls: 'x-btn-text-icon blist',
 					width:100,
-				    menu:{
-						id:'reading-menu',
-						cls:'reading-menu',
-						//width:100,
-						items: [
-							{
-								text: 'Credit',
-								handler: function () {
+					handler: function () {
 									Ext.getCmp('cashrecords').addCashrecord("credit")
 								}
-							},{
-								text: 'Direct Credit',
-								handler: function () {
-									Ext.getCmp('cashrecords').addCashrecord("direct credit")
-								}
-							},{
-								text: 'Expected Credit',
-								handler: function () {
-									Ext.getCmp('cashrecords').addCashrecord("expected credit")
-								}
-							}]
-						}
 			},'-',{
 				text:'Previous Month',
 				iconCls : 'cashrecord-prev-icon',

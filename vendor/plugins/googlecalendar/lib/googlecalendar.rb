@@ -124,7 +124,8 @@ class GData
   #* reminderMethod [email, alert, sms, none]
   def add_reminder(event, reminderMinutes, reminderMethod)
     event[:reminders] = event[:reminders].to_s + 
-      "<gd:reminder minutes='#{reminderMinutes}' method='#{reminderMethod}' />\n"
+      #"<gd:reminder minutes='#{reminderMinutes}' method='#{reminderMethod}' />\n"
+     " <gd:reminder minutes='#{event[:reminderMinutes]}' method='#{event[:reminderMethod]}' />\n"
   end
   
   # Create a quick add event
@@ -214,28 +215,28 @@ EOF
   # The atom event template to submit a new event
   def template(event={})
   content = <<EOF
-<?xml version="1.0"?>
-<entry xmlns='http://www.w3.org/2005/Atom'
-    xmlns:gd='http://schemas.google.com/g/2005'>
-  <category scheme='http://schemas.google.com/g/2005#kind'
-    term='http://schemas.google.com/g/2005#event'></category>
-  <title type='text'>#{event[:title]}</title>
-  <content type='text'>#{event[:content]}</content>
-  <author>
-    <name>#{event[:author]}</name>
-    <email>#{event[:email]}</email>
-  </author>
-  <gd:transparency
-    value='http://schemas.google.com/g/2005#event.opaque'>
-  </gd:transparency>
-  <gd:eventStatus
-    value='http://schemas.google.com/g/2005#event.confirmed'>
-  </gd:eventStatus>
-  <gd:where valueString='#{event[:where]}'></gd:where>
-  <gd:when startTime='#{event[:startTime]}' endTime='#{event[:endTime]}'>
-    #{event[:reminders]}
-  </gd:when>
-</entry>
+    <?xml version="1.0"?>
+    <entry xmlns='http://www.w3.org/2005/Atom'
+        xmlns:gd='http://schemas.google.com/g/2005'>
+      <category scheme='http://schemas.google.com/g/2005#kind'
+        term='http://schemas.google.com/g/2005#event'></category>
+      <title type='text'>#{event[:title]}</title>
+      <content type='text'>#{event[:content]}</content>
+      <author>
+        <name>#{event[:author]}</name>
+        <email>#{event[:email]}</email>
+      </author>
+      <gd:transparency
+        value='http://schemas.google.com/g/2005#event.opaque'>
+      </gd:transparency>
+      <gd:eventStatus
+        value='http://schemas.google.com/g/2005#event.confirmed'>
+      </gd:eventStatus>
+      <gd:where valueString='#{event[:where]}'></gd:where>
+      <gd:when startTime='#{event[:startTime]}' endTime='#{event[:endTime]}'>
+       <gd:reminder minutes='#{event[:reminderMinutes]}' method='#{event[:reminderMethod]}' />
+      </gd:when>
+    </entry>
 EOF
   end
 end # GData class

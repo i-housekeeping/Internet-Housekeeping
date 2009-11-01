@@ -417,7 +417,10 @@ tx.data.TaskStore = Ext.extend(Ext.data.GroupingStore, {
 			}else{
 				listId = tx.data.tasklists.newList(false).id;
 			}
-			
+			var cur_date = new Date();
+			dueDate.setHours(cur_date.getHours()-2);
+			dueDate.setMinutes(cur_date.getMinutes()+2);
+			dueDate.setSeconds(cur_date.getSeconds());
 			this.addTask({
 					                taskId: Ext.uniqueId(),
 					                title: Ext.util.Format.htmlEncode(title),
