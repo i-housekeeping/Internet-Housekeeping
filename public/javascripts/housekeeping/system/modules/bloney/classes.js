@@ -2129,7 +2129,7 @@ BloneyCashrecords.MainWnd = function(config) {
 							valueField: 'accountId',
 							hiddenName: 'accountId',
 							typeAhead: true,
-							fieldLabel: 'From Account',
+							fieldLabel: 'From account',
 							id:'fromaccount',
 							width : config.width*0.21,
 							labelWidth : config.width*0.07,
@@ -2146,7 +2146,7 @@ BloneyCashrecords.MainWnd = function(config) {
 							valueField: 'accountId',
 							hiddenName: 'accountId',
 							typeAhead: true,
-							fieldLabel: 'To Account',
+							fieldLabel: 'To account',
 							id:'toaccount',
 							width : config.width*0.21,
 							labelWidth : config.width*0.07,
@@ -2254,6 +2254,7 @@ BloneyCashrecords.MainWnd = function(config) {
 						id : 'moneyfromfields',
 						items :[
 							this.comboxcategoriesfrom,
+							this.combotoaccount,
 							{
 									fieldLabel: 'By due date',
 									xtype:"datefield",
@@ -2276,6 +2277,7 @@ BloneyCashrecords.MainWnd = function(config) {
 						autoHeight:true,
 						id : 'moneytofields',
 						items :[
+							this.combofromaccount,
 							this.comboxcategoriesto,
 							{
 									fieldLabel: 'By due date',
@@ -2287,9 +2289,10 @@ BloneyCashrecords.MainWnd = function(config) {
 						            minValue: '2009-02-01'
 							}
 						]
-					},{
+					},/*
+{
 									xtype:"combo",
-									fieldLabel:"<b>Payment Type</b>",
+									fieldLabel:"<b>From or To</b>",
 									store: new Ext.data.SimpleStore({
 											fields: ['payment_type', 'payment_type_desc'],
 											data : [['CASH','Cash'],
@@ -2309,6 +2312,7 @@ BloneyCashrecords.MainWnd = function(config) {
 									id:'paymenttype',
 									allowBlank:false
 					},
+*/
 					
 					this.amountfield,
 					{
