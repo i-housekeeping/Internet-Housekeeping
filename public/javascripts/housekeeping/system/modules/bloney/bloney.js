@@ -87,12 +87,12 @@ DashboardPanel = function(config){
 								    id: 'timeline',
 									visualizationPkg: {'annotatedtimeline': 'AnnotatedTimeLine'},
 									visualizationCfg: {
-										allowHtml: true,
-										displayAnnotations: true,
-										displayExactValues: true,
+										//allowHtml: true,
+										//displayAnnotations: true,
+										//displayExactValues: true,
 										height: 200,
-									    width: 500,
-										wmode: 'transparent'
+									    width: 500//,
+										//wmode: 'transparent'
 									},
 									//title: 'Greatest DJIA Daily Point Gains',
 									store: this.cash_store,
@@ -231,6 +231,19 @@ CashflowPanel = function(config){
 	var rightpanel = 0.2;
 	////////////////////////////////////////////////////////////////////////////
 	// Central part of the Tab Cashflow grid and bottom tab
+	this.myaccountslist = new Ext.data.Store({
+            proxy: new Ext.ux.CssProxy({ url: tx.data.accounts_con.url }),
+            reader: new Ext.data.JsonReader({
+            root: 'Accounts',
+            fields: [
+					    {name: 'accountId', mapping: 'accountId'},
+					    {name: 'account_alias', mapping: 'account_alias'}   ]
+        	}),
+            sortInfo:{field: 'account_alias', direction: "ASC"}
+        });
+
+	
+	
 	this.combo = new Ext.form.ComboBox({
 		store: new Ext.data.SimpleStore({
 			fields: ['state', 'state_name'],
@@ -300,29 +313,34 @@ CashflowPanel = function(config){
             }
           ]
     	});
-
+	
+	
+	
+	this.combotoaccount = new Ext.form.ComboBox({
+								store: this.myaccountslist,
+								displayField: 'account_alias',
+								valueField: 'accountId',
+								hiddenName: 'accountId',
+								typeAhead: true,
+								//fieldLabel: 'To account',
+								id:'mainaccount',
+								//width : config.width*0.21,
+								//labelWidth : config.width*0.07,
+								autoWidth : true,
+								mode: 'local',
+								triggerAction: 'all',
+								emptyText:'Account...',
+								selectOnFocus:true,
+								allowBlank:true
+						});		
 	var grid = new BloneyCashrecords.Grid(this,{
 		width : (1.0 - (leftpanel+rightpanel))*config.viewwidth,
 		region : 'center',
 		tbar: [{
-				    text: 'Pay Money',
-					iconCls : 'cashrecord-minus-icon',
-				    tooltip: {text:'Account Payable, Expences and etc. ', title:'Pay Money', autoHide:true},
-				    cls: 'x-btn-text-icon blist',
-					width:100,
-					handler: function () {
-									Ext.getCmp('cashrecords').addCashrecord("debit")
-								}
-				},{
-				    text: 'Receive Money',
-					iconCls : 'cashrecord-plus-icon',
-				    tooltip: {text:'Account receivable and etc.', title:'Receive Money', autoHide:true},
-				    cls: 'x-btn-text-icon blist',
-					width:100,
-					handler: function () {
-									Ext.getCmp('cashrecords').addCashrecord("credit")
-								}
-			},'-',{
+				text:'<b>Cashrecords</b> for account :  ',
+				iconCls:'accounts-icon'
+			},this.combotoaccount,
+			'->',{
 				text:'Previous Month',
 				iconCls : 'cashrecord-prev-icon',
 				handler: function() {
@@ -343,7 +361,25 @@ CashflowPanel = function(config){
 					Ext.getCmp('cashrecordsgrid').start_date.setMonth(Ext.getCmp('cashrecordsgrid').start_date.getMonth() + 1) ;
 					Ext.getCmp('cashrecordsgrid').loadRecords(Ext.getCmp('cashrecordsgrid').start_date,'ACTV');
 				}
-			},'->',{
+			},'-',{
+				    text: 'Pay Money',
+					iconCls : 'cashrecord-minus-icon',
+				    tooltip: {text:'Account Payable, Expences and etc. ', title:'Pay Money', autoHide:true},
+				    cls: 'x-btn-text-icon blist',
+					width:100,
+					handler: function () {
+									Ext.getCmp('cashrecords').addCashrecord("debit")
+								}
+				},{
+				    text: 'Receive Money',
+					iconCls : 'cashrecord-plus-icon',
+				    tooltip: {text:'Account receivable and etc.', title:'Receive Money', autoHide:true},
+				    cls: 'x-btn-text-icon blist',
+					width:100,
+					handler: function () {
+									Ext.getCmp('cashrecords').addCashrecord("credit")
+								}
+			},'-',{
 				iconCls : 'export-icon',
 				text:'Start of Month Amount',
 				handler : function(){
@@ -356,14 +392,16 @@ CashflowPanel = function(config){
 				disabled :true,
 				disabledClass : 'align-right',
 				emptyText:'0.00'})],
-		bbar: [{
+		bbar: [/*
+{
 		            cls: 'x-btn-text-icon bmenu', // icon and text class
 		            text:'Cashrecords Menu',
 					iconCls : 'cashrecord-icon',
 		            menu: menu  // assign menu by instance
 		        },
+*/
 			{
-				text:'Show Cashrecords by ',
+				text:'Filter <b>Cashrecords</b> by ',
 				iconCls : 'cashrecord-refresh-icon'
 			},
 			'-',this.combo, '->',
@@ -386,9 +424,14 @@ CashflowPanel = function(config){
 
 	this.combo.on('select', function c(record, index) {
           //Ext.example.msg('Cashrecord filter', 'Selected filter "{0}" for cashrecords.',index.data.state);
-		  Ext.getCmp('cashrecordsgrid').loadRecords('', index.data.state);
+		  Ext.getCmp('cashrecordsgrid').loadRecords(Ext.getCmp('cashrecordsgrid').start_date, index.data.state);
  	});
-
+	
+	this.combotoaccount.on('select', function c(record, index) {
+          //Ext.example.msg('Cashrecord filter', 'Selected filter "{0}" for cashrecords.',index.data.state);
+		  Ext.getCmp('cashrecordsgrid').mainaccountId = index.data.accountId;
+		  Ext.getCmp('cashrecordsgrid').loadRecords(Ext.getCmp('cashrecordsgrid').start_date, index.data.state);
+ 	});
 	
 
 	////////////////////////////////////////////////////////////////////////////
@@ -533,6 +576,14 @@ Ext.extend(CashflowPanel, Ext.Panel,{
 	
 	handleActivate : function(tab){	
 		Ext.getCmp('bloney-tree').getRootNode().reload();	
+		Ext.getCmp('cashrecords').myaccountslist.load({
+			params: {
+				format: 'jsonc'
+			},
+			callback : function(){
+				Ext.getCmp('cashrecordsgrid').mainaccountId = this.getAt(0).data.accountId;
+			}
+		});
 		Ext.getCmp('cashrecordsgrid').loadRecords();
 		tab.doLayout();
 	},

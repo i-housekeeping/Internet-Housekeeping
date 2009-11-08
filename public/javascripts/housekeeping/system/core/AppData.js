@@ -63,14 +63,14 @@ tx.data.accounts_con = {url: tx.data.homeagent_url + "/accounts/index_remote",
 	cleandirectory_remote_url :  tx.data.homeagent_url + "/accounts/cleandirectory",
 	accounts_sharelist_remote_url :  tx.data.homeagent_url + "/accounts/accounts_sharelist"}; 
 
-tx.data.banks_con = {url: tx.data.homeagent_url + "/banks/index_remote",
-	update_remote_url :  tx.data.homeagent_url + "/banks/update_remote",
-	destroy_remote_url :  tx.data.homeagent_url + "/banks/destroy_remote",
-	create_remote_url :  tx.data.homeagent_url + "/banks/create_remote",
-	postdirectory_remote_url :  tx.data.homeagent_url + "/banks/postdirectory",
-	adoptdirectory_remote_url :  tx.data.homeagent_url + "/banks/adoptdirectory",
-	cleandirectory_remote_url :  tx.data.homeagent_url + "/banks/cleandirectory",
-	banks_sharelist_remote_url :  tx.data.homeagent_url + "/banks/banks_sharelist"};  
+tx.data.banks_con = {url: tx.data.homeagent_url + "/financials/index_remote",
+	update_remote_url :  tx.data.homeagent_url + "/financials/update_remote",
+	destroy_remote_url :  tx.data.homeagent_url + "/financials/destroy_remote",
+	create_remote_url :  tx.data.homeagent_url + "/financials/create_remote",
+	postdirectory_remote_url :  tx.data.homeagent_url + "/financials/postdirectory",
+	adoptdirectory_remote_url :  tx.data.homeagent_url + "/financials/adoptdirectory",
+	cleandirectory_remote_url :  tx.data.homeagent_url + "/financials/cleandirectory",
+	banks_sharelist_remote_url :  tx.data.homeagent_url + "/financials/banks_sharelist"};  
 
 tx.data.documents_con = {url: tx.data.homeagent_url + "/documents/index_remote",
 	update_remote_url :  tx.data.homeagent_url + "/documents/update_remote",

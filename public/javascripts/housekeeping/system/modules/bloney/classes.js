@@ -669,7 +669,8 @@ Ext.extend(BloneyCashrecords.DeatailsGrid, Ext.grid.EditorGridPanel, {
         Ext.getCmp('cashrecordsform').form.setValues( [
 									  {id:'cashrecord_id', value:record.data.cashrecordId},
 								      {id:'authenticity_token', value:record.data.authenticity_token},
-        							  {id:'categories', value:record.data.listId},
+        							  {id:'categoriesfrom', value:record.data.listId},
+									  {id:'categoriesto', value:record.data.listId},
 									  {id:'payment_type', value:record.data.payment_type},
         							  {id:'reference', value:record.data.reference},
 									  {id:'fromaccount', value:record.data.dr_account_id},
@@ -989,7 +990,8 @@ BloneyCashrecords.Grid = function(viewer, config) {
 
     this.viewer = viewer;
     this.start_date = new Date();
-
+	this.mainaccountId = '0';
+	
     Ext.apply(this, config);
 
    	this.dateMenu = new Ext.menu.DateMenu({
@@ -1030,7 +1032,8 @@ BloneyCashrecords.Grid = function(viewer, config) {
 
 	this.store.load({
 		params: {
-			format: 'jsonc'
+			format: 'jsonc',
+			accountId : this.mainaccountId 
 		}
 	});
 
@@ -1347,9 +1350,17 @@ Ext.extend(BloneyCashrecords.Grid, Ext.grid.GridPanel, {
 		
 	},
 	
-	filterByCategory  : function(listId) {
+	filterByCategory  : function(listId,start_date) {
+		
+		if(start_date == null || start_date=='')
+			this.start_date = new Date();
+		else
+			this.start_date = start_date;
+			
 		this.store.baseParams = {
+				start_day: this.start_date.format('Y-m-d'),
 				listId : listId,
+				accountId : this.mainaccountId,
 				format : 'jsonc'
         };
         this.store.load();
@@ -1366,6 +1377,7 @@ Ext.extend(BloneyCashrecords.Grid, Ext.grid.GridPanel, {
         this.store.baseParams = {
 				start_day: this.start_date.format('Y-m-d'),
 				cashrec_status : (cashrec_status == null ? 'ACTV' : cashrec_status),
+				accountId : this.mainaccountId,
 				format : 'jsonc'
         };
         this.store.load();
@@ -2014,14 +2026,14 @@ BloneyCashrecords.MainWnd = function(config) {
 						}		
 					}]
 	});
-	
+	this.split = false;
 	this.templates = new Ext.form.ComboBox({
 			store: new Ext.data.SimpleStore({
 				fields: ['template', 'template_name'],
-				data : [['direct debit','Direct debit'],
+				data : [['direct debit','Repeated debit'],
 						['debit','Pay to'],
 						['expected debit','Expected payment'],
-						['direct credit','Direct credit'],
+						['direct credit','Repeated credit'],
 						['credit','Receive from'],
 						['expected credit','Expected income']]
 			}),
@@ -2032,6 +2044,7 @@ BloneyCashrecords.MainWnd = function(config) {
 			triggerAction: 'all',
 			emptyText:'Tempalte name...',
 			selectOnFocus:true,
+			emptyText:'Category...',
 			width:(config.side_width*config.width*0.65),
 			fieldLabel: '<b>Movement</b>',
 			allowBlank:false,
@@ -2112,9 +2125,9 @@ BloneyCashrecords.MainWnd = function(config) {
             root: 'Accounts',
             fields: [
 					    {name: 'accountId', mapping: 'accountId'},
-					    {name: 'account_no', mapping: 'account_no'}   ]
+					    {name: 'account_alias', mapping: 'account_alias'}   ]
         	}),
-            sortInfo:{field: 'accountId', direction: "ASC"}
+            sortInfo:{field: 'account_alias', direction: "ASC"}
         });
 
 	this.myaccountslist.load({
@@ -2125,7 +2138,7 @@ BloneyCashrecords.MainWnd = function(config) {
 	
 	this.combofromaccount = new Ext.form.ComboBox({
 							store: this.myaccountslist,
-							displayField: 'account_no',
+							displayField: 'account_alias',
 							valueField: 'accountId',
 							hiddenName: 'accountId',
 							typeAhead: true,
@@ -2142,7 +2155,7 @@ BloneyCashrecords.MainWnd = function(config) {
 					
 	this.combotoaccount = new Ext.form.ComboBox({
 							store: this.myaccountslist,
-							displayField: 'account_no',
+							displayField: 'account_alias',
 							valueField: 'accountId',
 							hiddenName: 'accountId',
 							typeAhead: true,
@@ -2259,7 +2272,7 @@ BloneyCashrecords.MainWnd = function(config) {
 									fieldLabel: 'By due date',
 									xtype:"datefield",
 									name: 'accountbalancedate',
-									id: 'dr_value_date',
+									id: 'cr_value_date',
 									allowBlank:false,
 									format: 'Y-m-d',
 						            minValue: '2009-02-01'
@@ -2281,7 +2294,7 @@ BloneyCashrecords.MainWnd = function(config) {
 							this.comboxcategoriesto,
 							{
 									fieldLabel: 'By due date',
-									id: 'cr_value_date',
+									id: 'dr_value_date',
 									xtype:"datefield",
 									name: 'accountbalancedate',
 									allowBlank:false,
@@ -2388,20 +2401,20 @@ BloneyCashrecords.MainWnd = function(config) {
 					id : 'new_cachrecord',
 					iconCls:'cashrecord-icon',
 					handler : function (){
-						var bReceive = (Ext.getCmp('wndcashrecords').receive == true) ? true : false;
-						var bSplit = (Ext.getCmp('wndcashrecords').split == true) ? true : false;
+						var bReceive = Ext.getCmp('wndcashrecords').receive;
+						var bSplit = Ext.getCmp('wndcashrecords').split;
 						var data = { 	
 							   			cashrecordId : Ext.getCmp('cashrecord_id').getValue(),  
 										//authenticity_token : Ext.getCmp('template').getValue(),									
 										cashrec_type : Ext.getCmp('template').getValue(),
 										listId : bReceive ? Ext.getCmp('categoriesfrom').getValue() : Ext.getCmp('categoriesto').getValue(),
 				    					//reference : Ext.getCmp('reference').getValue(),
-				    					dr_account_id : Ext.getCmp('paymenttype').getValue(),
+				    					dr_account_id : Ext.getCmp('fromaccount').getValue(),
 				    					debit_amount : bReceive ? "0.00" : (bSplit ? Ext.getCmp('totalamount').getValue() : Ext.getCmp('amount').getValue()) ,
-				    					dr_value_date : Ext.getCmp('dr_value_date').getValue(),
-				    					cr_account_id : Ext.getCmp('paymenttype').getValue(),
+				    					dr_value_date : bReceive ? Ext.getCmp('cr_value_date').getValue() : Ext.getCmp('dr_value_date').getValue() ,
+				    					cr_account_id : Ext.getCmp('toaccount').getValue(),
 				    					credit_amount : bReceive ? (bSplit ? Ext.getCmp('totalamount').getValue() : Ext.getCmp('amount').getValue()): "0.00",
-				    					cr_value_date : Ext.getCmp('cr_value_date').getValue(),
+				    					cr_value_date : bReceive ? Ext.getCmp('cr_value_date').getValue() : Ext.getCmp('dr_value_date').getValue() ,
 				    					original_balance : Ext.getCmp('amount').getValue(),
 				    					repetitive_type : Ext.getCmp('repetition').getValue(),
 				    					record_sequence : Ext.getCmp('numpayments').getValue(),
@@ -2504,12 +2517,14 @@ BloneyCashrecords.MainWnd = function(config) {
 		  }]
     });
 	
-	Ext.getCmp('splitfileds').on('expand', function() { Ext.getCmp('amount').setDisabled(true);}, this);
-	Ext.getCmp('splitfileds').on('collapse', function() { Ext.getCmp('amount').setDisabled(false);}, this);
-	Ext.getCmp('moneyfromfields').on('expand', function() { Ext.getCmp('moneytofields').collapse(true);Ext.getCmp('wndcashrecords').receive = true;}, this);
-	Ext.getCmp('moneyfromfields').on('collapse', function() { Ext.getCmp('moneytofields').expand(false);Ext.getCmp('wndcashrecords').receive = false;}, this);
-	Ext.getCmp('moneytofields').on('expand', function() { Ext.getCmp('moneyfromfields').collapse(true);Ext.getCmp('wndcashrecords').receive = false;}, this);
-	Ext.getCmp('moneytofields').on('collapse', function() { Ext.getCmp('moneyfromfields').expand(false);Ext.getCmp('wndcashrecords').receive = true;}, this);
+	Ext.getCmp('splitfileds').on('expand', function() { Ext.getCmp('amount').setDisabled(true); Ext.getCmp('wndcashrecords').split = true;}, this);
+	Ext.getCmp('splitfileds').on('collapse', function() { Ext.getCmp('amount').setDisabled(false);Ext.getCmp('wndcashrecords').split = false;}, this);
+	
+	Ext.getCmp('moneyfromfields').on('expand', function() {Ext.getCmp('moneytofields').collapse(true);Ext.getCmp('wndcashrecords').receive = true;Ext.getCmp('fromaccount').setValue('');}, this);
+	Ext.getCmp('moneyfromfields').on('collapse', function() { Ext.getCmp('moneytofields').expand(false);Ext.getCmp('wndcashrecords').receive = false;Ext.getCmp('toaccount').setValue('');}, this);
+	
+	Ext.getCmp('moneytofields').on('expand', function() { Ext.getCmp('moneyfromfields').collapse(true);Ext.getCmp('wndcashrecords').receive = false;Ext.getCmp('fromaccount').setValue('');}, this);
+	Ext.getCmp('moneytofields').on('collapse', function() { Ext.getCmp('moneyfromfields').expand(false);Ext.getCmp('wndcashrecords').receive = true;Ext.getCmp('toaccount').setValue('');}, this);
 };
 
 Ext.extend(BloneyCashrecords.MainWnd, Ext.Window, {
@@ -4505,9 +4520,11 @@ BloneyAccount.AccountsList = function(config){
 	var reader = new Ext.data.JsonReader({
             root: 'Accounts',
             fields: [
-					{name: 'bank_name', mapping: 'bank_name'},
-					{name: 'bankId', mapping: 'bankId'},
+					{name: 'financial_name', mapping: 'financial_name'},
+					{name: 'financialId', mapping: 'financialId'},
+					{name: 'financial_type', mapping: 'financial_type'},
 					{name: 'account_type', mapping: 'account_type'},
+					{name: 'account_alias', mapping: 'account_alias'},
 					{name: 'account', mapping: 'account_no'},
 					{name: 'balance', mapping: 'balance'},
 					{name: 'credit_limit', mapping: 'credit_limit'},
@@ -4522,7 +4539,7 @@ BloneyAccount.AccountsList = function(config){
             reader: reader,
 			remoteSort: false,
             sortInfo:{field: 'balance', direction: "ASC"},
-			groupField:'bank_name'
+			groupField:'financial_type'
         });
 
 	this.store.load({
@@ -4533,20 +4550,11 @@ BloneyAccount.AccountsList = function(config){
 
 
 	this.bank_reader = new Ext.data.JsonReader({
-            root: 'Banks',
+            root: 'Financials',
             fields: [
-					{name: 'bankId', mapping: 'bankId'},
+					{name: 'financialId', mapping: 'financialId'},
 					{name: 'name', mapping: 'name'},
-					{name: 'branch', mapping: 'branch'},
-					{name: 'conn_person', mapping: 'conn_person'},
-					{name: 'businessdate', mapping: 'businessdate', type:'date', dateFormat: "m-d-Y H:i:s"},
-					{name: 'address', mapping: 'address'},
-					{name: 'city', mapping: 'city'},
-					{name: 'country', mapping: 'country'},
-					{name: 'phone', mapping: 'phone'},
-					{name: 'fax', mapping: 'fax'},
-					{name: 'email', mapping: 'email'},
-					{name: 'url', mapping: 'url'}    ]
+					{name: 'financial_type', mapping: 'financial_type'}    ]
         });
 	
 	this.banks_store = new Ext.data.Store({
@@ -4572,15 +4580,15 @@ BloneyAccount.AccountsList = function(config){
 
 	this.columns = [
 					{
-					   header: "Bank",
-					   dataIndex: 'bank_name',
+					   header: "Financial",
+					   dataIndex: 'financial_type',
 					   sortable: true,
 					   summaryType:'count',
 					   align : 'right',
 					   width: 100
 					},{
-					   header: "Account Type",
-					   dataIndex: 'account_type',
+					   header: "Account Name",
+					   dataIndex: 'account_alias',
 					   sortable: true,
 					   width: 100
 					},{
@@ -4647,30 +4655,17 @@ Ext.extend(BloneyAccount.AccountsList,Ext.grid.EditorGridPanel,{
 									  {id:'authenticity_token', value:record.data.authenticity_token},
 									  {id:'accountnumber', value:record.data.account},
 									  {id:'accounttype', value:record.data.account_type},
+									  {id:'accountalias', value:record.data.account_alias},
 									  {id:'accountcurrency', value:record.data.currency},
 									  {id:'accountbalance', value:record.data.balance},
 									  {id:'accountcrlimit', value:record.data.credit_limit},
 									  {id:'accountbalancedate', value:record.data.balance_date},
-									  {id:'cs_bank_name', value:record.data.bankId},
+									  {id:'cs_bank_name', value:record.data.financialId},
+									  {id:'s_bankname', value:record.data.financial_name},
+									  {id:'financialtype', value:record.data.financial_type},
 									  {id:'cs_contact_name', value: record.data.contactId}
 									 ] );
-		
-		var bank_ind = grid.banks_store.find('name',record.data.bank_name);
-		var bank_record	= grid.banks_store.getAt(bank_ind);						 
-		Ext.getCmp('banks_form').form.setValues([ {id:'bank_id', value:bank_record.data.bankId},
-										  {id:'s_bankname', value:bank_record.data.name},
-	        							  {id:'s_bankbranch', value:bank_record.data.branch},
-										  {id:'s_contact', value:bank_record.data.conn_person},
-										  {id:'s_businessdate', value:bank_record.data.businessdate},
-										  {id:'sb_address', value:bank_record.data.address},
-										  {id:'sb_city', value:bank_record.data.city},
-										  {id:'sb_country', value:bank_record.data.country},
-										  {id:'sb_phone', value:bank_record.data.phone},
-										  {id:'sb_fax', value:bank_record.data.fax},
-										  {id:'sb_email', value:bank_record.data.email},
-										  {id:'sb_url', value:bank_record.data.url}
-										 ]);
-		
+				
 		Ext.getCmp('accountsstories').loadRecords( record.data.accountId);
 		
 	},
@@ -4942,226 +4937,6 @@ BloneyAccount.MainWnd = function(config){
 	
 	Ext.apply(this, config);
 	
-	this.banksform = new Ext.FormPanel({
-		title: 'Bank Details',
-		frame:true,
-		id : 'banks_form',
-        listeners: {activate: this.handleActivate},
-		defaults : {width : config.width*0.6},
-        items: [{
-            layout:'column',
-            border:false,
-            items:[{
-                columnWidth:.5,
-                layout: 'form',
-                border:false,
-				defaults : {width : config.width*0.21},
-                items: [{
-						xtype:"hidden",
-						id:'bank_id'
-					},{
-						xtype:"hidden",
-						id:'authenticity_token'
-					},{
-						fieldLabel: 'Bank Name',
-						xtype:"textfield",
-						name: 's_bankname',
-						id:'s_bankname',
-						allowBlank:false
-					},{
-						fieldLabel: 'Bank Branch',
-						xtype:"textfield",
-						name: 's_bankbranch',
-						id:'s_bankbranch',
-						allowBlank:false
-					},{
-						fieldLabel: 'Contact Person',
-						xtype:"textfield",
-						name: 's_contact',
-						id:'s_contact',
-						allowBlank:false
-					},
-					new Ext.form.DateField({
-						fieldLabel: 'Buseness Date',
-						name: 's_businessdate',
-						id : 's_businessdate',
-						allowBlank:false,
-						format: 'Y-m-d',
-			            minValue: '2009-02-01'
-					}),
-				{
-					xtype:'fieldset',
-					title: 'Bank Details',
-					autoHeight:true,
-					collapsible: true,
-					width : config.width*0.283,
-					labelWidth : config.width*0.07,
-					defaults : {width : config.width*0.19},
-					items :[
-	                		{
-								xtype:"textfield",
-								fieldLabel:"Address",
-								name:"sb_address",
-								id:'sb_address',
-								allowBlank:false
-							},{
-								xtype:"textfield",
-								fieldLabel:"City",
-								name:"sb_city",
-								id:'sb_city',
-								allowBlank:false
-							},{
-								xtype:"textfield",
-								fieldLabel:"Country",
-								name:"sb_country",
-								id:'sb_country',
-								allowBlank:false
-							},{
-								xtype:"field",
-								fieldLabel:"Phone",
-								name:"sb_phone",
-								id:'sb_phone',
-								allowBlank:false
-							},{
-								xtype:"field",
-								fieldLabel:"Fax",
-								name:"sb_fax",
-								id: 'sb_fax',
-								allowBlank:false
-							},{
-								xtype:"field",
-								fieldLabel:"Email",
-								name:"sb_email",
-								id:'sb_email',
-								allowBlank:false,
-								vtype:'email'
-							},{
-								xtype:"field",
-								fieldLabel:"URL",
-								name:"sb_url",
-								id:'sb_url',
-								allowBlank:false,
-								vtype:'url'
-							}]	
-					}]
-            },{
-                columnWidth:.5,
-                layout: 'form',
-                border:false,
-                items: [{
-							xtype:'fieldset',
-							title: 'Bank Map',
-							autoHeight:true,
-							collapsible: true,
-							items :[{
-									xtype: 'gmappanel',
-						            zoomLevel: 14,
-						    		gmapType: 'map',
-						    		width : config.width*0.283,
-						    		height :config.height*0.7,
-						    		addControl: new GSmallMapControl(),
-						    		setCenter: {
-						    			//geoCodeAddr: 'Petah-Tiqwa ,Israel',
-										lat: 32.099554,
-						    			'long': 34.874897,
-						    			marker: {title: 'Bank'}
-						    		}
-								}]
-					}]
-            }]
-        }]/*
-,
-		  bbar: [{
-				text: 'Create',
-				handler : function() {
-					Ext.getCmp('banks_form').form.setValues( [{id:'authenticity_token', value:Ext.getCmp('accounts_list').authenticate_key}])
-					Ext.getCmp('banks_form').getForm().submit({
-								waitMsg:'Please Wait...',
-								reset:true,
-								method:'POST',
-								success:function(f,a){
-										if(a && a.result){
-											Ext.example.msg(this.title, '{0}.', a.result.notice);	
-											tab = Ext.getCmp('accounts_tabs').getActiveTab();
-											Ext.getCmp('accounts_list').getRootNode().reload();
-											Ext.getCmp('wndbloneyaccount').handleActivate(tab);											
-									}
-								},
-								failure : function(f,a){				
-									if(a && (a.result || a.response)){
-										var notice = (a.result)? a.result.notice : a.response.statusText;
-										Ext.example.msg(this.title, '{0}.',notice );
-									}
-								}
-							});				
-				}
-			},{
-				text : 'Update',
-				handler : function(){
-					
-					Ext.Ajax.request({
-					   url: '/banks/update/',
-					   method:'PUT',
-					   success: function(){
-					   		Ext.example.msg('Bank updated', 'Bank {0} was sucessfully updated.', Ext.getCmp('accountnumber').getValue());
-					   },
-					   failure: function(){
-					   		Ext.example.msg('Bank updated', 'Bank {0} was failled to update.', Ext.getCmp('accountnumber').getValue());
-					   },
-					   params: { 	
-					   				accountbalancedate : Ext.getCmp('accountbalancedate').getValue(),
-					   				account_id:  Ext.getCmp('account_id').getValue(),
-									authenticity_token : Ext.getCmp('authenticity_token').getValue(),
-									accountnumber : Ext.getCmp('accountnumber').getValue(),
-									accounttype : Ext.getCmp('accounttype').getValue(),
-									accountcurrency : Ext.getCmp('accountcurrency').getValue(),
-									accountbalance : Ext.getCmp('accountbalance').getValue(),
-									accountcrlimit : Ext.getCmp('accountcrlimit').getValue()
-								}
-					});
-					tab = Ext.getCmp('accounts_tabs').getActiveTab();
-					Ext.getCmp('accounts_list').getRootNode().reload();
-					Ext.getCmp('wndbloneyaccount').handleActivate(tab);
-				}
-			},{
-				text : 'Delete',
-				handler : function(){
-					Ext.Ajax.request({
-					   url: '/banks/destroy/',
-					   method:'DELETE',
-					   success: function(){
-					   		Ext.Msg.alert('Delete Account', 'Account was successfully deleted.');
-					   },
-					   failure: function(){
-					   		Ext.Msg.alert('Delete Account', 'Account delete failed.');
-					   },
-					   params: { contact_id: Ext.getCmp('account_id').getValue(),
-					   			 authenticity_token: Ext.getCmp('authenticity_token').getValue() }
-					});
-					tab = Ext.getCmp('accounts_tabs').getActiveTab();
-					Ext.getCmp('accounts_list').getRootNode().reload();
-					Ext.getCmp('wndbloneyaccount').handleActivate(tab);
-				}
-			},{
-				text: 'Clean All',
-				handler : function() {
-					 Ext.getCmp('banks_form').form.setValues( [
-        							  {id:'s_bankname', value:''},
-        							  {id:'s_bankbranch', value:''},
-									  {id:'s_contact', value:''},
-									  {id:'s_businessdate', value:''},
-									  {id:'sb_address', value:''},
-									  {id:'sb_city', value:''},
-									  {id:'sb_country', value:''},
-									  {id:'sb_phone', value:''},
-									  {id:'sb_fax', value:''},
-									  {id:'sb_email', value:''},
-									  {id:'sb_url', value:''}]);
-				}
-			}]
-*/
-	});
-	
 	var populationData = [
 			  ["20-04-2009", 25093, 25393],
 			  ["22-04-2009", 27531, 2543],
@@ -5190,8 +4965,8 @@ BloneyAccount.MainWnd = function(config){
 	    id: "accchart",
 		title: 'Account Utilization',
 		layout:'fit',
-	    width : config.width*0.61,
-	    height:config.height*0.375,
+	    width : config.width*0.60,
+	    height:config.height*0.4,
 	    visualizationPkg: "areachart",         
 	    visualizationCfg: {legend: "bottom"},  
 	    store: population_store,
@@ -5207,14 +4982,12 @@ BloneyAccount.MainWnd = function(config){
 	    }]
 	  });
 
-	
-	
 	this.banks_store = new Ext.data.Store({
             proxy: new Ext.ux.CssProxy({ url: tx.data.banks_con.url }),
             reader: new Ext.data.JsonReader({
-	            root: 'Banks',
+	            root: 'Financials',
 	            fields: [
-						{name: 'bankId', mapping: 'bankId'},
+						{name: 'financialId', mapping: 'financialId'},
 						{name: 'name', mapping: 'name'}]
 	        }),
 			remoteSort: false,
@@ -5230,16 +5003,16 @@ BloneyAccount.MainWnd = function(config){
 	this.comboBankslist = new Ext.form.ComboBox({
 							store: this.banks_store,
 							displayField:'name',
-							valueField: 'bankId',
+							valueField: 'financialId',
 							hiddenName: 'name',
 							typeAhead: true,
-							fieldLabel: 'Bank Name',
-							width : config.width*0.21,
+							fieldLabel: 'Financial Institution',
+							width : config.width*0.183,
 							labelWidth : config.width*0.07,
 							id:'cs_bank_name',
 							mode: 'local',
 							triggerAction: 'all',
-							emptyText:'Bank ...',
+							emptyText:'Institution ...',
 							selectOnFocus:true,
 							allowBlank:true
 					});
@@ -5267,9 +5040,9 @@ BloneyAccount.MainWnd = function(config){
 							valueField: 'contactId',
 							hiddenName: 'contact_name',
 							typeAhead: true,
-							fieldLabel: 'Account Owner',
+							fieldLabel: 'Contacts',
 							id:'cs_contact_name',
-							width : config.width*0.21,
+							width : config.width*0.15,
 							labelWidth : config.width*0.07,
 							mode: 'local',
 							triggerAction: 'all',
@@ -5278,13 +5051,19 @@ BloneyAccount.MainWnd = function(config){
 							allowBlank:true
 					});
 	//this.comboContactslist.on('select', this.onSelectET, this);
+	this.balanceDate = new Ext.form.DateField({
+		fieldLabel: 'Balance Date',
+		name: 'accountbalancedate',
+		id : 'accountbalancedate',
+		allowBlank:false,
+		format: 'Y/m/d'
+	});
 	
 	this.accountsform = new Ext.FormPanel({
         title: 'Account Details',
 		frame:true,
 		id : 'accounts_form',
-		labelWidth : config.width*0.07,
-        listeners: {activate: this.handleActivate},
+		listeners: {activate: this.handleActivate},
         items: [{
 					xtype:"hidden",
 					id:'account_id'
@@ -5292,54 +5071,48 @@ BloneyAccount.MainWnd = function(config){
 					xtype:"hidden",
 					id:'authenticity_token'
 				},
-				this.comboBankslist,
-				this.comboContactslist,
+				{
+					fieldLabel: 'Account Name',
+					xtype:"textfield",
+					name: 'accountalias',
+					id:'accountalias',
+					allowBlank:false,
+					width : config.width*0.25,
+					labelWidth : config.width*0.13
+				},{
+					fieldLabel: 'Account Number',
+					xtype:"textfield",
+					name: 'accountnumber',
+					id:'accountnumber',
+					allowBlank:false,
+					width : config.width*0.25,
+					labelWidth : config.width*0.13
+				},
 				{
 					xtype:'fieldset',
 					title: 'Account Details',
 					autoHeight:true,
-					width : config.width*0.61,
-					labelWidth : config.width*0.07,
-					collapsible: true,
+					width : config.width*0.60,
+					labelWidth : config.width*0.10,
+					collapsible: false,
 					items :[{
-			            layout:'column',
-						
+			            layout:'column',	
 			            border:false,
 			            items:[{
-			                columnWidth:.35,
+			                columnWidth:.5,
 			                layout: 'form',
 			                border:false,
-							defaults : {width : config.width*0.12},
+							defaults : {width : config.width*0.17},
 			                items: [{
-									fieldLabel: 'Account Number',
-									xtype:"textfield",
-									name: 'accountnumber',
-									id:'accountnumber',
-									allowBlank:false
-								},{
 									xtype:"combo",
 									fieldLabel:"Account Type",
 									store: new Ext.data.SimpleStore({
 											fields: ['acc_type', 'acc_type_desc'],
-											data : [['ASSETS','<b>Assets</b>'],
-													['CURRENT_ASSET','Current Asset'],
-													['FIXED_ASSET','Fixed Asset'],
-													['PREPAYMENT','Prepayment'], 
-													['LIABILITIES','<b>Liabilities</b>'],
-													['CURRENT_LIABILITIES','Current Liabilities'],
-													['LIABILITY','Liability'],
-													['TERM_LIABILITY','Term Liability'],
-													['EXPENSES','<b>Expenses</b>'],
-													['DEPRECIATION','Depreciation'],
-													['DIRECT_COST','Direct Costs'],
-													['EXPENSE','Expense'],
-													['OVERHEAD','Overhead'],
-													['EQUITY','<b>Equity</b>'],
-													['EQUITY','Equity'],
-													['REVENUE','<b>Revenue</b>'],
-													['OTHER_INCOME','Other Income'],
-													['REVENUE','Revenue'],
-													['SALE','Sale']]
+											data : [['CASH','Cash'],
+													['CHECKING','Checking'],
+													['SAVINGS','Savings'],
+													['DESPOSIT','Deposit'], 
+													['CREDIT_CARD','Credit Card']]
 									}),
 									displayField:'acc_type_desc',
 									valueField: 'acc_type',
@@ -5357,133 +5130,71 @@ BloneyAccount.MainWnd = function(config){
 									xtype:"textfield",
 									name: 'accountcurrency',
 									id:'accountcurrency',
-									allowBlank:false
+									allowBlank:true,
+									disabled : true,
+									emptyText : 'BLN'
 								},{
 									fieldLabel: 'Balance',
 									xtype:"textfield",
 									name: 'accountbalance',
 									id:'accountbalance',
-									allowBlank:false
+									allowBlank:true,
+									value : '0.00'
 								},{
 									fieldLabel: 'Credit Limit',
 									xtype:"textfield",
 									name: 'accountcrlimit',
 									id:'accountcrlimit',
-									allowBlank:false
-								},{
-									fieldLabel: 'Balance Date',
-									xtype:"datefield",
-									name: 'accountbalancedate',
-									id:'accountbalancedate',
-									allowBlank:false,
-									format: 'Y-m-d',
-						            minValue: '2009-02-01'
-								}
+									allowBlank:true,
+									value :  '0.00'
+								},
+								this.balanceDate
 								]
 				            },{
-				                columnWidth:.65,
+				                columnWidth:.5,
 				                layout: 'form',
-								defaults : {width : config.width*0.385},
-								labelWidth : config.width*0.025,
-				                border:false,
-								items: [{
-										fieldLabel: 'Audit',
-					                    xtype:'htmleditor',
-										height : config.height*0.25,
-										autoWidth : true,
-					                    id:'story',
-										allowBlank:false
-					                }]
-				            }]
+								border:false,
+								items: [this.comboBankslist,
+										{
+											xtype: 'fieldset',
+											title: 'New Institution Details',
+											autoHeight: true,
+											defaults : {width : config.width*0.16},
+											collapsible: true,
+											collapsed : true,
+											id : 'new_institution',
+											items: [{
+												fieldLabel: 'Finance Name',
+												xtype: "textfield",
+												name: 's_bankname',
+												id: 's_bankname',
+												allowBlank: false
+											}, {
+												xtype: "combo",
+												fieldLabel: "Institution Type",
+												store: new Ext.data.SimpleStore({
+													fields: ['fin_type', 'fin_type_desc'],
+													data: [['BANK', 'Bank'], ['CREDIT', 'Credit Comapny'], ['INSUARENCE', 'Insuarence Comapny'], ['INVESTEMENT', 'Invetement Comapny']]
+												}),
+												displayField: 'fin_type_desc',
+												valueField: 'fin_type',
+												hiddenName: 'fin_type_desc',
+												typeAhead: true,
+												mode: 'local',
+												triggerAction: 'all',
+												emptyText: 'Select a type...',
+												selectOnFocus: true,
+												name: 'financialtype',
+												id: 'financialtype',
+												allowBlank: false
+											}, 
+											this.comboContactslist]
+											}
+										]
+				            }
+						]
         }]},this.chartPanel
-		]/*
-,
-
-        bbar: [{
-				text: 'Create',
-				handler : function() {
-					Ext.getCmp('accounts_form').form.setValues( [{id:'authenticity_token', value:Ext.getCmp('accounts_list').authenticate_key}])
-					Ext.getCmp('accounts_form').getForm().submit({
-								waitMsg:'Please Wait...',
-								reset:true,
-								method:'POST',
-								success:function(f,a){
-										if(a && a.result){
-											Ext.example.msg(this.title, '{0}.', a.result.notice);	
-											tab = Ext.getCmp('accounts_tabs').getActiveTab();
-											Ext.getCmp('accounts_list').getRootNode().reload();
-											Ext.getCmp('wndbloneyaccount').handleActivate(tab);											
-									}
-								},
-								failure : function(f,a){				
-									if(a && (a.result || a.response)){
-										var notice = (a.result)? a.result.notice : a.response.statusText;
-										Ext.example.msg(this.title, '{0}.',notice );
-									}
-								}
-							});				
-				}
-			},{
-				text : 'Update',
-				handler : function(){
-					
-					Ext.Ajax.request({
-					   url: '/accounts/update/',
-					   method:'PUT',
-					   success: function(){
-					   		Ext.example.msg('Account updated', 'Account {0} was sucessfully updated.', Ext.getCmp('accountnumber').getValue());
-					   },
-					   failure: function(){
-					   		Ext.example.msg('Account updated', 'Account {0} was failled to update.', Ext.getCmp('accountnumber').getValue());
-					   },
-					   params: { 	
-					   				accountbalancedate : Ext.getCmp('accountbalancedate').getValue(),
-					   				account_id:  Ext.getCmp('account_id').getValue(),
-									authenticity_token : Ext.getCmp('authenticity_token').getValue(),
-									accountnumber : Ext.getCmp('accountnumber').getValue(),
-									accounttype : Ext.getCmp('accounttype').getValue(),
-									accountcurrency : Ext.getCmp('accountcurrency').getValue(),
-									accountbalance : Ext.getCmp('accountbalance').getValue(),
-									accountcrlimit : Ext.getCmp('accountcrlimit').getValue(),
-									story : Ext.getCmp('accstory').getValue()
-								}
-					});
-					tab = Ext.getCmp('accounts_tabs').getActiveTab();
-					Ext.getCmp('accounts_list').getRootNode().reload();
-					Ext.getCmp('wndbloneyaccount').handleActivate(tab);
-				}
-			},{
-				text : 'Delete',
-				handler : function(){
-					Ext.Ajax.request({
-					   url: '/accounts/destroy/',
-					   method:'DELETE',
-					   success: function(){
-					   		Ext.Msg.alert('Delete Account', 'Account was successfully deleted.');
-					   },
-					   failure: function(){
-					   		Ext.Msg.alert('Delete Account', 'Account delete failed.');
-					   },
-					   params: { account_id: Ext.getCmp('account_id').getValue(),
-					   			 authenticity_token: Ext.getCmp('accounts_list').authenticate_key }
-					});
-					tab = Ext.getCmp('accounts_tabs').getActiveTab();
-					Ext.getCmp('accounts_list').getRootNode().reload();
-					Ext.getCmp('wndbloneyaccount').handleActivate(tab);
-				}
-			},{
-				text: 'Clean All',
-				handler : function() {
-					 Ext.getCmp('accounts_form').form.setValues( [
-        							  {id:'accountnumber', value:''},
-        							  {id:'accounttype', value:''},
-									  {id:'accountcurrency', value:''},
-									  {id:'accountbalance', value:''},
-									  {id:'accountcrlimit', value:''},
-									  {id:'accountbalancedate', value:''}]);
-				}
-			}]	
-*/	
+		]
     });
 		
 	 this.accountstree = new Ext.tree.TreePanel({
@@ -5915,8 +5626,7 @@ BloneyAccount.MainWnd = function(config){
 		defaults:{autoScroll:true},
 		id: 'accounts_tabs',
 		tabPosition : 'bottom',
-        items:[	this.banksform,
-				this.accountsform,
+        items:[	this.accountsform,
 				this.virtualaccount ,
 				this.accountstories,
 				this.search,
@@ -5932,12 +5642,15 @@ BloneyAccount.MainWnd = function(config){
 					   				accountId:  Ext.getCmp('account_id').getValue(),
 									authenticity_token : Ext.getCmp('authenticity_token').getValue(),
 									account_no : Ext.getCmp('accountnumber').getValue(),
+									account_alias : Ext.getCmp('accountalias').getValue(),
 									account_type : Ext.getCmp('accounttype').getValue(),
 									currency : Ext.getCmp('accountcurrency').getValue(),
 									balance : Ext.getCmp('accountbalance').getValue(),
 									credit_limit : Ext.getCmp('accountcrlimit').getValue(),
 									balance_date : Ext.getCmp('accountbalancedate').getValue(),
-									bankId : Ext.getCmp('cs_bank_name').getValue(),
+									financialId : Ext.getCmp('cs_bank_name').getValue(),
+									financialName : Ext.getCmp('s_bankname').getValue(),
+									financialType : Ext.getCmp('financialtype').getValue(),
 									contact_id : Ext.getCmp('cs_contact_name').getValue()
 								};
 
@@ -5971,73 +5684,22 @@ BloneyAccount.MainWnd = function(config){
 						}
 					}		
 				},{
-					text : 'New Bank',
-					id : 'new_contact',
-					iconCls:'banks-icon',
-					handler: function(){
-						if (Ext.getCmp('accounts_tabs').getActiveTab().id == 'banks_form') {
-							var data = {
-								  bankId: Ext.getCmp('bank_id').getValue(),
-				                  name: Ext.getCmp('s_bankname').getValue() ,
-				                  branch: Ext.getCmp('s_bankbranch').getValue() ,
-				                  address: Ext.getCmp('sb_address').getValue(),
-				                  city: Ext.getCmp('sb_city').getValue() ,
-				                  country: Ext.getCmp('sb_country').getValue() ,
-				                  phone: Ext.getCmp('sb_phone').getValue() ,
-				                  fax: Ext.getCmp('sb_fax').getValue() ,
-				                  email: Ext.getCmp('sb_email').getValue() ,
-				                  url: Ext.getCmp('sb_url').getValue() ,
-				                  conn_person: Ext.getCmp('s_contact').getValue() ,
-				                  businessdate: Ext.getCmp('s_businessdate').getValue()
-							};
-							
-							Ext.Ajax.request({
-								url: tx.data.banks_con.create_remote_url,
-								scriptTag: true,
-								callbackParam: 'jsoncallback',
-								timeout: 10,
-								params: {
-									format: 'js',
-									bank: Ext.util.JSON.encode(data)
-								},
-								success: function(r){
-									this.publish('/desktop/notify', {
-										title: 'Bloney Accounts',
-										iconCls: 'bloney-icon',
-										html: r.responseObject.notice
-									});
-								},
-								failure: function(r){
-									this.publish('/desktop/notify', {
-										title: 'Bloney Contacts',
-										iconCls: 'bloney-icon',
-										html: r.responseObject.notice
-									});
-								},
-								scope: this
-							});
-							tab = Ext.getCmp('accounts_tabs').getActiveTab();
-							Ext.getCmp('wndbloneyaccount').handleActivate(tab);	
-						}
-					}		
-				},{
 					text: 'Save Changes',
 					iconCls:'save-contacts-icon',
 					handler : function() {
-						if ((Ext.getCmp('accounts_tabs').getActiveTab().id == 'accounts_form') ||
-						    (Ext.getCmp('accounts_tabs').getActiveTab().id == 'banks_form')) 
+						if ((Ext.getCmp('accounts_tabs').getActiveTab().id == 'accounts_form') ) 
 						{
 							var current_url;
 							var parameters = {};
 							
-							if (Ext.getCmp('accounts_tabs').getActiveTab().id == 'accounts_form')
-							{
+							
 								current_url = tx.data.accounts_con.update_remote_url;
 								parameters = {
 									format: 'js',
 									account: Ext.util.JSON.encode({
 											accountId:  Ext.getCmp('account_id').getValue(),
 											authenticity_token : Ext.getCmp('authenticity_token').getValue(),
+											account_alias : Ext.getCmp('accountalias').getValue(),
 											account_no : Ext.getCmp('accountnumber').getValue(),
 											account_type : Ext.getCmp('accounttype').getValue(),
 											currency : Ext.getCmp('accountcurrency').getValue(),
@@ -6048,28 +5710,7 @@ BloneyAccount.MainWnd = function(config){
 											contact_id : Ext.getCmp('cs_contact_name').getValue()
 									})
 								};
-							}
-							else
-							{
-								current_url = tx.data.banks_con.update_remote_url;
-								parameters = {
-									format: 'js',
-									bank: Ext.util.JSON.encode({
-											bankId: Ext.getCmp('bank_id').getValue(),
-							                name: Ext.getCmp('s_bankname').getValue() ,
-							                branch: Ext.getCmp('s_bankbranch').getValue() ,
-							                address: Ext.getCmp('sb_address').getValue(),
-							                city: Ext.getCmp('sb_city').getValue() ,
-							                country: Ext.getCmp('sb_country').getValue() ,
-							                phone: Ext.getCmp('sb_phone').getValue() ,
-							                fax: Ext.getCmp('sb_fax').getValue() ,
-							                email: Ext.getCmp('sb_email').getValue() ,
-							                url: Ext.getCmp('sb_url').getValue() ,
-							                conn_person: Ext.getCmp('s_contact').getValue() ,
-							                businessdate: Ext.getCmp('s_businessdate').getValue()
-									})
-								};
-							}
+							
 							
 							Ext.Ajax.request({
 								url: current_url,
@@ -6101,20 +5742,16 @@ BloneyAccount.MainWnd = function(config){
 						text : 'Delete',
 						iconCls:'delete-contacts-icon',
 						handler : function (){
-							if(	(Ext.getCmp('accounts_tabs').getActiveTab().id == 'accounts_form') ||
-								(Ext.getCmp('accounts_tabs').getActiveTab().id == 'banks_form')) 
+							if(	(Ext.getCmp('accounts_tabs').getActiveTab().id == 'accounts_form')) 
 							{
-								var current_url = (Ext.getCmp('accounts_tabs').getActiveTab().id == 'accounts_form') ? 
-											tx.data.accounts_con.destroy_remote_url : tx.data.banks_con.destroy_remote_url;
 								Ext.Ajax.request({
-								    url: current_url,
+								    url: tx.data.accounts_con.destroy_remote_url,
 								    scriptTag: true,
 								    callbackParam: 'jsoncallback',
 								    timeout: 10,
 										params: {
 											format: 'js',
-											accountId : Ext.getCmp('account_id').getValue(),
-											bankId :  Ext.getCmp('bank_id').getValue()
+											accountId : Ext.getCmp('account_id').getValue()
 								    },
 								    success: function(r) {
 										   this.publish( '/desktop/notify',{
@@ -6140,10 +5777,10 @@ BloneyAccount.MainWnd = function(config){
 					text: 'Clean Form',
 					iconCls:'clean-contacts-icon',
 					handler: function(){
-						if (Ext.getCmp('accounts_tabs').getActiveTab().id == 'accounts_form')
-						{
+						
 							Ext.getCmp('accounts_form').form.setValues( [
         							  {id:'accountnumber', value:''},
+									  {id:'accountalias', value:''},
         							  {id:'accounttype', value:''},
 									  {id:'accountcurrency', value:''},
 									  {id:'accountbalance', value:''},
@@ -6151,23 +5788,7 @@ BloneyAccount.MainWnd = function(config){
 									  {id:'accountbalancedate', value:''},
 									  {id:'cs_bank_name', value:''},
 									  {id:'cs_contact_name', value:''}]);
-						}
 						
-						if (Ext.getCmp('accounts_tabs').getActiveTab().id == 'banks_form')
-						{
-							Ext.getCmp('banks_form').form.setValues( [
-        							  {id:'s_bankname', value:''},
-        							  {id:'s_bankbranch', value:''},
-									  {id:'s_contact', value:''},
-									  {id:'s_businessdate', value:''},
-									  {id:'sb_address', value:''},
-									  {id:'sb_city', value:''},
-									  {id:'sb_country', value:''},
-									  {id:'sb_phone', value:''},
-									  {id:'sb_fax', value:''},
-									  {id:'sb_email', value:''},
-									  {id:'sb_url', value:''}]);
-						}
 						
 						
 					}
@@ -6181,37 +5802,19 @@ BloneyAccount.MainWnd = function(config){
 						text : 'Archive',
 						iconCls:'archive-contacts-icon',
 						handler: function(){
-							if ((Ext.getCmp('accounts_tabs').getActiveTab().id == 'accounts_form') ||
-							    (Ext.getCmp('accounts_tabs').getActiveTab().id == 'banks_form'))
+							if ((Ext.getCmp('accounts_tabs').getActiveTab().id == 'accounts_form'))
 							 {
-								var current_url;
-								var parameters = {};
 								
-								if (Ext.getCmp('accounts_tabs').getActiveTab().id == 'accounts_form')
-								{
-									current_url = tx.data.accounts_con.update_remote_url;
-									parameters = {
-										format: 'js',
-										accountId: Ext.getCmp('account_id').getValue(),
-										task: 'archive'
-									};
-								}
-								else
-								{
-									current_url = tx.data.banks_con.update_remote_url;
-									parameters = {
-										format: 'js',
-										bankId: Ext.getCmp('bank_id').getValue(),
-										task: 'archive'
-									};
-								}
-
 								Ext.Ajax.request({
-									url: current_url,
+									url: tx.data.accounts_con.update_remote_url,
 									scriptTag: true,
 									callbackParam: 'jsoncallback',
 									timeout: 10,
-									params: parameters,
+									params: {
+										format: 'js',
+										accountId: Ext.getCmp('account_id').getValue(),
+										task: 'archive'
+									},
 									success: function(r){
 										this.publish('/desktop/notify', {
 											title: 'Bloney Contacts',
@@ -6239,34 +5842,17 @@ BloneyAccount.MainWnd = function(config){
 							if ((Ext.getCmp('accounts_tabs').getActiveTab().id == 'accounts_form') ||
 							    (Ext.getCmp('accounts_tabs').getActiveTab().id == 'banks_form'))
 							 {
-								var current_url;
-								var parameters = {};
 								
-								if (Ext.getCmp('accounts_tabs').getActiveTab().id == 'accounts_form')
-								{
-									current_url = tx.data.accounts_con.update_remote_url;
-									parameters = {
-										format: 'js',
-										accountId: Ext.getCmp('account_id').getValue(),
-										task : 'restore'
-									};
-								}
-								else
-								{
-									current_url = tx.data.banks_con.update_remote_url;
-									parameters = {
-										format: 'js',
-										bankId: Ext.getCmp('bank_id').getValue(),
-										task : 'restore'
-									};
-								}
-
 								Ext.Ajax.request({
-									url: current_url,
+									url: tx.data.accounts_con.update_remote_url,
 									scriptTag: true,
 									callbackParam: 'jsoncallback',
 									timeout: 10,
-									params: parameters,
+									params: {
+										format: 'js',
+										accountId: Ext.getCmp('account_id').getValue(),
+										task : 'restore'
+									},
 									success: function(r){
 										this.publish('/desktop/notify', {
 											title: 'Bloney Contacts',
@@ -6316,16 +5902,14 @@ BloneyAccount.MainWnd = function(config){
 		}]
 	});
 	
+	Ext.getCmp('new_institution').on('expand', function() { Ext.getCmp('cs_bank_name').disable();}, this);
+	Ext.getCmp('new_institution').on('collapse', function() { Ext.getCmp('cs_bank_name').enable();}, this);
+
 };
 
 Ext.extend(BloneyAccount.MainWnd, Ext.Window,{
 	handleActivate : function(tab){
-		
-		Ext.getCmp('wndbloneyaccount').banks_store.load({
-			params: {
-				format: 'jsonc'
-			}
-		});
+
 		Ext.getCmp('wndbloneyaccount').accounts_nav.loadRecords();
 		tab.doLayout();		
 	}
@@ -8218,8 +7802,9 @@ Ext.extend(BloneyToolbar, Ext.Toolbar,{
 		});
 		
 		this.addSpacer();
+		this.addSeparator(); 
 		this.add({
-				xtype:'splitbutton',
+				xtype:'button',
 				iconCls:'accounts-icon',
 				text: 'Accounts',
 				enableToggle: false,
@@ -8230,30 +7815,10 @@ Ext.extend(BloneyToolbar, Ext.Toolbar,{
 										var bloneyAccountWin = (Ext.getCmp('wndbloneyaccount') != null) ? Ext.getCmp('wndbloneycontact') : new BloneyAccount.MainWnd(toolbarconfig);
 										Ext.getCmp('accounts_tabs').setActiveTab('accounts_form');
 										bloneyAccountWin.show();
-									},
-				menu:{
-					id:'account-menu',
-					cls:'reading-menu',
-					items: [
-							{
-								text: 'Banks',
-								iconCls:'banks-icon',
-								handler : function(){
-										var bloneyAccountWin = (Ext.getCmp('wndbloneyaccount') != null) ? Ext.getCmp('wndbloneycontact') : new BloneyAccount.MainWnd(toolbarconfig);
-										Ext.getCmp('accounts_tabs').setActiveTab('banks_form');
-										bloneyAccountWin.show();
 									}
-							},{
-								text: 'Accounts',
-								handler : function(){
-										var bloneyAccountWin = (Ext.getCmp('wndbloneyaccount') != null) ? Ext.getCmp('wndbloneycontact') : new BloneyAccount.MainWnd(toolbarconfig);
-										Ext.getCmp('accounts_tabs').setActiveTab('accounts_form');
-										bloneyAccountWin.show();
-									}
-							}]
-			}
 		});
 		this.addSpacer();
+		this.addSeparator();
 		this.add({
 					xtype:'splitbutton',
 					iconCls:'reports-icon',
@@ -8297,6 +7862,7 @@ Ext.extend(BloneyToolbar, Ext.Toolbar,{
 			}
 		});	
 		this.addSpacer();
+		this.addSeparator();
 		this.add({
 					xtype:'splitbutton',
 					iconCls:'document-icon',
@@ -8339,7 +7905,8 @@ Ext.extend(BloneyToolbar, Ext.Toolbar,{
 */
 		});
 		
-this.addSpacer();
+		this.addSpacer();
+		this.addSeparator();
 		this.add({
 					xtype:'splitbutton',
 					iconCls:'advisor-icon',
