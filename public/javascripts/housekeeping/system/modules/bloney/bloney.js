@@ -316,82 +316,32 @@ CashflowPanel = function(config){
 	
 	
 	
-	this.combotoaccount = new Ext.form.ComboBox({
+	this.combotoaccount = new Ext.ux.Andrie.Select({
 								store: this.myaccountslist,
 								displayField: 'account_alias',
 								valueField: 'accountId',
 								hiddenName: 'accountId',
-								typeAhead: true,
+								//typeAhead: true,
 								//fieldLabel: 'To account',
 								id:'mainaccount',
 								//width : config.width*0.21,
 								//labelWidth : config.width*0.07,
 								autoWidth : true,
+								multiSelect:true,
 								mode: 'local',
 								triggerAction: 'all',
 								emptyText:'Account...',
-								selectOnFocus:true,
-								allowBlank:true
-						});		
+								//selectOnFocus:true,
+								//allowBlank:true
+						});	
+							
 	var grid = new BloneyCashrecords.Grid(this,{
 		width : (1.0 - (leftpanel+rightpanel))*config.viewwidth,
 		region : 'center',
 		tbar: [{
 				text:'<b>Cashrecords</b> for account :  ',
 				iconCls:'accounts-icon'
-			},this.combotoaccount,
-			'->',{
-				text:'Previous Month',
-				iconCls : 'cashrecord-prev-icon',
-				handler: function() {
-					Ext.getCmp('cashrecordsgrid').start_date.setMonth(Ext.getCmp('cashrecordsgrid').start_date.getMonth() - 1) ;
-					Ext.getCmp('cashrecordsgrid').loadRecords(Ext.getCmp('cashrecordsgrid').start_date,'ACTV');
-				}
-			},{
-				text:'Current Month',
-				iconCls : 'cashrecord-now-icon',
-				handler: function() {
-					var now = new Date();
-					Ext.getCmp('cashrecordsgrid').loadRecords(now,'ACTV');
-				}
-			},{
-				text:'Next Month',
-				iconCls : 'cashrecord-next-icon',
-				handler: function() {
-					Ext.getCmp('cashrecordsgrid').start_date.setMonth(Ext.getCmp('cashrecordsgrid').start_date.getMonth() + 1) ;
-					Ext.getCmp('cashrecordsgrid').loadRecords(Ext.getCmp('cashrecordsgrid').start_date,'ACTV');
-				}
-			},'-',{
-				    text: 'Pay Money',
-					iconCls : 'cashrecord-minus-icon',
-				    tooltip: {text:'Account Payable, Expences and etc. ', title:'Pay Money', autoHide:true},
-				    cls: 'x-btn-text-icon blist',
-					width:100,
-					handler: function () {
-									Ext.getCmp('cashrecords').addCashrecord("debit")
-								}
-				},{
-				    text: 'Receive Money',
-					iconCls : 'cashrecord-plus-icon',
-				    tooltip: {text:'Account receivable and etc.', title:'Receive Money', autoHide:true},
-				    cls: 'x-btn-text-icon blist',
-					width:100,
-					handler: function () {
-									Ext.getCmp('cashrecords').addCashrecord("credit")
-								}
-			},'-',{
-				iconCls : 'export-icon',
-				text:'Start of Month Amount',
-				handler : function(){
-					Ext.getCmp('cashrecordsgrid').getSelectionModel().selectFirstRow();
-				}
-			},new Ext.form.TextField({
-				id: 'smtotalmnthamount',
-				width:150,
-				
-				disabled :true,
-				disabledClass : 'align-right',
-				emptyText:'0.00'})],
+			}],
 		bbar: [/*
 {
 		            cls: 'x-btn-text-icon bmenu', // icon and text class
@@ -403,25 +353,12 @@ CashflowPanel = function(config){
 			{
 				text:'Filter <b>Cashrecords</b> by ',
 				iconCls : 'cashrecord-refresh-icon'
-			},
-			'-',this.combo, '->',
-			{
-				iconCls : 'import-icon',
-				text:'End of Month Amount',
-				handler : function(){
-					Ext.getCmp('cashrecordsgrid').getSelectionModel().selectLastRow();
-				}
-			},
-			new Ext.form.TextField({
-				id: 'emtotalmnthamount',
-				width:150,
-				
-				disabled :true,
-				disabledClass : 'align-right',
-				emptyText:'0.00'})			
+			}			
 		]
 	});
-
+	
+	
+	
 	this.combo.on('select', function c(record, index) {
           //Ext.example.msg('Cashrecord filter', 'Selected filter "{0}" for cashrecords.',index.data.state);
 		  Ext.getCmp('cashrecordsgrid').loadRecords(Ext.getCmp('cashrecordsgrid').start_date, index.data.state);
@@ -584,6 +521,77 @@ Ext.extend(CashflowPanel, Ext.Panel,{
 				Ext.getCmp('cashrecordsgrid').mainaccountId = this.getAt(0).data.accountId;
 			}
 		});
+		
+		Ext.getCmp('cashrecordsgrid').getTopToolbar().add(Ext.getCmp('cashrecords').combotoaccount,
+			'->',{
+				    text: 'Pay Money',
+					iconCls : 'cashrecord-minus-icon',
+				    tooltip: {text:'Account Payable, Expences and etc. ', title:'Pay Money', autoHide:true},
+				    cls: 'x-btn-text-icon blist',
+					width:100,
+					handler: function () {
+									Ext.getCmp('cashrecords').addCashrecord("debit")
+								}
+				},{
+				    text: 'Receive Money',
+					iconCls : 'cashrecord-plus-icon',
+				    tooltip: {text:'Account receivable and etc.', title:'Receive Money', autoHide:true},
+				    cls: 'x-btn-text-icon blist',
+					width:100,
+					handler: function () {
+									Ext.getCmp('cashrecords').addCashrecord("credit")
+								}
+			},'-',{
+				iconCls : 'export-icon',
+				text:'Start of Month Amount',
+				handler : function(){
+					Ext.getCmp('cashrecordsgrid').getSelectionModel().selectFirstRow();
+				}
+			},new Ext.form.TextField({
+				id: 'smtotalmnthamount',
+				width:150,
+				
+				disabled :true,
+				disabledClass : 'align-right',
+				emptyText:'0.00'}));
+		
+		Ext.getCmp('cashrecordsgrid').getBottomToolbar().add(Ext.getCmp('cashrecords').combo,
+			'-', '->',{
+				text:'Previous Month',
+				iconCls : 'cashrecord-prev-icon',
+				handler: function() {
+					Ext.getCmp('cashrecordsgrid').start_date.setMonth(Ext.getCmp('cashrecordsgrid').start_date.getMonth() - 1) ;
+					Ext.getCmp('cashrecordsgrid').loadRecords(Ext.getCmp('cashrecordsgrid').start_date,'ACTV');
+				}
+			},{
+				text:'Current Month',
+				iconCls : 'cashrecord-now-icon',
+				handler: function() {
+					var now = new Date();
+					Ext.getCmp('cashrecordsgrid').loadRecords(now,'ACTV');
+				}
+			},{
+				text:'Next Month',
+				iconCls : 'cashrecord-next-icon',
+				handler: function() {
+					Ext.getCmp('cashrecordsgrid').start_date.setMonth(Ext.getCmp('cashrecordsgrid').start_date.getMonth() + 1) ;
+					Ext.getCmp('cashrecordsgrid').loadRecords(Ext.getCmp('cashrecordsgrid').start_date,'ACTV');
+				}
+			},'-',
+			{
+				iconCls : 'import-icon',
+				text:'End of Month Amount',
+				handler : function(){
+					Ext.getCmp('cashrecordsgrid').getSelectionModel().selectLastRow();
+				}
+			},
+			new Ext.form.TextField({
+				id: 'emtotalmnthamount',
+				width:150,
+				
+				disabled :true,
+				disabledClass : 'align-right',
+				emptyText:'0.00'})); 
 		Ext.getCmp('cashrecordsgrid').loadRecords();
 		tab.doLayout();
 	},
@@ -815,7 +823,7 @@ QoDesk.Bloney = Ext.extend(Ext.app.Module, {
 				maximizable : true,
 				collapsible : true,
 				width:  app.desktop.getWinWidth()*0.85,
-				height: app.desktop.getWinHeight()*0.85,
+				height: app.desktop.getWinHeight()*0.70,
 				minWidth: 300,
 				minHeight: 200,
 				border : true,

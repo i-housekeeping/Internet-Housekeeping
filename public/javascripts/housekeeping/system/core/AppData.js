@@ -128,7 +128,7 @@ tx.data.Note = Ext.data.Record.create([
     {name: 'title', type:'string'},
     {name: 'note', type:'string'},
     {name: 'note_type', type:'string'},
-    {name: 'last_update', type:'date', dateFormat: "m-d-Y H:i:s"}
+    {name: 'last_update', type:'date', dateFormat: "d-m-Y H:i:s"}
 ]);
 
 // Define the Collaborate data type - stored in Collaborate
@@ -199,25 +199,10 @@ tx.data.Account = Ext.data.Record.create([
     {name: 'account_type', type:'string'},
 	{name: 'currency', type:'string'},
 	{name: 'balance', type:'string'},
-	{name: 'balance_date', type:'date', dateFormat: "m-d-Y H:i:s"},
+	{name: 'balance_date', type:'date', dateFormat: "d-m-Y H:i:s"},
 	{name: 'credit_limit', type:'string'} 
 ]);
 
-// Define the Bank data type - stored in Bank
-tx.data.Bank = Ext.data.Record.create([
-	{name: 'bankId', type:'string'},
-    {name: 'name', type:'string'},
-    {name: 'branch', type:'string'},
-    {name: 'address', type:'string'},
-	{name: 'city', type:'string'},
-	{name: 'country', type:'string'},
-	{name: 'phone', type:'string'},
-	{name: 'fax', type:'string'},
-	{name: 'email', type:'string'},
-	{name: 'url', type:'string'},
-	{name: 'conn_person', type:'string'},
-	{name: 'businessdate', type:'date', dateFormat: "m-d-Y H:i:s"}
-]);
 
 /*
  * ****************************************** STAGE 2 *****************************************************
@@ -854,13 +839,7 @@ tx.data.accounts = new tx.data.HomeAgentStore({
 	sort_field : 'account_type'
 });
 
-tx.data.banks = new tx.data.HomeAgentStore({
-	conn : tx.data.banks_con,
-	host_id : 'id',
-	host_root : 'Banks',
-	record_fields : tx.data.Banks,
-	sort_field : 'name'
-});
+
 
 
 tx.data.getDefaultReminder = function(task){

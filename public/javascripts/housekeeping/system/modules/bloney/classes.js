@@ -3257,7 +3257,8 @@ BloneyContact.ContactsGrid = function(config){
         displayInfo: true,
         displayMsg: 'Displaying contacts {0} - {1} of {2}',
         emptyMsg: "No topics to display",
-		items : ['-',
+		/*
+items : ['-',
 				'Filter by -> ',
 				{
 					xtype : 'combo',
@@ -3272,7 +3273,8 @@ BloneyContact.ContactsGrid = function(config){
 					triggerAction: 'all',
 					selectOnFocus:true,
 					allowBlank:false
-				}]       
+				}]  
+*/     
     });
 	
 	BloneyContact.ContactsGrid.superclass.constructor.call(this, {
@@ -3302,7 +3304,7 @@ Ext.extend(BloneyContact.ContactsGrid,Ext.grid.GridPanel,{
 									  {id:'contact_id', value:record.data.contactId},
 								      {id:'authenticity_token', value:record.data.authenticity_token},
         							  {id:'s_contact_name', value:record.data.contact_name},
-        							  {id:'abbrId', value:record.data.contact_type},
+        							  {id:'s_contact_type', value:record.data.contact_type},
 									  {id:'s_address', value:record.data.address},
 									  {id:'s_city', value:record.data.city},
 									  {id:'s_country', value:record.data.country},
@@ -3431,8 +3433,6 @@ BloneyContact.CollaborateWnd = function(config){
 		}
 	});
 	
-	
-	
 	this.expertssharelist = new Ext.data.GroupingStore({
             proxy: new Ext.ux.CssProxy({ url: tx.data.contacts_con.url }),
             reader: new Ext.data.JsonReader({
@@ -3449,7 +3449,6 @@ BloneyContact.CollaborateWnd = function(config){
 			contact_type:'EXPERT'
 		}
 	});
-
 	
 	this.comboExpertssharelist = new Ext.form.ComboBox({
 							fieldLabel:"Experts list",
@@ -3474,10 +3473,10 @@ BloneyContact.CollaborateWnd = function(config){
 							store: new Ext.data.SimpleStore({
 											fields: ['contact_type', 'contact_typedesc'],
 											data : [['ALL','All Contacts'],
-													['INDIVIDUAL','My Contacts'],
-													['VENDOR','Vendor'],
-													['COMPANY','Company'],
-													['EXPERT','Expert']]
+													['CONTACT','Contacts'],
+													['DEBTOR','Debtors'],
+													['CREDITOR','Moneylender'],
+													['EXPERT','Experts']]
 									}),
 							displayField:'contact_typedesc',
 							valueField: 'contact_type',
@@ -3702,7 +3701,7 @@ BloneyContact.CollaborateWnd = function(config){
 					id:'adoptcontactsfrm_id'
 				},{
 					xtype:"combo",
-					fieldLabel:"Comapnies list",
+					fieldLabel:"Contacts list",
 					width : 200,
 					store: this.comapniessharelist,
 					displayField:'contact_name',
@@ -3858,6 +3857,14 @@ BloneyContact.MainWnd = function(config){
 	this.contactAccounts = new AccountsPanel({id:'acc_owner',
 											  width: config.width*0.275});
 	
+	this.contactTypes = new Ext.data.SimpleStore({
+								fields: ['contacttype', 'contacttype_name'],
+								data : [['CONTACT','Contacts'],
+										['DEBTOR','Debtors'],
+										['CREDITOR','Moneylender'],
+										['EXPERT','Experts']]
+						});
+	
 	this.contactsform = new Ext.FormPanel({
 			labelWidth: config.width*0.1, // label settings here cascade unless overridden
 			frame:true,
@@ -3885,16 +3892,10 @@ BloneyContact.MainWnd = function(config){
 						xtype:"combo",
 						fieldLabel:"Type",
 						width : config.width*0.185,
-						store: new Ext.data.SimpleStore({
-								fields: ['abbr', 'state'],
-								data : [['INDIVIDUAL','Contacts'],
-										['VENDOR','Customers '],
-										['COMPANY','Suppliers'],
-										['EXPERT','Experts']]
-						}),
-						displayField:'state',
-						valueField: 'abbr',
-						hiddenName: 'abbrId',
+						store: this.contactTypes,
+						displayField:'contacttype_name',
+						valueField: 'contacttype',
+						hiddenName: 'contacttype_name',
 						typeAhead: true,
 						id:'s_contact_type',
 						mode: 'local',
@@ -3965,38 +3966,40 @@ BloneyContact.MainWnd = function(config){
 									vtype:'url'
 								}
 						]
-				},{
+				}/*
+,{
 						xtype:'fieldset',
 						title: 'Contact Accounts',
 						autoHeight:true,
 						collapsible: true,
 						items :this.contactAccounts
 				}
+*/
 			]		
 		});
 	//this.on('',this.contactsform.onXXX, this.contactsform);
-		
-	this.myComapnies = new BloneyContact.ContactsGrid({
-						id: 'my_contacts',
-						title: 'My Contacts',
-						listeners: {activate: this.handleActivate}
-	});
-	this.myComapnies.on('rowclick', this.myComapnies.onRowClick, this.myComapnies);
-	
-	
-	this.vendors = new BloneyContact.ContactsGrid({
-						id: 'vendors',
-						title: 'Vendors',
-						listeners: {activate: this.handleActivate}
-	});
-	this.vendors.on('rowclick', this.vendors.onRowClick, this.vendors);
 	
 	this.contacts = new BloneyContact.ContactsGrid({
 						id: 'contacts',
-						title: 'Companies',
+						title: 'Contacts',
 						listeners: {activate: this.handleActivate}
 	});
 	this.contacts.on('rowclick', this.contacts.onRowClick, this.contacts);
+	
+	
+	this.debtors = new BloneyContact.ContactsGrid({
+						id: 'debtors',
+						title: 'Debtors',
+						listeners: {activate: this.handleActivate}
+	});
+	this.debtors.on('rowclick', this.debtors.onRowClick, this.debtors);
+	
+	this.moneylender = new BloneyContact.ContactsGrid({
+						id: 'moneylender',
+						title: 'Moneylender',
+						listeners: {activate: this.handleActivate}
+	});
+	this.moneylender.on('rowclick', this.moneylender.onRowClick, this.moneylender);
 
 	this.experts = new BloneyContact.ContactsGrid({
 						id: 'experts',
@@ -4007,7 +4010,7 @@ BloneyContact.MainWnd = function(config){
 	
 	this.contactsearch = new BloneyContact.ContactsGrid({
 						id: 'contactsearch',
-						height : config.height*0.55,
+						height : config.height*0.5,
 						title: 'Search results',
 						listeners: {activate: this.handleActivate}
 	});
@@ -4017,15 +4020,15 @@ BloneyContact.MainWnd = function(config){
 		frame:true,
 		id : 'contactsearch_form',
 		title: 'Search & Filter',
-		labelWidth : config.width*0.07,
-		width: config.width*0.60,
+		labelWidth : config.width*0.1,
+		width: config.width*0.58,
 		listeners: {activate: this.handleActivate},
 		items:[
 				{
 					xtype:'fieldset',
 					title: 'Contacts Search',
 					autoHeight:true,
-					width : config.width*0.67,
+					width : config.width*0.65,
 					collapsible: true,
 					items :[
 							{
@@ -4035,25 +4038,19 @@ BloneyContact.MainWnd = function(config){
 									{
 										columnWidth: 0.5,
 										layout: 'form',
-										 defaults : {width : config.width*0.22},
-										labelWidth : config.width*0.07,
+										defaults : {width : config.width*0.18},
+										labelWidth : config.width*0.1,
 										items:[
 												{
 													xtype:"textfield",
-													fieldLabel:"By Name",
+													fieldLabel:"By contact",
 													name:"s_contactname",
 													id : 's_contactname',
 													allowBlank:true
 												},{
 													xtype:"combo",
-													fieldLabel:"By Type",
-													store: new Ext.data.SimpleStore({
-															fields: ['contacttype', 'contacttype_name'],
-															data : [['INDIVIDUAL','My Contacts'],
-																	['VENDOR','Vendor'],
-																	['COMPANY','Company'],
-																	['EXPERT','Expert']]
-													}),
+													fieldLabel:"By type",
+													store: this.contactTypes,
 													displayField:'contacttype_name',
 													valueField: 'contacttype',
 													hiddenName: 'contacttype_name',
@@ -4068,19 +4065,19 @@ BloneyContact.MainWnd = function(config){
 									},{
 										columnWidth: 0.5,
 										layout: 'form',
-										defaults : {width : config.width*0.22},
-										labelWidth : config.width*0.07,
+										defaults : {width : config.width*0.18},
+										labelWidth : config.width*0.1,
 										items:[
 												{
 													xtype:"textfield",
-													fieldLabel:"By City",
+													fieldLabel:"By city",
 													name:"s_city",
 													id : 's_contactcity',
 													allowBlank:true
 												},{
 													xtype : "checkbox",
 													id : 'show_archive',
-													fieldLabel : "Show archived contacts",
+													fieldLabel : "Show archived",
 													name : "show_archive"
 												}
 										]
@@ -4116,7 +4113,7 @@ BloneyContact.MainWnd = function(config){
 	});
 
 	this.sendEmail = new Ext.FormPanel({
-		//url: '/desktop/sendmail',
+		url: '/desktop/sendmail',
 		title: 'Send Email',
 		labelWidth: config.width*0.15,
 		id : 'sendemail',
@@ -4186,10 +4183,10 @@ BloneyContact.MainWnd = function(config){
 				id: 'contact_tabs',
 				tabPosition : 'bottom',
 				items:[
-					this.myComapnies,
-					//this.vendors,
-					//this.contacts,
-					//this.experts,
+					this.contacts,
+					this.debtors,
+					this.moneylender,
+					this.experts,
 					this.search,
 					this.sendEmail
 				],
@@ -4487,13 +4484,13 @@ Ext.extend(BloneyContact.MainWnd, Ext.Window,{
 	handleActivate : function(tab){
 
 		if(tab.id == 'contacts')
-			Ext.getCmp('contacts').loadRecords('COMPANY');
+			Ext.getCmp('contacts').loadRecords('CONTACT');
 
-		if(tab.id == 'vendors')
-			Ext.getCmp('vendors').loadRecords('VENDOR');
+		if(tab.id == 'debtors')
+			Ext.getCmp('debtors').loadRecords('DEBTOR');
 
-		if(tab.id == 'my_contacts')
-			Ext.getCmp('my_contacts').loadRecords('INDIVIDUAL');
+		if(tab.id == 'moneylender')
+			Ext.getCmp('moneylender').loadRecords('CREDITOR');
 		
 		if(tab.id == 'experts')
 		{
@@ -4531,7 +4528,7 @@ BloneyAccount.AccountsList = function(config){
 					{name: 'accountId', mapping: 'accountId'},
 					{name: 'contactId', mapping: 'contactId'},
 					{name: 'currency', mapping: 'currency'},
-					{name: 'balance_date', mapping: 'balance_date', type:'date', dateFormat: "m-d-Y H:i:s"}    ]
+					{name: 'balance_date', mapping: 'balance_date', type:'date', dateFormat: "Y-m-d"}    ]
         });
 	
 	this.store = new Ext.data.GroupingStore({
@@ -4966,7 +4963,7 @@ BloneyAccount.MainWnd = function(config){
 		title: 'Account Utilization',
 		layout:'fit',
 	    width : config.width*0.60,
-	    height:config.height*0.4,
+	    height:config.height*0.37,
 	    visualizationPkg: "areachart",         
 	    visualizationCfg: {legend: "bottom"},  
 	    store: population_store,
@@ -5056,7 +5053,7 @@ BloneyAccount.MainWnd = function(config){
 		name: 'accountbalancedate',
 		id : 'accountbalancedate',
 		allowBlank:false,
-		format: 'Y/m/d'
+		format : "Y-m-d"
 	});
 	
 	this.accountsform = new Ext.FormPanel({
@@ -5072,21 +5069,37 @@ BloneyAccount.MainWnd = function(config){
 					id:'authenticity_token'
 				},
 				{
-					fieldLabel: 'Account Name',
-					xtype:"textfield",
-					name: 'accountalias',
-					id:'accountalias',
-					allowBlank:false,
-					width : config.width*0.25,
-					labelWidth : config.width*0.13
-				},{
-					fieldLabel: 'Account Number',
-					xtype:"textfield",
-					name: 'accountnumber',
-					id:'accountnumber',
-					allowBlank:false,
-					width : config.width*0.25,
-					labelWidth : config.width*0.13
+					layout : 'column',
+					border : false,
+					items : [
+							{
+								columnWidth:.5,
+			                	layout: 'form',
+			                	border:false,								
+			                	items: [{
+									fieldLabel: 'Account Name',
+									xtype:"textfield",
+									name: 'accountalias',
+									id:'accountalias',
+									allowBlank:false,
+									width : config.width*0.19,
+									labelWidth : config.width*0.13
+								}]
+							},{
+								columnWidth:.5,
+			                	layout: 'form',
+			                	border:false,								
+			                	items: [{
+									fieldLabel: 'Account Number',
+									xtype:"textfield",
+									name: 'accountnumber',
+									id:'accountnumber',
+									allowBlank:false,
+									width : config.width*0.19,
+									labelWidth : config.width*0.13
+								}]
+							}
+					]
 				},
 				{
 					xtype:'fieldset',
@@ -5205,11 +5218,11 @@ BloneyAccount.MainWnd = function(config){
                 frame : true,
                 collapseFirst:false,
                 loader : new Ext.tree.XDomainTreeLoader({	dataUrl:tx.data.accounts_con.url, 
-													preloadChildren: true,
-													clearOnLoad: false,
-													baseParams : {format : 'js', 
-																  virtual : true,
-																  virtual_account : ""}
+															preloadChildren: true,
+															clearOnLoad: false,
+															baseParams : {format : 'js', 
+																		  virtual : true,
+																		  virtual_account : ""}
 													}),
                 enableDD:true,
                 containerScroll: true,
@@ -5261,10 +5274,10 @@ BloneyAccount.MainWnd = function(config){
             reader: new Ext.data.JsonReader({
 	            root: 'Banks',
 	            fields: [
-						{name: 'account_no', mapping: 'account_no'}]
+						{name: 'account_alias', mapping: 'account_alias'}]
 	        }),
 			remoteSort: false,
-            sortInfo:{field: 'account_no', direction: "ASC"}
+            sortInfo:{field: 'account_alias', direction: "ASC"}
         });
 
 	this.vaccounts_store.load({
@@ -5276,11 +5289,11 @@ BloneyAccount.MainWnd = function(config){
 	
 	this.comboVAccountslist = new Ext.form.ComboBox({
 							store: this.vaccounts_store,
-							displayField:'account_no',
-							valueField: 'account_no',
-							hiddenName: 'account_no',
+							displayField:'account_alias',
+							valueField: 'account_alias',
+							hiddenName: 'account_alias',
 							typeAhead: true,
-							fieldLabel: 'Account No',
+							fieldLabel: 'Account Name',
 							width : config.width*0.21,
 							labelWidth : config.width*0.07,
 							id:'cs_vaccounts',
@@ -5310,7 +5323,7 @@ BloneyAccount.MainWnd = function(config){
 					xtype:'fieldset',
 					title: 'Create Group Account',
 					autoHeight:true,
-					width : config.width*0.62,
+					width : config.width*0.60,
 					//labelWidth : config.width*0.07,
 					collapsible: true,
 					items :[
@@ -5321,7 +5334,7 @@ BloneyAccount.MainWnd = function(config){
 									{
 										columnWidth: 0.5,
 										layout: 'form',
-										defaults : {width : config.width*0.29},
+										defaults : {width : config.width*0.28},
 										labelWidth : config.width*0.025, 
 										items:[
 											this.accountstree	
@@ -5329,7 +5342,7 @@ BloneyAccount.MainWnd = function(config){
 									},{
 										columnWidth: 0.5,
 										layout: 'form',
-										defaults : {width : config.width*0.29},
+										defaults : {width : config.width*0.28},
 								        labelWidth : config.width*0.025,
 										items:[
 											this.vaccountstree	
@@ -5558,66 +5571,6 @@ BloneyAccount.MainWnd = function(config){
 	
 	this.accountstories = new BloneyAccount.Stories();
 		
-	this.sendEmail = new Ext.FormPanel({
-		title: 'Send Email',
-		labelWidth: config.width*0.15,
-		id : 'acc_sendemail',
-		frame:true,
-		defaultType: 'textfield',
-		split: true,
-		defaults : {width : config.width*0.40},
-		listeners: {activate: this.handleActivate},
-            	items: [{
-				fieldLabel: 'To ',
-				name: 'to_contact',
-				id : 'to_acccontact',
-				allowBlank:false,
-				vtype:'email'
-			},{
-				fieldLabel: 'Subject',
-				name: 'subject',
-				id : 'to_accsubject',
-				allowBlank:false
-			},{
-					fieldLabel: 'Text',
-                    xtype:'htmleditor',
-					height : config.height*0.40,
-                    id:'acc_email_editor',
-					allowBlank:false
-                } 
-
-			],
-		buttons: [{
-			text: 'Send',
-			iconCls:'email-contacts-icon',
-			handler : function() {
-				Ext.getCmp('sendemail').getForm().submit({
-									waitMsg:'Please Wait...',
-									reset:true,
-									method:'GET',
-									success:function(f,a){
-											if(a && a.result){
-												 this.publish( '/desktop/notify',{
-											            title: 'Bloney Contacts',
-											            iconCls: 'bloney-icon',
-											            html: a.result.notice	
-											        });											
-										}
-									},
-									failure : function(f,a){				
-										if(a && (a.result || a.response)){
-											var notice = (a.result)? a.result.notice : a.response.statusText;
-											this.publish( '/desktop/notify',{
-											            title: 'Bloney Contacts',
-											            iconCls: 'bloney-icon',
-											            html: notice	
-											        });	
-										}
-									}
-								});	
-			}
-		}]
-	});
 	
 	this.tabs = new Ext.TabPanel({
         region: 'center',
@@ -5629,8 +5582,7 @@ BloneyAccount.MainWnd = function(config){
         items:[	this.accountsform,
 				this.virtualaccount ,
 				this.accountstories,
-				this.search,
-				this.sendEmail
+				this.search
 			],
 		tbar: [{
 					text : 'New Account',
@@ -5647,7 +5599,7 @@ BloneyAccount.MainWnd = function(config){
 									currency : Ext.getCmp('accountcurrency').getValue(),
 									balance : Ext.getCmp('accountbalance').getValue(),
 									credit_limit : Ext.getCmp('accountcrlimit').getValue(),
-									balance_date : Ext.getCmp('accountbalancedate').getValue(),
+									balance_date : Ext.getCmp('accountbalancedate').getValue().format("Y-m-d"),
 									financialId : Ext.getCmp('cs_bank_name').getValue(),
 									financialName : Ext.getCmp('s_bankname').getValue(),
 									financialType : Ext.getCmp('financialtype').getValue(),
@@ -5691,10 +5643,8 @@ BloneyAccount.MainWnd = function(config){
 						{
 							var current_url;
 							var parameters = {};
-							
-							
-								current_url = tx.data.accounts_con.update_remote_url;
-								parameters = {
+							current_url = tx.data.accounts_con.update_remote_url;
+							parameters = {
 									format: 'js',
 									account: Ext.util.JSON.encode({
 											accountId:  Ext.getCmp('account_id').getValue(),
@@ -5705,8 +5655,10 @@ BloneyAccount.MainWnd = function(config){
 											currency : Ext.getCmp('accountcurrency').getValue(),
 											balance : Ext.getCmp('accountbalance').getValue(),
 											credit_limit : Ext.getCmp('accountcrlimit').getValue(),
-											balance_date : Ext.getCmp('accountbalancedate').getValue(),
-											bankId : Ext.getCmp('cs_bank_name').getValue(),
+											balance_date : Ext.getCmp('accountbalancedate').getValue().format("Y-m-d"),
+											financialId : Ext.getCmp('cs_bank_name').getValue(),
+											financialName : Ext.getCmp('s_bankname').getValue(),
+											financialType : Ext.getCmp('financialtype').getValue(),
 											contact_id : Ext.getCmp('cs_contact_name').getValue()
 									})
 								};
@@ -5777,7 +5729,6 @@ BloneyAccount.MainWnd = function(config){
 					text: 'Clean Form',
 					iconCls:'clean-contacts-icon',
 					handler: function(){
-						
 							Ext.getCmp('accounts_form').form.setValues( [
         							  {id:'accountnumber', value:''},
 									  {id:'accountalias', value:''},

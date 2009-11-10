@@ -532,3 +532,7 @@ input.l-tcb {height:13px; width:13px; margin-left:2px }
 .x-form-field-wrap .trigger-tag {background-image: url(../img/trigger-tag.png); cursor:pointer}
 .x-form-field-wrap .x-trigger-disabled {cursor:default; opacity:0.5; background-position:0 0}
 .x-form-field-wrap .trigger-tree {background-image: url(../img/trigger-tree.png); cursor:pointer}
+.x-combo-list .x-combo-list-cursor{ border: 1px dotted #000000 !important}
+.x-combo-list-item{ cursor:pointer}
+.x-combo-list .x-combo-selected + .x-combo-selected{ border-top-color:#DFE8F6 !important}
+.x-combo-list .x-combo-selected + .x-combo-selected.x-combo-list-cursor{ border-top-color:#000000 !important}

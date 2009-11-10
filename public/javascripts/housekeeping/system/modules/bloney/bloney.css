@@ -1590,3 +1590,18 @@ border-color:#FFFFFF;
 
 /*  Icon Classes end */
 
+.x-combo-list .x-combo-list-cursor{
+	border: 1px dotted #000000 !important;
+}
+
+.x-combo-list-item{
+	cursor:pointer;
+}
+
+.x-combo-list .x-combo-selected + .x-combo-selected{
+	border-top-color:#DFE8F6 !important;
+}
+
+.x-combo-list .x-combo-selected + .x-combo-selected.x-combo-list-cursor{
+	border-top-color:#000000 !important;
+}
