@@ -7579,7 +7579,8 @@ Ext.ux.GVisualizationPanel = Ext.extend(Ext.Panel, {
         'barchart': 'BarChart',
         'scatterchart': 'ScatterChart',
 		'imageareachart': 'ImageAreaChart',
-		'areachart': 'AreaChart'    
+		'areachart': 'AreaChart',
+		'annotatedtimeline': 'AnnotatedTimeLine'    
     },
     
     /**

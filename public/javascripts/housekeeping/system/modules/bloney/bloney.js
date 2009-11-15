@@ -5,15 +5,27 @@ DashboardPanel = function(config){
 	//var rightpanel = 0.17;
 	
 
-	this.tools = [{
+	this.tools = [/*
+{
 		id:'gear',
 		handler: function(){
 		    	Ext.Msg.alert('Message', 'The Settings tool was clicked.');
 			}
-	    },{
+	    },
+*/{
 		id:'close',
 		handler: function(e, target, panel){
-		    panel.ownerCt.remove(panel, true);
+		    if(panel.id == 'accounts_summary')
+			{	Ext.getCmp('accounts_summary').hide();}
+			
+			if(panel.id == 'current_balance')
+			{	Ext.getCmp('current_balance').hide();}
+			
+			if(panel.id == 'vpanel')
+			{	Ext.getCmp('vpanel').hide();}
+			
+			if(panel.id == 'cashrecords_summary')
+			{	Ext.getCmp('cashrecords_summary').hide();}
 		}
     	}];
 
@@ -59,23 +71,23 @@ DashboardPanel = function(config){
 	 
 	 
 	  
-	 this.cash_store = new Ext.data.GroupingStore({
+	 this.cash_store = new Ext.data.Store({
             proxy: new Ext.ux.CssProxy({ url: tx.data.cashrecords_con.url }),
             reader: new Ext.data.JsonReader({
-            root: 'Cashrecords',
-            fields: [
-						{name: 'date', mapping : 'date' , type:'date', dateFormat: "Y-m-d"},
-					    {name: 'debit', type:'float'},
-					    {name: 'credit', type:'float'},
-						{name: 'details', type: 'string'}
-					]
-        		}),
-            sortInfo:{field: 'date', direction: "ASC"}
+	            root: 'Cashrecords',
+	            fields: [
+							 {name: 'date', type: 'date', dateFormat: "Y-m-d"},
+		                     {name: 'debit_amount', type: 'float'},
+		                     {name: 'credit_amount', type: 'float'},
+							 {name: 'details', type: 'string'}
+						]
+        	})
         });
 
 		this.cash_store.load({
 			params: {
-				format: 'jsonc'
+				format: 'jsonc',
+				return_type : 'graph'
 			},
             callback: function()
             {
@@ -87,12 +99,12 @@ DashboardPanel = function(config){
 								    id: 'timeline',
 									visualizationPkg: {'annotatedtimeline': 'AnnotatedTimeLine'},
 									visualizationCfg: {
-										//allowHtml: true,
-										//displayAnnotations: true,
-										//displayExactValues: true,
-										height: 200,
-									    width: 500//,
-										//wmode: 'transparent'
+									allowHtml: true,
+									displayAnnotations: true,
+									displayExactValues: true,
+									height: 200,
+									width: 500,
+									wmode: 'transparent'
 									},
 									//title: 'Greatest DJIA Daily Point Gains',
 									store: this.cash_store,
@@ -104,15 +116,16 @@ DashboardPanel = function(config){
 											label: 'Date'
 										},
 										{
-											dataIndex: 'debit',
+											dataIndex: 'debit_amount',
 											label: 'Debit'
 										},
 										{
-											dataIndex: 'credit',
+											dataIndex: 'credit_amount',
 											label: 'Credit'
-										},										
+										},
 										{
-											dataIndex: 'details'
+											dataIndex: 'details',
+											label: 'Details'
 										}
 									]
 
@@ -136,20 +149,22 @@ DashboardPanel = function(config){
 			  id:'dashboard_main',
 			  items:[{
 					columnWidth: 0.45,
+					id : 'accounts_column',
 					style:'padding:5px 5px 5px 5px',
 					items:[{
 							title: 'Accounts summary',
+							id : 'accounts_summary',
 							layout:'fit',
 							iconCls:'accounts-icon',
 							tools: this.tools,
 							items : [this.accountsSummary]
 						},{
-							title: 'Comapany Current Balance',
+							title: 'Budget Spread',
+							id : 'current_balance',
 							tools: this.tools,
 							layout:'fit',
 							autoScroll: true,            
-        					items : [this.chartPanel],
-							bbar : [new Ext.Button({id: 'soemthing', text : 'test'})]
+        					items : [this.chartPanel]
 						}
 						
 					]
@@ -157,13 +172,14 @@ DashboardPanel = function(config){
 					columnWidth: 0.55,
 					style:'padding:5px 5px 5px 0px',
 					items:[{
-							title: 'Categories usage',
+							title: 'Cashrecords usage',
 							layout:'fit',
 							id : 'vpanel',
 							tools: this.tools,
 							items: [this.vpanel]
 						},{
-							title: 'Cashrecords summary',
+							title: 'Cashrecords today',
+							id : 'cashrecords_summary',
 							layout:'fit',
 							tools: this.tools,
 							iconCls:'cashrecord-icon',
@@ -174,38 +190,24 @@ DashboardPanel = function(config){
 			  ]
 			}
     });
-	
 };
 
 Ext.extend(DashboardPanel, Ext.Panel,{
 	
 	handleActivate : function(tab){			
-			//this.accountsSummary.loadRecords();
+			this.accountsSummary.loadRecords();
 			this.cashrecordsSummary.loadRecords();
-			//this.categoriesSummary.loadData("pie");
-			this.cash_store.load({
-			params: {
-				format: 'jsonc'
-			}
-			});	
-			//this.chartPanel.doLayout();
-	        //this.vpanel.doLayout();
 			
-			//if(Ext.getCmp('timeline') == null)
-			//	Ext.getCmp('vpanel').add(this.vpanel);
-			//else
-				//Ext.getCmp('timeline').onLoadCallback();
-
 			this.cash_store.load({
 				params: {
-					format: 'jsonc'
+					format: 'jsonc',
+					return_type : 'graph'
 				},
 	            callback: function()
 	            {
 	                    Ext.getCmp('timeline').onLoadCallback();
 	            }
-	
-			});	
+			});
 			
 			this.chart_store.load({
 				params: {
@@ -218,7 +220,72 @@ Ext.extend(DashboardPanel, Ext.Panel,{
 		        }
 			});
 			tab.doLayout();
-	}
+			
+			Ext.getCmp('dashboard_main').el.on('contextmenu', function(evt, div) {
+			  
+			   if(!this.menu){ // create context menu on first right click
+		            this.menu = new Ext.menu.Menu({
+		                id:'portal-ctx',
+		                items: [
+						// stick any markup in a menu
+			            '<b class="x-toolbar x-small-editor">Portal Context</b>',
+			            '-', {
+			                text: 'Restore All',
+							cls: 'search',
+			          		handler : function(){
+								
+								if(Ext.getCmp('accounts_summary').hidden)
+									Ext.getCmp('accounts_summary').show();
+								if(Ext.getCmp('current_balance').hidden)
+									Ext.getCmp('current_balance').show();
+								if(Ext.getCmp('vpanel').hidden)
+									Ext.getCmp('vpanel').show();
+								if(Ext.getCmp('cashrecords_summary').hidden)
+									Ext.getCmp('cashrecords_summary').show();
+							}
+			            }
+			        ]
+		            });
+		            this.menu.on('hide', this.onContextHide, this);
+		        }
+				
+				var mousepos = evt.getXY();
+				evt.stopEvent( mousepos.posx + ":" + mousepos.posy);		
+				this.menu.showAt(mousepos);
+			});
+			
+	},
+	
+    onContextClick : function(e){
+		if(!this.menu){ // create context menu on first right click
+	            this.menu = new Ext.menu.Menu({
+	                id:'portal-ctx',
+	                items: [
+					// stick any markup in a menu
+		            '<b class="x-toolbar x-small-editor">Portal Context</b>',
+		            '-', {
+		                text: 'Restore All Portlets',
+						cls: 'search',
+		          		handler : function(){
+							
+						}
+		            }
+		        ]
+	            });
+	            this.menu.on('hide', this.onContextHide, this);
+	        }
+	        e.stopEvent();
+
+	        this.menu.showAt(Ext.getCmp('dashboard_main').getPosition());
+
+    	},
+
+	onContextHide : function(){
+	        if(this.ctxRow){
+	            Ext.fly(this.ctxRow).removeClass('x-node-ctx');
+	            this.ctxRow = null;
+	        }
+    	}
 });
 
 
@@ -247,7 +314,7 @@ CashflowPanel = function(config){
 	this.combo = new Ext.form.ComboBox({
 		store: new Ext.data.SimpleStore({
 			fields: ['state', 'state_name'],
-			data : [['ACTV','Cashrecords in Active status'],
+			data : [['ACTV','Active'],
 					['ARCH','Archived'],
 					['BLNC','Balanced'],
 					['INVS','Investigation']]
@@ -366,8 +433,9 @@ CashflowPanel = function(config){
 	
 	this.combotoaccount.on('select', function c(record, index) {
           //Ext.example.msg('Cashrecord filter', 'Selected filter "{0}" for cashrecords.',index.data.state);
-		  Ext.getCmp('cashrecordsgrid').mainaccountId = index.data.accountId;
+		  Ext.getCmp('cashrecordsgrid').mainaccountId = Ext.getCmp('mainaccount').getValue();
 		  Ext.getCmp('cashrecordsgrid').loadRecords(Ext.getCmp('cashrecordsgrid').start_date, index.data.state);
+		  Ext.getCmp('mainaccount').collapse();
  	});
 	
 
@@ -503,7 +571,7 @@ CashflowPanel = function(config){
 
 	listSm.on('selectionchange', function(t, node){
 		//loadList();
-		Ext.getCmp('cashrecordsgrid').filterByCategory( node.leaf ? node.id : '');
+		Ext.getCmp('cashrecordsgrid').filterByCategory( node.id);
 	});
 	
 };
@@ -620,6 +688,29 @@ Ext.extend(CashflowPanel, Ext.Panel,{
 			Ext.getCmp('dr_value_date').setValue(now.format('Y-m-d'));
 			Ext.getCmp('cr_value_date').setValue(now.format('Y-m-d'));
 			Ext.getCmp('startdate').setValue(now.format('Y-m-d'));
+			
+			if (record_type == "debit") {
+				Ext.getCmp('wndcashrecords').receive = false;
+				Ext.getCmp('wndcashrecords').expected = false;
+				Ext.getCmp('wndcashrecords').split = false;
+			}else{
+				Ext.getCmp('wndcashrecords').receive = true;
+				Ext.getCmp('wndcashrecords').expected = false;
+				Ext.getCmp('wndcashrecords').split = false;
+			}
+			
+			Ext.getCmp('wndcashrecords').template_state();
+			/*
+if(record_type == "debit"){
+				Ext.getCmp('moneytofields').expand(false);
+				Ext.getCmp('wndcashrecords').receive = false;
+				Ext.getCmp('toaccount').setValue('');
+			}else{
+				Ext.getCmp('moneytofields').collapse(true);
+				Ext.getCmp('wndcashrecords').receive = true;
+				Ext.getCmp('fromaccount').setValue('');
+			}
+			
 			if((record_type.indexOf("direct")>= 0))
 			{
 				Ext.getCmp('splitfileds').expand(true);
@@ -635,6 +726,7 @@ Ext.extend(CashflowPanel, Ext.Panel,{
 										  {id:'totalamount', value:'0.00'}
 							]);
 			}
+*/
 	    	
 		}
 	}
@@ -853,7 +945,7 @@ QoDesk.Bloney = Ext.extend(Ext.app.Module, {
                 id: 'bloney-win',
                 layout:'border',
                 width:  app.desktop.getWinWidth()*0.95,
-                height: app.desktop.getWinHeight()*0.85,
+                height: app.desktop.getWinHeight()*0.86,
                 iconCls: 'bloney-icon',
                 bodyStyle:'color:#000',
                 plain: true,
