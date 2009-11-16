@@ -4,6 +4,10 @@ javascripts:
   - ext-base
   - ext-all-debug
   - ext-basex
+  - housekeeping/system/core/media/uxmediapak
+  - housekeeping/system/core/media/uxflashpak
+  - housekeeping/system/core/media/uxflexpak
+  - housekeeping/system/core/charts/uxfusionpak
   - housekeeping/system/core/gjsapi/gjsapi
   - housekeeping/lib/CSSProxy
 - desktop:
