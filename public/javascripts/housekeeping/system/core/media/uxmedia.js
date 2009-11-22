@@ -1,171 +1,83 @@
-/*
- * ux.Media.ChartPack 2.1.2
- * Copyright(c) 2008-2009, Active Group, Inc.
- * licensing@theactivegroup.com
- * 
- * http://licensing.theactivegroup.com
- */
 
-     
- Ext.namespace('Ext.ux.plugin');
- Ext.onReady(function(){
-    
-   
-    var CSS = Ext.util.CSS;
-    if(CSS){ 
-        CSS.getRule('.x-hide-nosize') || //already defined?
-            CSS.createStyleSheet('.x-hide-nosize{height:0px!important;width:0px!important;border:none!important;zoom:1;}.x-hide-nosize * {height:0px!important;width:0px!important;border:none!important;zoom:1;}');
-        CSS.refreshCache();
-    }
-    
-});
+/* global Ext
+ *
+ *
+ ************************************************************************************
+ *   This file is distributed on an AS IS BASIS WITHOUT ANY WARRANTY;
+ *   without even the implied warranty of MERCHANTABILITY or
+ *   FITNESS FOR A PARTICULAR PURPOSE.
+ ************************************************************************************
 
-(function(){
+ License: ux.Media classes are licensed under the terms of
+ the Open Source GPL 3.0 license (details: http://www.gnu.org/licenses/gpl.html).
 
-      var El = Ext.Element, A = Ext.lib.Anim, supr = El.prototype; 
-      var VISIBILITY = "visibility",
-        DISPLAY = "display",
-        HIDDEN = "hidden",
-        NONE = "none";
-        
-      var fx = {};
-    
-      fx.El = {
-	      	     
-            
-	       setDisplayed : function(value) {
-                var me=this;
-                me.visibilityCls ? (me[value !== false ?'removeClass':'addClass'](me.visibilityCls)) :
-	                supr.setDisplayed.call(me, value);
-                return me;
-	        },
-            
-            
-	        isDisplayed : function() {
-	            return !(this.hasClass(this.visibilityCls) || this.dom.style[DISPLAY] == NONE);
-	        },
-	        // private
-	        fixDisplay : function(){
-	            var me = this;
-	            supr.fixDisplay.call(me);
-                me.visibilityCls && me.removeClass(me.visibilityCls); 
-	        },
-	
-	        
-	        isVisible : function(deep) {
-	            return this.visible || 
-                   (!this.isStyle(VISIBILITY, HIDDEN) && 
-                       this.visibilityCls ? !this.hasClass(this.visibilityCls) :!this.isStyle(DISPLAY, NONE));
-	        }
-	    };
-        
-        //Add basic capabilities to the Ext.Element.Flyweight class
-        Ext.override(El.Flyweight, fx.El);
+ Donations are welcomed: http://donate.theactivegroup.com
 
-     
- Ext.ux.plugin.VisibilityMode = function(opt) {
+ Commercial use is prohibited without a Commercial License. See http://licensing.theactivegroup.com.
 
-    Ext.apply(this, opt||{});
-    
-    var CSS = Ext.util.CSS;
+ Notes: the <embed> tag is NOT used(or necessary) in this implementation
 
-    if(CSS && !Ext.isIE && this.fixMaximizedWindow !== false && !Ext.ux.plugin.VisibilityMode.MaxWinFixed){
-        //Prevent overflow:hidden (reflow) transitions when an Ext.Window is maximize.
-        CSS.updateRule ( '.x-window-maximized-ct', 'overflow', '');
-        Ext.ux.plugin.VisibilityMode.MaxWinFixed = true;  //only updates the CSS Rule once.
-    }
-    
-   };
+ Version   2.1  11/11/2008
+          Fixes:
+            Corrects missing unsupportedText markup rendering.
+            Corrects inline markup rendering.
+            Corrects autoSize height/width macro replacement.
+            Corrects mixed content warnings on SSL sites.
+          Adds:
+            loaded readyState detection for all media types and sub-classes.
+
+ Version:  2.0
+           Height/Width now honors inline style as well,
+           Added Component::mediaEl(eg: 'body', 'el') for targeted media rendering.
+           Added scale and status macros.
+           Added px unit assertion for strict DTDs.
+           Final Quicktime config.
+           Adds new PDF(Iframe), Remote Desktop Connection, Silverlight, Office Web Connect-XLS (IE),
+                Powerpoint, Wordpress player mediaType profiles.
 
 
-  Ext.extend(Ext.ux.plugin.VisibilityMode , Object, {
+ Version:  Rc1
+           Adds inline media rendering within markup: <div><script>document.write(String(new Ext.ux.Media(mediaCfg)));</script></div>
+           New extensible classes :
+              ux.Media
+              ux.MediaComponent
+              ux.MediaPanel
 
-       
-      bubble              :  true,
+           Solves the Firefox reinitialization problem for Ext.Components with embedded <OBJECT> tags
+           when the upstream DOM is reflowed.
 
-      
-      fixMaximizedWindow  :  true,
-     
-      
+           See Mozilla https://bugzilla.mozilla.org/show_bug.cgi?id=262354
 
-      elements       :  null,
+ Version:  .31 Fixes to canned WMV config.
+ Version:  .3  New class Heirarchy.  Adds renderMedia(mediaCfg) method for refreshing
+               a mediaPanels body with a new/current mediaCfg.
+ Version:  .2  Adds JW FLV Player Support and enhances mediaClass defaults mechanism.
+ Version:  .11 Modified width/height defaults since CSS does not seem to
+                honor height/width rules
+ Version:  .1  initial release
 
-      
-
-      visibilityCls   : 'x-hide-nosize',
-
-      
-      hideMode  :   'nosize' ,
-
-      ptype     :  'uxvismode', 
-      
-      init : function(c) {
-
-        var hideMode = this.hideMode || c.hideMode,
-            plugin = this,
-            bubble = Ext.Container.prototype.bubble,
-            changeVis = function(){
-
-	            var els = [this.collapseEl, this.actionMode].concat(plugin.elements||[]);
-	
-	            Ext.each(els, function(el){
-		            plugin.extend( this[el] || el );
-	            },this);
-	
-	            var cfg = {
-                    visFixed  : true,
-                    animCollapse : false,
-                    animFloat   : false,
-		            hideMode  : hideMode,
-		            defaults  : this.defaults || {}
-	            };
-	
-	            cfg.defaults.hideMode = hideMode;
-	            
-	            Ext.apply(this, cfg);
-	            Ext.apply(this.initialConfig || {}, cfg);
-            
-            };
-
-         c.on('render', function(){
-
-            // Bubble up the layout and set the new
-            // visibility mode on parent containers
-            // which might also cause DOM reflow when
-            // hidden or collapsed.
-            if(plugin.bubble !== false && this.ownerCt){
-
-               bubble.call(this.ownerCt, function(){
-                  this.visFixed || this.on('afterlayout', changeVis, this, {single:true} );
-               });
-             }
-
-             changeVis.call(this);
-
-          }, c, {single:true});
-
-     },
-     
-     extend : function(el, visibilityCls){
-        el && Ext.each([].concat(el), function(e){
-            
-	        if(e && e.dom){
-                 if('visibilityCls' in e)return;  //already applied or defined?
-	             Ext.apply(e, fx.El);
-	             e.visibilityCls = visibilityCls || this.visibilityCls;
-	        }
-        },this);
-        return this;
+ mediaCfg: {Object}
+     { mediaType : mediaClass defined by ux.Media.mediaTypes[mediaClass]
+      ,url       : Url resource to load when rendered
+      ,requiredVersion : may specify a specific player/plugin version (for use with inline plugin updates where implemented)
+      ,loop      : (true/false) (@macro enabled)
+      ,scripting : (true/false) (@macro enabled)
+      ,start     : (true/false) (@macro enabled)
+      ,volume    : (number%, default: 20 ) audio volume level % (@macro enabled)
+      ,height    : (default: 100%) (@macro enabled)
+      ,width     : (default: 100%) (@macro enabled)
+      ,scale     : (default: 1) (@macro enabled)
+      ,status    : (default: false) (@macro enabled)
+      ,autoSize  : (true/false) If true the rendered <object> consumes 100% height/width of its
+                     containing Element.  Actual container height/width are available to macro substitution
+                     engine.
+      ,controls  : optional: show plugins control menu (true/false) (@macro enabled)
+      ,unsupportedText: (String,DomHelper cfg) Text to render if plugin is not installed/available.
+      ,listeners  : {"mouseover": function() {}, .... } DOM listeners to set each time the Media is rendered.
+      ,params   : { }  members/values unique to Plugin provider
      }
 
-  });
-  
-  Ext.preg && Ext.preg('uxvismode', Ext.ux.plugin.VisibilityMode );
-  
-  Ext.provide && Ext.provide('uxvismode');
-})();
-
-
+*/
 
 (function(){
 
@@ -182,11 +94,24 @@
                  : out;
         };
         
-    
+    /**
+     * plugin detection namespace for VisibilityMode fixes
+     */
     Ext.ns('Ext.ux.plugin');
     
     
-   
+   /**
+    *
+    * @class Ext.ux.Media
+    * @version 2.1
+    * @author Doug Hendricks. doug[always-At]theactivegroup.com
+    * @copyright 2007-2009, Active Group, Inc.  All rights reserved.
+    * @constructor
+    * @donate <a target="tag_donate" href="http://donate.theactivegroup.com"><img border="0" src="http://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" border="0" alt="Make a donation to support ongoing development"></a>
+    * @desc
+    * Base Media Class
+    * Used primarily for rendering a mediaCfg for use with inline markup.
+    */
 
     Ext.ux.Media = function(config){
          this.toString = this.asMarkup;  //Inline rendering support for this and all subclasses
@@ -203,18 +128,34 @@
     Ext.ux.Media.prototype = {
         
          hasVisModeFix : !!Ext.ux.plugin.VisibilityMode, 
-         
+         /**
+         * @property {Object} mediaObject An {@link Ext.ux.Media.Element} reference to rendered DOM Element.
+         */
          mediaObject     : null,
 
-         
+         /**
+          * @cfg {Object} mediaCfg Media configuration options.
+          * @example mediaCfg  : {
+             id    : String   Desired DOM id of rendered Media tag
+             tag   :
+             style : Obj  optional DomHelper style object
+
+            }
+         */
          mediaCfg        : null,
          mediaVersion    : null,
          requiredVersion : null,
 
-         
+         /**
+          * @cfg {String/DOMHelperObject} unsupportedText Text Markup/DOMHelper config displayed when the media is not available or cannot be rendered without an additional browser plugin.
+          */
          unsupportedText : null,
 
-         
+         /** @cfg {string} hideMode Defines the hideMode for Ext.ux.Media component sub-classes.<p>
+          * If the the value of 'nosize' is used, the {@link Ext.ux.VisibilityMode} plugin is applied to the media Component
+          * as well as to upstream layout Containers.
+          * @default for IE: 'display', 'nosize' for all other browsers
+         */
 
          hideMode      : !Ext.isIE?'nosize':'display',
 
@@ -226,32 +167,43 @@
 
          bodyStyle     : {position: 'relative'},
 
-        
+        /**
+          * @private (usually called once by initComponent)
+          * Subclasses should override for special startup tasks
+          */
          initMedia      : function(){ },
 
-         
+         /**
+          * @cfg {boolean} disableCaching Disable browser caching of URLs
+          */
          disableCaching  : false,
 
          _maxPoll        : 200,
 
-         
+         /** @private */
          getMediaType: function(type){
              return ux.mediaTypes[type];
          },
 
-         
+         /** @private
+          Assert default values and exec as functions
+          */
          assert : function(v,def){
               v= typeof v === 'function'?v.call(v.scope||null):v;
               return Ext.value(v ,def);
          },
 
-        
+        /** @private
+           Assert/cleanse ID.  Overridable by sub-classes
+         */
          assertId : function(id, def){
              id || (id = def || Ext.id());
              return id;
          },
 
-        
+        /** @private
+         * Prepare a URL for disabledCaching
+         */
          prepareURL : function(url, disableCaching){
             var parts = url ? url.split('#') : [''];
             if(!!url && (disableCaching = disableCaching === undefined ? this.disableCaching : disableCaching) ){
@@ -269,7 +221,7 @@
             return parts.length > 1 ? parts.join('#') : parts[0];
          },
 
-          
+          /* Normalize the mediaCfg to DOMHelper cfg */
          prepareMedia : function(mediaCfg, width, height, ct){
 
              mediaCfg = mediaCfg ||this.mediaCfg;
@@ -378,12 +330,16 @@
              }
            },
 
-           
+           /**
+            * @return {String} the renderable markup of a passed normalized mediaCfg
+            */
          asMarkup  : function(mediaCfg){
               return this.mediaMarkup(this.prepareMedia(mediaCfg));
          },
 
-          
+          /** @private
+          * macro replacement engine for mediaCfg -> rendered tags/styling
+          */
          mediaMarkup : function(mediaCfg){
             mediaCfg = mediaCfg || this.mediaCfg;
             if(mediaCfg){
@@ -404,7 +360,9 @@
             }
          },
 
-         
+         /** @private
+         * Set the mediaMask if defined
+         */
          setMask  : function(el) {
              var mm;
              if((mm = this.mediaMask)){
@@ -413,13 +371,22 @@
              }
 
          },
-         
+         /**
+         *  Refreshes the Media Object based on last known mediaCfg.
+         *  @param {Element} target The target container Element for the refresh operation.
+         *  @returns {Ext.ux.Media} this
+         */
           refreshMedia  : function(target){
                  if(this.mediaCfg) {this.renderMedia(null,target);}
                  return this;
           },
 
-          
+          /**
+          *  This method updates the target Element with a new mediaCfg object,
+          *  or supports a refresh of the target based on the current mediaCfg object
+          *  This method may be invoked inline (in Markup) before the DOM is ready
+          *  param position indicate the DomHeper position for Element insertion (ie 'afterbegin' the default)
+          */
           renderMedia : function(mediaCfg, ct, domPosition , w , h){
               if(!Ext.isReady){
                   Ext.onReady(this.renderMedia.createDelegate(this,Array.prototype.slice.call(arguments,0)));
@@ -439,7 +406,9 @@
               this.onAfterMedia(ct);
           },
 
-          
+          /** @private
+           *Override if necessary to render to targeted container
+           */
           writeMedia : function(mediaCfg, container, domPosition ){
               var ct = Ext.get(container);
               if(ct){
@@ -448,7 +417,9 @@
               }
           },
 
-          
+          /**
+           * Remove a rendered  mediaObject from the DOM.
+           */
           clearMedia : function(){
             var mo;
             if(Ext.isReady && (mo = this.mediaObject)){
@@ -458,7 +429,7 @@
             return this;
           },
 
-           
+           /** @private */
           resizeMedia   : function(comp, w, h){
               var mc = this.mediaCfg;
               if(mc && this.boxReady && mc.renderOnResize && (!!w || !!h)){
@@ -470,7 +441,7 @@
 
           },
 
-          
+          /** @private */
           onBeforeMedia  : function(mediaCfg, ct, domPosition, width, height){
 
             var m = mediaCfg || this.mediaCfg, mt;
@@ -494,7 +465,9 @@
 
           },
 
-          
+          /** @private
+           * Media Load Handler, called when a mediaObject reports a loaded readystate
+           */
           onMediaLoad : function(e){
                if(e && e.type == 'load'){
                   this.fireEvent('mediaload',this, this.mediaObject );
@@ -503,7 +476,7 @@
 
                }
           },
-          
+          /** @private */
           onAfterMedia   : function(ct){
                var mo;
                if(this.mediaCfg && ct && (mo = this.mediaObject =
@@ -537,7 +510,10 @@
               }
           },
 
-          
+          /**
+           * @private
+           * synthesize a mediaload event for DOMs that support object.readyState
+           */
          pollReadyState : function( cb, readyRE){
 
             var media = this.getInterface();
@@ -546,14 +522,24 @@
             }
          },
 
-          
+          /**
+          * @return {Ext.Element} reference to the rendered media Object.
+          */
           getInterface  : function(){
               return this.mediaObject?this.mediaObject.dom||null:null;
           },
 
          detectVersion  : Ext.emptyFn,
 
-         
+         /**
+            @cfg {Boolean} autoMask
+            @default false
+            Class default: IE provides sufficient DOM readyState for object tags to manage {@link #mediaMask}s automatically
+            (No other browser does), so masking must either be directed manually or use the autoHide option
+            of the {@link Ext.ux.IntelliMask}.
+          * <p>If true the Component attempts to manage the mediaMask based on events/media status,
+          * false permits control of the mask visibility manually.
+          */
 
          autoMask   : false
     };
@@ -585,9 +571,21 @@
 
             this.addEvents(
 
-              
+              /**
+                * Fires immediately after the markup has been rendered.
+                * @event mediarender
+                * @memberOf Ext.ux.Media
+                * @param {Object} component This Media Class object instance.
+                * @param {Element} mediaObject The Ext.Element object rendered.
+               */
                 'mediarender',
-               
+               /**
+                * Fires when the mediaObject has reported a loaded state (IE, Opera Only)
+                * @event mediaload
+                * @memberOf Ext.ux.Media
+                * @param {Object} component This Media Class object instance.
+                * @param {Element} mediaObject The Ext.Element object loaded.
+                */
 
                 'mediaload');
 
@@ -609,14 +607,16 @@
             }
 
         },
-        
+        /**
+         * @private
+         */
         beforeDestroy  :  function(){
             this.clearMedia();
             Ext.destroy(this.mediaMask, this.loadMask);
             this.lastCt = this.mediaObject = this.renderTo = this.applyTo = this.mediaMask = this.loadMask = null;
 
         },
-         
+         /** @private */
         setAutoScroll   : function(){
             if(this.rendered){
                 this.getContentTarget().setOverflow(!!this.autoScroll ? 'auto':'hidden');
@@ -628,13 +628,27 @@
         }
     };
 
-    
+    /**
+     * @class Ext.ux.Media.Component
+     * @extends Ext.BoxComponent
+     * @version 2.1
+     * @author Doug Hendricks. doug[always-At]theactivegroup.com
+     * @copyright 2007-2009, Active Group, Inc.  All rights reserved.
+     * @donate <a target="tag_donate" href="http://donate.theactivegroup.com"><img border="0" src="http://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" border="0" alt="Make a donation to support ongoing development"></a>
+     * @license <a href="http://www.gnu.org/licenses/gpl.html">GPL 3.0</a>
+     * @base Ext.ux.Media
+     * @constructor
+     * @param {Object} config The config object
+     */
 
     Ext.ux.Media.Component= Ext.extend ( Ext.BoxComponent, {
 
         ctype         : "Ext.ux.Media.Component",
 
-        
+        /**
+        * @cfg {String} mediaEl The name of the containing element for the media.
+        * @default 'el'
+        */
         mediaEl         : 'el',
         
         autoScroll    : true,
@@ -649,17 +663,17 @@
           Ext.apply(this , config, this.mediaClass.prototype );
           ux.Component.superclass.constructor.apply(this, arguments);
         },
-        
+        /** @private */
         initComponent   : function(){
             ux.Component.superclass.initComponent.apply(this,arguments);
             componentAdapter.init.apply(this,arguments);
         },
-        
+        /** @private */
         afterRender  : function(ct){
             ux.Component.superclass.afterRender.apply(this,arguments);
             componentAdapter.afterRender.apply(this,arguments);
          },
-         
+         /** @private */
         beforeDestroy   : function(){
             componentAdapter.beforeDestroy.apply(this,arguments);
             this.rendered && ux.Component.superclass.beforeDestroy.apply(this,arguments);
@@ -675,7 +689,18 @@
     Ext.reg('uxmedia', Ext.ux.Media.Component);
     Ext.reg('media', Ext.ux.Media.Component);
 
-    
+    /**
+     * @class Ext.ux.Media.Panel
+     * @extends Ext.Panel
+     * @version 2.1
+     * @author Doug Hendricks. doug[always-At]theactivegroup.com
+     * @copyright 2007-2009, Active Group, Inc.  All rights reserved.
+     * @donate <a target="tag_donate" href="http://donate.theactivegroup.com"><img border="0" src="http://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" border="0" alt="Make a donation to support ongoing development"></a>
+     * @license <a href="http://www.gnu.org/licenses/gpl.html">GPL 3.0</a>
+     * @constructor
+     * @base Ext.ux.Media
+     * @param {Object} config The config object
+     */
 
     Ext.ux.Media.Panel = Ext.extend( Ext.Panel,  {
 
@@ -685,7 +710,10 @@
          
         autoScroll    : false,
 
-          
+          /**
+           * @cfg {String} mediaEl The name of the containing element for the media.
+           * @default 'body'
+           */
         mediaEl       : 'body',
 
         mediaClass    : Ext.ux.Media,
@@ -696,17 +724,17 @@
 	          ux.Panel.superclass.constructor.apply(this, arguments);
         },
 
-        
+        /** @private */
         initComponent   : function(){
             ux.Panel.superclass.initComponent.apply(this,arguments);
             componentAdapter.init.apply(this,arguments);
         },
-        
+        /** @private */
         afterRender  : function(ct){
             ux.Panel.superclass.afterRender.apply(this,arguments);
             componentAdapter.afterRender.apply(this,arguments);
          },
-         
+         /** @private */
         beforeDestroy  : function(){
             componentAdapter.beforeDestroy.apply(this,arguments);
             this.rendered && ux.Panel.superclass.beforeDestroy.apply(this,arguments);
@@ -721,7 +749,17 @@
 
 
     Ext.reg('mediapanel', Ext.ux.Media.Panel);
-    
+    /**
+     * @class Ext.ux.Media.Portlet
+     * @extends Ext.ux.Media.Panel
+     * @version 2.1
+     * @author Doug Hendricks. doug[always-At]theactivegroup.com
+     * @donate <a target="tag_donate" href="http://donate.theactivegroup.com"><img border="0" src="http://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" border="0" alt="Make a donation to support ongoing development"></a>
+     * @copyright 2007-2009, Active Group, Inc.  All rights reserved.
+     * @license <a href="http://www.gnu.org/licenses/gpl.html">GPL 3.0</a>
+     * @constructor
+     * @param {Object} config The config object
+     */
 
     Ext.ux.Media.Portlet = Ext.extend ( Ext.ux.Media.Panel , {
        anchor       : '100%',
@@ -737,11 +775,22 @@
 
     Ext.reg('mediaportlet', Ext.ux.Media.Portlet);
 
-   
+   /**
+     * @class Ext.ux.Media.Window
+     * @extends Ext.Window
+     * @version 1.0
+     * @author Doug Hendricks. doug[always-At]theactivegroup.com
+     * @copyright 2007-2009, Active Group, Inc.  All rights reserved.
+     * @donate <a target="tag_donate" href="http://donate.theactivegroup.com"><img border="0" src="http://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" border="0" alt="Make a donation to support ongoing development"></a>
+     * @license <a href="http://www.gnu.org/licenses/gpl.html">GPL 3.0</a>
+     * @constructor
+     * @base Ext.ux.Media
+     * @param {Object} config The config object
+     */
 
     Ext.ux.Media.Window = Ext.extend( Ext.Window ,{
 
-        
+        /** @private */
         constructor   : function(){
           Ext.applyIf(this , this.mediaClass.prototype );
           ux.Window.superclass.constructor.apply(this, arguments);
@@ -755,21 +804,24 @@
 
          mediaClass    : Ext.ux.Media,
 
-          
+          /**
+           * @cfg {String} mediaEl The name of the containing element for the media.
+           * @default 'body'
+           */
          mediaEl       : 'body',
 
-        
+        /** @private */
         initComponent   : function(){
             ux.Window.superclass.initComponent.apply(this,arguments);
             componentAdapter.init.apply(this,arguments);
         },
 
-        
+        /** @private */
         afterRender  : function(){
             ux.Window.superclass.afterRender.apply(this,arguments);  //wait for sizing
             componentAdapter.afterRender.apply(this,arguments);
          },
-         
+         /** @private */
         beforeDestroy   : function(){
             componentAdapter.beforeDestroy.apply(this,arguments);
             this.rendered && ux.Window.superclass.beforeDestroy.apply(this,arguments);
@@ -787,7 +839,9 @@
 
     Ext.ns('Ext.capabilities');
     Ext.ns('Ext.ux.Media.plugin');
-    
+    /**
+     * Check Basic HTML5 Element support for the <audio> tag and/or Audio object.
+     */
     var CAPS = (Ext.capabilities.hasAudio || 
        (Ext.capabilities.hasAudio = function(){
                 
@@ -850,7 +904,17 @@
         }
      });
     
-     
+     /**
+     * @class Ext.ux.Media.plugin.AudioEvents
+     * @extends Ext.ux.Media.Component
+     * @version 1.0
+     * @author Doug Hendricks. doug[always-At]theactivegroup.com
+     * @copyright 2007-2009, Active Group, Inc.  All rights reserved.
+     * @donate <a target="tag_donate" href="http://donate.theactivegroup.com"><img border="0" src="http://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" border="0" alt="Make a donation to support ongoing development"></a>
+     * @license <a href="http://www.gnu.org/licenses/gpl.html">GPL 3.0</a>
+     * @constructor
+     * @param {Object} config The config object
+     */
     Ext.ux.Media.plugin.AudioEvents = Ext.extend(Ext.ux.Media.Component,{
     
        autoEl  : {tag:'div' },
@@ -859,15 +923,25 @@
        
        disableCaching : false,
        
-       
+       /**
+        * @cfg {Object} audioEvents An object hash mapping URL of audio resources to
+        * DOM Ext.Element or Ext.util.Observable events.
+        * @example
+        *  
+        */
        audioEvents : {},
        
-       
+       /**
+        * @cfg {Float} volume Desired Volume level in the range (0.0 - 1)
+        * 
+        */
        volume     : .5,
        
        ptype      : 'audioevents',
        
-       
+       /** @private
+        * 
+        */
        initComponent : function(){
           this.mediaCfg || 
           
@@ -879,13 +953,23 @@
           Ext.ux.Media.plugin.AudioEvents.superclass.initComponent.apply(this,arguments);
           
           this.addEvents(
-          
+          /**
+            * Fires immediately preceeding an Audio Event. Returning false within this handler
+            * cancels the audio playback.
+            * @event beforeaudio
+            * @memberOf Ext.ux.Media.plugin.AudioEvents
+            * @param {Object} plugin This Media plugin instance.
+            * @param {Ext.Component/Ext.Element} target The target Ext.Component or Ext.Element instance.
+            * @param {String} eventName The eventName linked to the Audio stream.
+           */
            'beforeaudio');
            
            this.setVolume(this.volume);
        },
        
-       
+       /** @private
+        * 
+        */
        init : function( target ){
         
             this.rendered || this.render(Ext.getBody());
@@ -894,15 +978,22 @@
                 var plugin = this;
                 Ext.iterate(this.audioEvents || {}, 
                  function(event){
-                   
+                   /* if the plugin init-target is an Observable, 
+                    * assert the eventName, exiting if not defined
+                    */
                     if(target.events && !target.events[event]) return;
                     
-                    
+                    /**
+                     * Mixin Audio Management methods to the target
+                     */
                     Ext.applyIf(target, {
                        audioPlugin : plugin,
                        audioListeners : {},
                        
-                       
+                       /**
+                        * @method removeAudioListener 
+                        * 
+                        */
                        removeAudioListener : function(audioEvent){
                           if(audioEvent && this.audioListeners[audioEvent]){ 
                                this.removeListener && 
@@ -910,7 +1001,10 @@
                                delete this.audioListeners[audioEvent];
                           }
                        },
-                       
+                       /**
+                        * Removes all Audio Listeners from the Element or Component
+                        * @method removeAudioListeners
+                        */
                        removeAudioListeners : function(){
                           var c = [];
                           Ext.iterate(this.audioListeners, function(audioEvent){c.push(audioEvent)});
@@ -948,7 +1042,10 @@
             }
        },
        
-       
+       /**
+        * @param {Float} volume The volume (range 0-1)
+        * @return {Object} this
+        */
        setVolume   : function(volume){
             var AO = this.audioObject, v = Math.max(Math.min(parseFloat(volume)||0, 1),0);
             this.mediaCfg && (this.mediaCfg.volume = v*100);
@@ -957,7 +1054,9 @@
             return this;
        },
        
-       
+       /**
+        * @private
+        */
        onEvent : function(comp, event){
            if(!this.disabled && this.audioEvents && this.audioEvents[event]){
               if(this.fireEvent('beforeaudio',this, comp, event) !== false ){
@@ -1013,7 +1112,12 @@
 
     Ext.override(Ext.Element, {
 
-         
+         /**
+          * Puts a mask over the element to disable user interaction. Requires core.css.
+          * @param {String} msg (optional) A message to display in the mask
+          * @param {String} msgCls (optional) A css class to apply to the msg element
+          * @return {Element} The mask element
+          */
          mask : function(msg, msgCls){
 
               if(this.getStyle("position") == "static"){
@@ -1049,7 +1153,9 @@
              return this._mask;
          },
 
-         
+         /**
+          * Removes a previously applied mask.
+          */
          unmask : function(remove){
 
             if(this._maskMsg ){
@@ -1073,7 +1179,11 @@
 
          },
 
-        
+        /**
+          * Removes this element from the DOM and deletes it from the cache
+          * @param {Boolean} cleanse (optional) Perform a cleanse of immediate childNodes as well.
+          * @param {Boolean} deep (optional) Perform a deep cleanse of all nested childNodes as well.
+          */
 
         remove : function(cleanse, deep){
               if(this.dom){
@@ -1085,7 +1195,14 @@
               }
          },
 
-        
+        /**
+         * Deep cleansing childNode Removal
+         * @param {Boolean} forceReclean (optional) By default the element
+         * keeps track if it has been cleansed already so
+         * you can call this over and over. However, if you update the element and
+         * need to force a reclean, you can pass true.
+         * @param {Boolean} deep (optional) Perform a deep cleanse of all childNodes as well.
+         */
         cleanse : function(forceReclean, deep){
             if(this.isCleansed && forceReclean !== true){
                 return this;
@@ -1106,11 +1223,22 @@
          }
     });
 
-    
+    /**
+     * @class Ext.ux.Media.Element
+     * @extends Ext.Element
+     * @version 2.1
+     * @author Doug Hendricks. doug[always-At]theactivegroup.com
+     * @copyright 2007-2009, Active Group, Inc.  All rights reserved.
+     * @donate <a target="tag_donate" href="http://donate.theactivegroup.com"><img border="0" src="http://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" border="0" alt="Make a donation to support ongoing development"></a>
+     * @license <a href="http://www.gnu.org/licenses/gpl.html">GPL 3.0</a>
+     * @constructor
+     */
     Ext.ux.Media.Element = Ext.extend ( Ext.Element , {
 
         
-        
+        /**
+        * @private
+        */
         constructor   : function( element ) {
 
             if(!element ){ return null; }
@@ -1119,16 +1247,30 @@
 
             if(!dom ){ return null; }
 
-            
+            /**
+             * The DOM element
+             * @type HTMLElement
+             */
             this.dom = dom;
-            
+            /**
+             * The DOM element ID
+             * @type String
+             */
             this.id = dom.id || Ext.id(dom);
 
             Ext.Element.cache[this.id] = this;
 
         },
 
-        
+        /**
+         * <object|frame|img> are not maskable by the default Element mask implementation.
+         * This selects the immediate parent element as the mask target.
+
+         * Puts a mask over the element to disable user interaction. Requires core.css.
+         * @param {String} msg (optional) A message to display in the mask
+         * @param {String} msgCls (optional) A css class to apply to the msg element
+         * @return {Element} The mask element
+         */
         mask : function(msg, msgCls){
 
             this.maskEl || (this.maskEl = this.parent('.x-media-mask') || this.parent());
@@ -1149,7 +1291,16 @@
 
     Ext.ux.Media.prototype.elementClass  =  Ext.ux.Media.Element;
 
-    
+    /**
+     * @class Ext.ux.IntelliMask
+     * @version 1.0.1
+     * @author Doug Hendricks. doug[always-At]theactivegroup.com
+     * @copyright 2007-2009, Active Group, Inc.  All rights reserved.
+     * @donate <a target="tag_donate" href="http://donate.theactivegroup.com"><img border="0" src="http://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" border="0" alt="Make a donation to support ongoing development"></a>
+     * @constructor
+     * Create a new LoadMask
+     * @desc A custom utility class for generically masking elements while loading media.
+     */
     Ext.ux.IntelliMask = function(el, config){
 
         Ext.apply(this, config);
@@ -1159,39 +1310,86 @@
 
     Ext.ux.IntelliMask.prototype = {
 
-        
+        /**
+         * @cfg {Boolean} removeMask
+         * True to create a single-use mask that is automatically destroyed after loading (useful for page loads),
+         * False to persist the mask element reference for multiple uses (e.g., for paged/frequently masked widgets).
+         * @default false.
+         */
 
          removeMask  : false,
 
-        
+        /**
+         * @cfg {String} msg The default text to display in a centered loading message box
+         * @default 'Loading Media...'
+         */
         msg : 'Loading Media...',
-        
+        /**
+         * @cfg {String} msgCls
+         * The CSS class to apply to the loading message element.
+         * @default "x-mask-loading"
+         */
         msgCls : 'x-mask-loading',
 
 
-        
+        /** @cfg {Number} zIndex The optional zIndex applied to the masking Elements
+         */
         zIndex : null,
 
-        
+        /**
+         * Read-only. True if the mask is currently disabled so that it will not be displayed (defaults to false)
+         * @property {Boolean} disabled
+         * @type Boolean
+         */
         disabled: false,
 
-        
+        /**
+         * Read-only. True if the mask is currently applied to the element.
+         * @property {Boolean} active
+         * @type Boolean
+         */
         active: false,
 
-        
+        /**
+         * @cfg {Boolean/Integer} autoHide  True or millisecond value hides the mask if the {link #hide} method is not called within the specified time limit.
+         */
         autoHide: false,
 
-        
+        /**
+         * Disables the mask to prevent it from being displayed
+         */
         disable : function(){
            this.disabled = true;
         },
 
-        
+        /**
+         * Enables the mask so that it can be displayed
+         */
         enable : function(){
             this.disabled = false;
         },
 
-        
+        /**
+         * Show this Mask over the configured Element.
+         * @param {String/ConfigObject} msg The message text do display during the masking operation
+         * @param {String} msgCls The CSS rule applied to the message during the masking operation.
+         * @param {Function} fn The callback function to be invoked after the mask is displayed.
+         * @param {Integer} fnDelay The number of milleseconds to wait before invoking the callback function
+         * @return {Ext.Element} the mask container element.
+         * @example
+           mask.show({autoHide:3000});   //show defaults and hide after 3 seconds.
+         * @example
+           mask.show('Loading Content', null, loadContentFn); //show msg and execute fn
+         * @example
+           mask.show({
+               msg: 'Loading Content',
+               msgCls : 'x-media-loading',
+               fn : loadContentFn,
+               fnDelay : 100,
+               scope : window,
+               autoHide : 2000   //remove the mask after two seconds.
+           });
+         */
         show: function(msg, msgCls, fn, fnDelay ){
 
             var opt={}, autoHide = this.autoHide;
@@ -1231,7 +1429,10 @@
             return this.active? {mask: this.el._mask , maskMsg: this.el._maskMsg} : null;
         },
 
-        
+        /**
+         * Hide this Mask.
+         * @param {Boolean} remove  True to remove the mask element from the DOM after hide.
+         */
         hide: function(remove){
             if(this.el){
                 this.el.unmask(remove || this.removeMask);
@@ -1246,10 +1447,15 @@
 
 
 
-
+/**
+ * @namespace Ext.ux.Media.mediaTypes
+ */
 Ext.ux.Media.mediaTypes = {
 
-     
+     /**
+     * @namespace Ext.ux.Media.mediaTypes.WAV
+     * @desc Generic WAV
+     */
        
       WAV : 
             Ext.apply(
@@ -1278,7 +1484,57 @@ Ext.ux.Media.mediaTypes = {
                }:
                {src:"@url"}),
        
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.PDF
+         *  OLE-TLB public IAcroAXDocShim interface (available on IE only)
+         *  
+    function LoadFile(const fileName: WideString): WordBool;
+    procedure setShowToolbar(On_: WordBool);
+    procedure gotoFirstPage;
+    procedure gotoLastPage;
+    procedure gotoNextPage;
+    procedure gotoPreviousPage;
+    procedure setCurrentPage(n: Integer);
+    procedure goForwardStack;
+    procedure goBackwardStack;
+    procedure setPageMode(const pageMode: WideString);
+    procedure setLayoutMode(const layoutMode: WideString);
+    procedure setNamedDest(const namedDest: WideString);
+    procedure printAll;
+    procedure Print;
+    procedure printWithDialog;
+    procedure setZoom(percent: Single);
+    procedure setZoomScroll(percent: Single; left: Single; top: Single);
+    procedure setView(const viewMode: WideString);
+    procedure setViewScroll(const viewMode: WideString; offset: Single);
+    procedure AboutBox;
+    procedure printPages(from: Integer; to_: Integer);
+    procedure printPagesFit(from: Integer; to_: Integer; shrinkToFit: WordBool);
+    procedure setViewRect(left: Single; top: Single; width: Single; height: Single);
+    procedure printAllFit(shrinkToFit: WordBool);
+    procedure setShowScrollbars(On_: WordBool);
+    property  ControlInterface: _DPdf read GetControlInterface;
+    property  DefaultInterface: _DPdf read GetControlInterface;
+  published
+    property Anchors;
+    property  TabStop;
+    property  Align;
+    property  DragCursor;
+    property  DragMode;
+    property  ParentShowHint;
+    property  PopupMenu;
+    property  ShowHint;
+    property  TabOrder;
+    property  Visible;
+    property  OnDragDrop;
+    property  OnDragOver;
+    property  OnEndDrag;
+    property  OnEnter;
+    property  OnExit;
+    property  OnStartDrag;
+    property src: WideString index 1 read GetWideStringProp write SetWideStringProp stored False;
+  end;
+         */
 
        PDF : Ext.apply({  //Acrobat plugin thru release 8.0 all crash FF3
                 tag     : 'object'
@@ -1292,7 +1548,10 @@ Ext.ux.Media.mediaTypes = {
                    }:false),
 
 
-      
+      /**
+       * @namespace Ext.ux.Media.mediaTypes.PDFFRAME
+       * @desc Most reliable method for Acrobat on all browsers!!
+       */
       PDFFRAME  : {
                   tag      : 'iframe'
                  ,cls      : 'x-media x-media-pdf-frame'
@@ -1302,7 +1561,42 @@ Ext.ux.Media.mediaTypes = {
                  ,autoSize :true
         },
 
-       
+       /**
+         * @namespace Ext.ux.Media.mediaTypes.WMV
+         * @desc <pre><code>WMV Interface Notes
+           On the original player (pre XP) IE only, to retrieve the object interface (for controlling player via JS)
+            use mediaComp.getInterface().object.controls
+
+           Other browsers do NOT support a Javascript interface
+
+           Related DOM attributes for WMV:
+                 DataFormatAs :
+                 Name :
+                 URL :
+                 OpenState:6
+                 PlayState:0
+                 Controls :
+                 Settings :
+                 CurrentMedia:null
+                 MediaCollection :
+                 PlaylistCollection :
+                 VersionInfo:9.0.0.3008
+                 Network :
+                 CurrentPlaylist :
+                 CdromCollection :
+                 ClosedCaption :
+                 IsOnline:false
+                 Error :
+                 Status :
+                 Dvd :
+                 Enabled:true
+                 FullScreen:false
+                 EnableContextMenu:true
+                 UiMode:full
+                 StretchToFit:false
+                 WindowlessVideo:false
+                 IsRemote:false</code></pre>
+        */
 
       WMV : Ext.apply(
               {tag      :'object'
@@ -1331,7 +1625,9 @@ Ext.ux.Media.mediaTypes = {
                    }:
                {src:"@url"}
              ),
-                   
+       /**
+       * @namespace Ext.ux.Media.mediaTypes.APPLET
+       */            
        APPLET  : {
                   tag      :'object'
                  ,cls      : 'x-media x-media-applet'
@@ -1356,7 +1652,9 @@ Ext.ux.Media.mediaTypes = {
            src      : '@url'
        },
 
-     
+     /**
+       * @namespace Ext.ux.Media.mediaTypes.SWF
+       */
        SWF   :  Ext.apply({
                   tag      :'object'
                  ,cls      : 'x-media x-media-swf'
@@ -1384,7 +1682,10 @@ Ext.ux.Media.mediaTypes = {
                      codebase:"http" + ((Ext.isSecure) ? 's' : '') + "://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0"
                     }:
                     {data     : "@url"}),
-      
+      /**
+       * @namespace Ext.ux.Media.mediaTypes.SCRIBD
+       * sample url : http://documents.scribd.com/ScribdViewer.swf?document_id=502727&access_key=cwy7bk66jc0l&page=1&version=1&viewMode=
+       */
        SCRIBD :  Ext.apply({
                   tag      :'object'
                  ,cls      : 'x-media x-media-scribd'
@@ -1416,7 +1717,10 @@ Ext.ux.Media.mediaTypes = {
                     }:
                     {data     : "@url"}),
                     
-      
+      /**
+       * @namespace Ext.ux.Media.mediaTypes.JWP
+       * @see http://code.jeroenwijering.com/trac/wiki/FlashAPI
+       */
 
         JWP :  Ext.apply({
               tag      :'object'
@@ -1444,7 +1748,10 @@ Ext.ux.Media.mediaTypes = {
             }:false),
 
 
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.QT
+         * @desc QT references: http://developer.apple.com/mac/library/documentation/QuickTime/Conceptual/QTScripting_HTML/QTScripting_HTML_Document/ScriptingHTML.html
+         */
         QT : Ext.apply({
                        tag      : 'object'
                       ,cls      : 'x-media x-media-quicktime'
@@ -1482,7 +1789,10 @@ Ext.ux.Media.mediaTypes = {
 
                     }),
 
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.QTEVENTS
+         * @desc For QuickTime DOM event support include this <object> tag structure in the <head> section
+         */
 
 
         QTEVENTS : {
@@ -1495,7 +1805,10 @@ Ext.ux.Media.mediaTypes = {
                   ,codebase     :"http" + ((Ext.isSecure) ? 's' : '') + '://www.apple.com/qtactivex/qtplugin.cab#version=7,2,1,0'
                  },
 
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.WPMP3
+         * @desc WordPress Audio Player : http://wpaudioplayer.com/
+         */
 
         WPMP3 : Ext.apply({
                        tag      : 'object'
@@ -1522,7 +1835,11 @@ Ext.ux.Media.mediaTypes = {
                        }
                     },Ext.isIE?{classid :"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"}:false),
 
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.REAL
+         * @desc Real Player
+         * Parameter Reference for Real Player: http://service.real.com/help/library/guides/extend/htmfiles/appc_par.htm
+         */
 
         REAL : Ext.apply({
                 tag     :'object'
@@ -1550,7 +1867,10 @@ Ext.ux.Media.mediaTypes = {
 
                 },Ext.isIE?{classid :"clsid:CFCDAA03-8BE4-11CF-B84B-0020AFBBCCFA"}:false),
 
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.SVG
+         * @desc Generic SVG
+         */
 
         SVG : {
                   tag      : 'object'
@@ -1561,7 +1881,10 @@ Ext.ux.Media.mediaTypes = {
 
         },
 
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.GIF
+         * @desc
+         */
 
         GIF : {
                   tag      : 'img'
@@ -1569,7 +1892,10 @@ Ext.ux.Media.mediaTypes = {
                  ,src     : "@url"
         },
 
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.TIFF
+         * @desc
+         */
 
         TIFF : {
                   tag      : 'object'
@@ -1577,7 +1903,9 @@ Ext.ux.Media.mediaTypes = {
                  ,cls      : 'x-media x-media-img x-media-tiff'
                  ,data     : "@url"
         },
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.JPEG
+         */
 
         JPEG : {
                   tag      : 'img'
@@ -1585,7 +1913,9 @@ Ext.ux.Media.mediaTypes = {
                  //,style    : {overflow:'hidden', display:'inline'}
                  ,src     : "@url"
         },
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.JP2
+         */
 
         JP2 :{
                   tag      : 'object'
@@ -1593,13 +1923,17 @@ Ext.ux.Media.mediaTypes = {
                  ,type     : Ext.isIE ? "image/jpeg2000-image" : "image/jp2"
                  ,data     : "@url"
                 },
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.PNG
+         */
         PNG : {
                   tag      : 'img'
                  ,cls      : 'x-media x-media-img x-media-png'
                  ,src     : "@url"
         },
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.HTM
+         */
 
         HTM : {
                   tag      : 'iframe'
@@ -1609,7 +1943,9 @@ Ext.ux.Media.mediaTypes = {
                  ,style    : {overflow:'auto', 'z-index' : 2}
                  ,src     : "@url"
         },
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.TXT
+         */
 
         TXT : {
                   tag      : 'object'
@@ -1619,7 +1955,9 @@ Ext.ux.Media.mediaTypes = {
                  ,data     : "@url"
         },
 
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.RTF
+         */
 
         RTF : {
                   tag      : 'object'
@@ -1628,7 +1966,9 @@ Ext.ux.Media.mediaTypes = {
                  ,style    : {overflow:'auto',width:'100%',height:'100%'}
                  ,data     : "@url"
         },
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.JS
+         */
 
         JS : {
                   tag      : 'object'
@@ -1637,7 +1977,9 @@ Ext.ux.Media.mediaTypes = {
                  ,style    : {overflow:'auto',width:'100%',height:'100%'}
                  ,data     : "@url"
         },
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.CSS
+         */
 
         CSS : {
                   tag      : 'object'
@@ -1646,7 +1988,9 @@ Ext.ux.Media.mediaTypes = {
                  ,style    : {overflow:'auto',width:'100%',height:'100%'}
                  ,data     : "@url"
         },
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.SILVERLIGHT
+         */
 
         SILVERLIGHT : {
               tag      : 'object'
@@ -1655,7 +1999,9 @@ Ext.ux.Media.mediaTypes = {
              ,data     : "@url"
              ,params  : { MinRuntimeVersion: "1.0" , source : "@url" }
         },
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.SILVERLIGHT2
+         */
 
         SILVERLIGHT2 : {
               tag      : 'object'
@@ -1666,7 +2012,9 @@ Ext.ux.Media.mediaTypes = {
              ,unsupportedText: '<a href="http://go2.microsoft.com/fwlink/?LinkID=114576&v=2.0"><img style="border-width: 0pt;" alt="Get Microsoft Silverlight" src="http://go2.microsoft.com/fwlink/?LinkID=108181"/></a>'
         },
  
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.XML
+         */
 
         XML : {
               tag      : 'iframe'
@@ -1675,7 +2023,9 @@ Ext.ux.Media.mediaTypes = {
              ,src     : "@url"
         },
 
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.VLC
+         */
 
         //VLC ActiveX Player -- Suffers the same fate as the Acrobat ActiveX Plugin
         VLC : Ext.apply({
@@ -1700,7 +2050,32 @@ Ext.ux.Media.mediaTypes = {
                  ,CODEBASE    :"http" + ((Ext.isSecure) ? 's' : '') + "://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab"
              }:{target : '@url'}),
              
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.ODT
+         * Open Office 2.0+ ODT  Text Document
+         * <SCRIPT TYPE="text/javascript">
+
+function DoThePrint() {
+  SvcMgr =new ActiveXObject('com.sun.star.ServiceManager');
+  Desktop = SvcMgr.CreateInstance('com.sun.star.frame.Desktop');
+  oEnum = Desktop.getComponents().createEnumeration();
+  for (;oEnum.hasMoreElements()==true;) {
+    oo = oEnum.nextElement()
+    if (oo.supportsService("com.sun.star.text.TextDocument")==true) ooDoc = oo;
+  }
+  alert(ooDoc.getUrl()); //if you embed many OO text objects, test here for the src in the OBJECT ...
+
+  oFrame     = ooDoc.CurrentController.Frame
+  dispatcher = SvcMgr.CreateInstance("com.sun.star.frame.DispatchHelper")
+  dispatcher.executeDispatch(oFrame, ".uno:print", "", 0, Array()) 
+}
+
+ 
+</SCRIPT>
+Simple Print
+ ooDoc.print( Array() );
+         * 
+         */
         
         ODT : Ext.apply({
               tag      : 'object'
@@ -1714,7 +2089,10 @@ Ext.ux.Media.mediaTypes = {
                   classid     :"clsid:67F2A879-82D5-4A6D-8CC5-FFB3C114B69D"
              }:false),
         
-        
+        /**
+         * @namespace Ext.ux.Media.mediaTypes.ODS
+         * Open Office 2.0+ ODS  Spreadsheet
+         */
              
         ODS : Ext.apply({
               tag      : 'object'
@@ -1728,7 +2106,10 @@ Ext.ux.Media.mediaTypes = {
                   classid     :"clsid:67F2A879-82D5-4A6D-8CC5-FFB3C114B69D"
              }:false),
              
-         
+         /**
+         * @namespace Ext.ux.Media.mediaTypes.ODS
+         * Open Office 2.0+ ODS  Spreadsheet
+         */
              
         IMPRESS : Ext.apply({
               tag      : 'object'
@@ -1756,7 +2137,10 @@ if (Ext.provide) {
 
 Ext.applyIf(Array.prototype, {
 
-    
+    /*
+     * Fix for IE/Opera, which does not seem to include the map
+     * function on Array's
+     */
     map : function(fun, scope) {
         var len = this.length;
         if (typeof fun != "function") {
@@ -1775,7 +2159,7 @@ Ext.applyIf(Array.prototype, {
 
 
 
-
+/* Previous Release compatability: */
 
 Ext.ux.MediaComponent = Ext.ux.Media.Component;
 Ext.ux.MediaPanel     = Ext.ux.Media.Panel;
@@ -1783,1320 +2167,3 @@ Ext.ux.MediaPortlet   = Ext.ux.Media.Portlet;
 Ext.ux.MediaWindow    = Ext.ux.Media.Window;
 
 })();
-
-
-
-(function(){
-
-   var ux = Ext.ux.Media;
-    
-
-    Ext.ux.Media.Flash = Ext.extend( Ext.ux.Media, {
-
-        varsName       :'flashVars',
-
-       
-        externalsNamespace :  null,
-
-        
-        mediaType: Ext.apply({
-              tag      : 'object'
-             ,cls      : 'x-media x-media-swf'
-             ,type     : 'application/x-shockwave-flash'
-             ,loop     : null
-             ,style   : {'z-index':0}
-             ,scripting: "sameDomain"
-             ,start    : true
-             ,unsupportedText : {cn:['The Adobe Flash Player{0}is required.',{tag:'br'},{tag:'a',cn:[{tag:'img',src:'http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif'}],href:'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash',target:'_flash'}]}
-             ,params   : {
-                  movie     : "@url"
-                 ,play      : "@start"
-                 ,loop      : "@loop"
-                 ,menu      : "@controls"
-                 ,quality   : "high"
-                 ,bgcolor   : "#FFFFFF"
-                 ,wmode     : "opaque"
-                 ,allowscriptaccess : "@scripting"
-                 ,allowfullscreen : false
-                 ,allownetworking : 'all'
-                }
-             },Ext.isIE?
-                    {classid :"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000",
-                     codebase:"http" + ((Ext.isSecure) ? 's' : '') + "://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"
-                    }:
-                    {data     : "@url"}),
-
-        
-        getMediaType: function(){
-             return this.mediaType;
-        },
-
-        
-        assertId : function(id, def){
-             id || (id = def || Ext.id());
-             return id.replace(/\+|-|\\|\/|\*/g,'');
-         },
-
-        
-        initMedia : function(){
-
-            ux.Flash.superclass.initMedia.call(this);
-
-            var mc = Ext.apply({}, this.mediaCfg||{});
-            var requiredVersion = (this.requiredVersion = mc.requiredVersion || this.requiredVersion|| false ) ;
-            var hasFlash  = !!(this.playerVersion = this.detectFlashVersion());
-            var hasRequired = hasFlash && (requiredVersion?this.assertVersion(requiredVersion):true);
-
-            var unsupportedText = this.assert(mc.unsupportedText || this.unsupportedText || (this.getMediaType()||{}).unsupportedText,null);
-            if(unsupportedText){
-                 unsupportedText = Ext.DomHelper.markup(unsupportedText);
-                 unsupportedText = mc.unsupportedText = String.format(unsupportedText,
-                     (requiredVersion?' '+requiredVersion+' ':' '),
-                     (this.playerVersion?' '+this.playerVersion+' ':' Not installed.'));
-            }
-            mc.mediaType = "SWF";
-
-            if(!hasRequired ){
-                this.autoMask = false;
-
-                //Version check for the Flash Player that has the ability to start Player Product Install (6.0r65)
-                var canInstall = hasFlash && this.assertVersion('6.0.65');
-                if(canInstall && mc.installUrl){
-
-                       mc =  mc.installDescriptor || {
-                           mediaType  : 'SWF'
-                            ,tag      : 'object'
-                            ,cls      : 'x-media x-media-swf x-media-swfinstaller'
-                            ,id       : 'SWFInstaller'
-                            ,type     : 'application/x-shockwave-flash'
-                            ,data     : "@url"
-                            ,url              : this.prepareURL(mc.installUrl)
-                            //The dimensions of playerProductInstall.swf must be at least 310 x 138 pixels,
-                            ,width            : (/%$/.test(mc.width)) ? mc.width : ((parseInt(mc.width,10) || 0) < 310 ? 310 :mc.width)
-                            ,height           : (/%$/.test(mc.height))? mc.height :((parseInt(mc.height,10) || 0) < 138 ? 138 :mc.height)
-                            ,loop             : false
-                            ,start            : true
-                            ,unsupportedText  : unsupportedText
-                            ,params:{
-                                      quality          : "high"
-                                     ,movie            : '@url'
-                                     ,allowscriptacess : "always"
-                                     ,wmode            : "opaque"
-                                     ,align            : "middle"
-                                     ,bgcolor          : "#3A6EA5"
-                                     ,pluginspage      : mc.pluginsPage || this.pluginsPage || "http://www.adobe.com/go/getflashplayer"
-                                   }
-                        };
-                        mc.params[this.varsName] = "MMredirectURL="+( mc.installRedirect || window.location)+
-                                            "&MMplayerType="+(Ext.isIE?"ActiveX":"Plugin")+
-                                            "&MMdoctitle="+(document.title = document.title.slice(0, 47) + " - Flash Player Installation");
-                } else {
-                    //Let superclass handle with unsupportedText property
-                    mc.mediaType=null;
-                }
-            }
-
-            
-
-            if(mc.eventSynch){
-                mc.params || (mc.params = {});
-                var vars = mc.params[this.varsName] || (mc.params[this.varsName] = {});
-                if(typeof vars === 'string'){ vars = Ext.urlDecode(vars,true); }
-                var eventVars = (mc.eventSynch === true ? {
-                         allowedDomain  : vars.allowedDomain || document.location.hostname
-                        ,elementID      : mc.id || (mc.id = Ext.id())
-                        ,eventHandler   : 'Ext.ux.Media.Flash.eventSynch'
-                        }: mc.eventSynch );
-
-                Ext.apply(mc.params,{
-                     allowscriptaccess  : 'always'
-                })[this.varsName] = Ext.applyIf(vars,eventVars);
-            }
-
-            this.bindExternals(mc.boundExternals);
-
-            delete mc.requiredVersion;
-            delete mc.installUrl;
-            delete mc.installRedirect;
-            delete mc.installDescriptor;
-            delete mc.eventSynch;
-            delete mc.boundExternals;
-
-            this.mediaCfg = mc;
-
-
-        },
-
-
-        
-        assertVersion : function(versionMap){
-
-            var compare;
-            versionMap || (versionMap = []);
-
-            if(Ext.isArray(versionMap)){
-                compare = versionMap;
-            } else {
-                compare = String(versionMap).split('.');
-            }
-            compare = (compare.concat([0,0,0,0])).slice(0,3); //normalize
-
-            var tpv;
-            if(!(tpv = this.playerVersion || (this.playerVersion = this.detectFlashVersion()) )){ return false; }
-
-            if (tpv.major > parseFloat(compare[0])) {
-                        return true;
-            } else if (tpv.major == parseFloat(compare[0])) {
-                   if (tpv.minor > parseFloat(compare[1]))
-                            {return true;}
-                   else if (tpv.minor == parseFloat(compare[1])) {
-                        if (tpv.rev >= parseFloat(compare[2])) { return true;}
-                        }
-                   }
-            return false;
-        },
-
-       
-        detectFlashVersion : function(){
-            if(ux.Flash.prototype.flashVersion ){
-                return this.playerVersion = ux.Flash.prototype.flashVersion;
-            }
-            var version=false;
-            var formatVersion = function(version){
-              return version && !!version.length?
-                {major:version[0] !== null? parseInt(version[0],10): 0
-                ,minor:version[1] !== null? parseInt(version[1],10): 0
-                ,rev  :version[2] !== null? parseInt(version[2],10): 0
-                ,toString : function(){return this.major+'.'+this.minor+'.'+this.rev;}
-                }:false;
-            };
-            var sfo= null;
-            if(Ext.isIE){
-
-                try{
-                    sfo = new ActiveXObject("ShockwaveFlash.ShockwaveFlash.7");
-                }catch(e){
-                    try {
-                        sfo = new ActiveXObject("ShockwaveFlash.ShockwaveFlash.6");
-                        version = [6,0,21];
-                        // error if player version < 6.0.47 (thanks to Michael Williams @ Adobe for this solution)
-                        sfo.allowscriptaccess = "always";
-                    } catch(ex) {
-                        if(version && version[0] === 6)
-                            {return formatVersion(version); }
-                        }
-                    try {
-                        sfo = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
-                    } catch(ex1) {}
-                }
-                if (sfo) {
-                    version = sfo.GetVariable("$version").split(" ")[1].split(",");
-                }
-             }else if(navigator.plugins && navigator.mimeTypes.length){
-                sfo = navigator.plugins["Shockwave Flash"];
-                if(sfo && sfo.description) {
-                    version = sfo.description.replace(/([a-zA-Z]|\s)+/, "").replace(/(\s+r|\s+b[0-9]+)/, ".").split(".");
-                }
-            }
-            return (this.playerVersion = ux.Flash.prototype.flashVersion = formatVersion(version));
-
-        }
-
-        
-        ,onAfterMedia : function(ct){
-
-              ux.Flash.superclass.onAfterMedia.apply(this,arguments);
-              var mo;
-              if(mo = this.mediaObject){
-
-                  var id = mo.id;
-                  if(Ext.isIE ){
-
-                    //fscommand bindings
-                    //implement a fsCommand event interface since its not supported on IE when writing innerHTML
-
-                    if(!(Ext.query('script[for='+id+']').length)){
-                      writeScript('var c;if(c=Ext.getCmp("'+this.id+'")){c.onfsCommand.apply(c,arguments);}',
-                                  {event:"FSCommand", htmlFor:id});
-                    }
-                  }else{
-                      window[id+'_DoFSCommand'] || (window[id+'_DoFSCommand']= this.onfsCommand.createDelegate(this));
-                  }
-              }
-         },
-
-        
-        clearMedia  : function(){
-
-           //de-register fscommand hooks
-           if(this.mediaObject){
-               var id = this.mediaObject.id;
-               if(Ext.isIE){
-                    Ext.select('script[for='+id+']',true).remove();
-               } else {
-                    window[id+'_DoFSCommand']= null;
-                    delete window[id+'_DoFSCommand'];
-               }
-           }
-
-           return ux.Flash.superclass.clearMedia.call(this) || this;
-
-        },
-
-        
-        getSWFObject : function() {
-            return this.getInterface();
-        },
-
-
-        
-
-        onfsCommand : function( command, args){
-
-            if(this.events){
-                this.fireEvent('fscommand', this, command ,args );
-            }
-
-        },
-
-        
-
-        setVariable : function(varName, value){
-            var fo = this.getInterface();
-            if(fo && 'SetVariable' in fo){
-                fo.SetVariable(varName,value);
-                return true;
-            }
-            fo = null;
-            return false;
-
-        },
-
-       
-        getVariable : function(varName ){
-            var fo = this.getInterface();
-            if(fo && 'GetVariable' in fo){
-                return fo.GetVariable(varName );
-            }
-            fo = null;
-            return undefined;
-
-        },
-
-        
-        bindExternals : function(methods){
-
-            if(methods && this.playerVersion.major >= 8){
-                methods = new Array().concat(methods);
-            }else{
-                return;
-            }
-
-            var nameSpace = (typeof this.externalsNamespace == 'string' ?
-                  this[this.externalsNamespace] || (this[this.externalsNamespace] = {} )
-                     : this );
-
-            Ext.each(methods,function(method){
-
-               var m = method.name || method;
-               var returnType = method.returnType || 'javascript';
-
-                //Do not overwrite existing function with the same name.
-               nameSpace[m] || (nameSpace[m] = function(){
-                      return this.invoke.apply(this,[m, returnType].concat(Array.prototype.slice.call(arguments,0)));
-               }.createDelegate(this));
-
-            },this);
-        },
-
-        
-        invoke   : function(method , returnType  ){
-
-            var obj,r;
-
-            if(method && (obj = this.getInterface()) && 'CallFunction' in obj ){
-                var c = [
-                    String.format('<invoke name="{0}" returntype="{1}">',method, returnType),
-                    '<arguments>',
-                    (Array.prototype.slice.call(arguments,2)).map(this._toXML, this).join(''),
-                    '</arguments>',
-                    '</invoke>'].join('');
-                
-                r = obj.CallFunction(c);
-
-                typeof r === 'string' && returnType ==='javascript' && (r= Ext.decode(r));
-
-            }
-            return r;
-
-        },
-
-        
-        onFlashInit  :  function(){
-
-            if(this.mediaMask && this.autoMask){this.mediaMask.hide();}
-            this.fireEvent.defer(300,this,['flashinit',this, this.getInterface()]);
-
-
-        },
-
-        
-        pollReadyState : function(cb, readyRE){
-            var media;
-
-            if(media= this.getInterface()){
-                if(typeof media.PercentLoaded != 'undefined'){
-                   var perc = media.PercentLoaded() ;
-
-                   this.fireEvent( 'progress' ,this , this.getInterface(), perc) ;
-                   if( perc = 100 ) { cb(); return; }
-                }
-
-                this._countPoll++ > this._maxPoll || arguments.callee.defer(10,this,arguments);
-
-            }
-
-         },
-
-        
-        _handleSWFEvent: function(event)
-        {
-            var type = event.type||event||false;
-            if(type){
-                 if(this.events && !this.events[String(type)])
-                     { this.addEvents(String(type));}
-
-                 return this.fireEvent.apply(this, [String(type), this].concat(Array.prototype.slice.call(arguments,0)));
-            }
-        },
-
-
-       _toXML    : function(value){
-
-           var format = Ext.util.Format;
-           var type = typeof value;
-           if (type == "string") {
-               return "<string>" + format.xmlEncode(value) + "</string>";}
-           else if (type == "undefined")
-              {return "<undefined/>";}
-           else if (type == "number")
-              {return "<number>" + value + "</number>";}
-           else if (value == null)
-              {return "<null/>";}
-           else if (type == "boolean")
-              {return value ? "<true/>" : "<false/>";}
-           else if (value instanceof Date)
-              {return "<date>" + value.getTime() + "</date>";}
-           else if (Ext.isArray(value))
-              {return this._arrayToXML(value);}
-           else if (type == "object")
-              {return this._objectToXML(value);}
-           else {return "<null/>";}
-         },
-
-        _arrayToXML  : function(arrObj){
-
-            var s = "<array>";
-            for (var i = 0,l = arrObj.length ; i < l; i++) {
-                s += "<property id=\"" + i + "\">" + this._toXML(arrObj[i]) + "</property>";
-            }
-            return s + "</array>";
-        },
-
-        _objectToXML  : function(obj){
-
-            var s = "<object>";
-            for (var prop in obj) {
-                if(obj.hasOwnProperty(prop)){
-                   s += "<property id=\"" + prop + "\">" + this._toXML(obj[prop]) + "</property>";
-                }
-              }
-            return s + "</object>";
-
-        }
-
-    });
-
-    
-    Ext.ux.Media.Flash.eventSynch = function(elementID, event  ){
-            var SWF = Ext.get(elementID), inst;
-            if(SWF && (inst = SWF.ownerCt)){
-                return inst._handleSWFEvent.apply(inst, Array.prototype.slice.call(arguments,1));
-            }
-        };
-
-
-    var componentAdapter = {
-       init         : function(){
-
-          this.getId = function(){
-              return this.id || (this.id = "flash-comp" + (++Ext.Component.AUTO_ID));
-          };
-
-          this.addEvents(
-
-             
-              'flashinit',
-
-             
-              'fscommand',
-
-             
-             'progress' );
-
-        }
-
-    };
-
-
-     
-   Ext.ux.Media.Flash.Component = Ext.extend(Ext.ux.Media.Component, {
-         
-         ctype         : "Ext.ux.Media.Flash.Component",
-
-
-        
-         cls    : "x-media-flash-comp",
-
-         
-         autoEl  : {tag:'div',style : { overflow: 'hidden', display:'block'}},
-
-        
-         mediaClass    : Ext.ux.Media.Flash,
-
-        
-         initComponent   : function(){
-
-            componentAdapter.init.apply(this,arguments);
-            Ext.ux.Media.Flash.Component.superclass.initComponent.apply(this,arguments);
-
-         }
-
-
-
-   });
-
-   Ext.reg('uxflash', Ext.ux.Media.Flash.Component);
-
-   ux.Flash.prototype.detectFlashVersion();
-
-   
-
-   Ext.ux.Media.Flash.Panel = Ext.extend(Ext.ux.Media.Panel,{
-
-        ctype         : "Ext.ux.Media.Flash.Panel",
-
-        mediaClass    : Ext.ux.Media.Flash,
-
-        autoScroll    : false,
-
-        
-        shadow        : false,
-
-
-        
-        initComponent   : function(){
-            componentAdapter.init.apply(this,arguments);
-            Ext.ux.Media.Flash.Panel.superclass.initComponent.apply(this,arguments);
-
-       }
-
-   });
-
-   Ext.reg('flashpanel', ux.Flash.Panel);
-   Ext.reg('uxflashpanel', ux.Flash.Panel);
-
-   
-
-   Ext.ux.Media.Flash.Portlet = Ext.extend(Ext.ux.Media.Portlet,{
-       ctype         : "Ext.ux.Media.Flash.Portlet",
-       anchor       : '100%',
-       frame        : true,
-       collapseEl   : 'bwrap',
-       collapsible  : true,
-       draggable    : true,
-       autoScroll    : false,
-       autoWidth    : true,
-       cls          : 'x-portlet x-flash-portlet',
-       mediaClass    : Ext.ux.Media.Flash,
-       
-       initComponent   : function(){
-           componentAdapter.init.apply(this,arguments);
-           Ext.ux.Media.Flash.Panel.superclass.initComponent.apply(this,arguments);
-
-       }
-
-   });
-
-   Ext.reg('flashportlet', ux.Flash.Portlet);
-   Ext.reg('uxflashportlet', ux.Flash.Portlet);
-
-   
-
-   Ext.ux.Media.Flash.Window  = Ext.extend( Ext.ux.Media.Window , {
-
-        ctype         : "Ext.ux.Media.Flash.Window",
-        mediaClass    : Ext.ux.Media.Flash,
-
-        autoScroll    : false,
-
-        
-        shadow        : false,
-
-
-        
-        initComponent   : function(){
-            componentAdapter.init.apply(this,arguments);
-            Ext.ux.Media.Flash.Window.superclass.initComponent.apply(this,arguments);
-
-       }
-
-   });
-
-   Ext.reg('flashwindow', ux.Flash.Window);
-
-   
-
-
-   Ext.ux.Media.Flash.Element = Ext.extend ( Ext.ux.Media.Element , {
-
-        
-
-       remove : function(){
-
-             var d ;
-             // Fix streaming media troubles for IE
-             // IE has issues with loose references when removing an <object>
-             // before the onload event fires (all <object>s should have readyState == 4 after browsers onload)
-
-             // Advice: do not attempt to remove the Component before onload has fired on IE/Win.
-
-            if(Ext.isIE && Ext.isWindows && (d = this.dom)){
-
-                this.removeAllListeners();
-                d.style.display = 'none'; //hide it regardless of state
-                if(d.readyState == 4){
-                    for (var x in d) {
-                        if (x.toLowerCase() != 'flashvars' && typeof d[x] == 'function') {
-                            d[x] = null;
-                        }
-                    }
-                }
-
-             }
-
-             Ext.ux.Media.Flash.Element.superclass.remove.apply(this, arguments);
-
-         }
-
-   });
-
-   Ext.ux.Media.Flash.prototype.elementClass  =  Ext.ux.Media.Flash.Element;
-
-   var writeScript = function(block, attributes) {
-        attributes = Ext.apply({},attributes||{},{type :"text/javascript",text:block});
-
-         try{
-            var head,script, doc= document;
-            if(doc && doc.getElementsByTagName){
-                if(!(head = doc.getElementsByTagName("head")[0] )){
-
-                    head =doc.createElement("head");
-                    doc.getElementsByTagName("html")[0].appendChild(head);
-                }
-                if(head && (script = doc.createElement("script"))){
-                    for(var attrib in attributes){
-                          if(attributes.hasOwnProperty(attrib) && attrib in script){
-                              script[attrib] = attributes[attrib];
-                          }
-                    }
-                    return !!head.appendChild(script);
-                }
-            }
-         }catch(ex){}
-         return false;
-    };
-
-    
-    if(Ext.isIE && Ext.isWindows && ux.Flash.prototype.flashVersion.major == 9) {
-
-        window.attachEvent('onbeforeunload', function() {
-              __flash_unloadHandler = __flash_savedUnloadHandler = function() {};
-        });
-
-        //Note: we cannot use IE's onbeforeunload event because an internal Flash Form-POST
-        // raises the browsers onbeforeunload event when the server returns a response.  that is crazy!
-        window.attachEvent('onunload', function() {
-
-            Ext.each(Ext.query('.x-media-swf'), function(item, index) {
-                item.style.display = 'none';
-                for (var x in item) {
-                    if (x.toLowerCase() != 'flashvars' && typeof item[x] == 'function') {
-                        item[x] = null;
-                    }
-                }
-            });
-        });
-
-    }
-
- Ext.apply(Ext.util.Format , {
-       
-        xmlEncode : function(value){
-            return !value ? value : String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/>/g, "&gt;")
-                .replace(/</g, "&lt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&apos;");
-        },
-
-        
-        xmlDecode : function(value){
-            return !value ? value : String(value)
-                .replace(/&gt;/g, ">")
-                .replace(/&lt;/g, "<")
-                .replace(/&quot;/g, '"')
-                .replace(/&amp;/g, "&")
-                .replace(/&apos;/g, "'");
-
-        }
-
-    });
-
-
- Ext.ux.FlashComponent  = Ext.ux.Media.Flash.Component ;
- Ext.ux.FlashPanel      = Ext.ux.Media.Flash.Panel;
- Ext.ux.FlashPortlet    = Ext.ux.Media.Flash.Portlet;
- Ext.ux.FlashWindow     = Ext.ux.Media.Flash.Window;
-
-})();
-
-
-
- 
-
-(function(){
-
-    Ext.namespace("Ext.ux.Chart");
-    var chart = Ext.ux.Chart;
-    var flash = Ext.ux.Media.Flash;
-
-    Ext.ux.Chart.FlashAdapter = Ext.extend( Ext.ux.Media.Flash, {
-
-       
-       requiredVersion : 8,
-
-
-       
-       unsupportedText : {cn:['The Adobe Flash Player{0}is required.',{tag:'br'},{tag:'a',cn:[{tag:'img',src:'http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif'}],href:'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash',target:'_flash'}]},
-
-       
-       chartURL        : null,
-
-       
-       chartData       : null,
-
-       
-       dataURL         : null,
-
-       
-       autoLoad        : null,
-
-       
-       loadMask        : null,
-
-       
-       mediaMask       : null,
-
-       autoMask        : null,
-       
-       
-       disableCaching : true,
-
-       
-       blankChartData  : '',
-
-
-       
-       externalsNamespace  : 'chart',
-
-       
-       chartCfg       : null,
-
-       
-
-       chart          : null,
-
-
-       
-       mediaCfg        : {url      : null,
-                          id       : null,
-                          start    : true,
-                          controls : true,
-                          height  : null,
-                          width   : null,
-                          autoSize : true,
-                          renderOnResize:false,
-                          scripting : 'always',
-                          cls     :'x-media x-media-swf x-chart',
-                          params  : {
-                              allowscriptaccess : '@scripting',
-                              wmode     :'opaque',
-                              scale     :'exactfit',
-                              scale       : null,
-                              salign      : null
-                           }
-        },
-
-       
-       initMedia   : function(){
-
-           this.addEvents(
-
-               
-
-               'beforeload',
-
-               
-
-               'loadexception',
-
-               
-
-               'chartload',
-
-              
-               'chartrender'
-            );
-
-
-           this.mediaCfg.renderOnResize =
-                this.mediaCfg.renderOnResize || (this.chartCfg || {}).renderOnResize;
-
-           chart.FlashAdapter.superclass.initMedia.call(this);
-
-           if(this.autoLoad){
-                this.on('mediarender', this.doAutoLoad, this, {single:true} );
-           }
-       },
-
-       
-       onBeforeMedia: function(){
-
-          
-          var mc =  this.mediaCfg;
-          var mp = mc.params||{};
-          delete mc.params;
-          var mv = mp[this.varsName]||{};
-          delete mp[this.varsName];
-
-          //chartCfg
-          var cCfg = Ext.apply({},this.chartCfg || {});
-
-           //chart params
-          var cp = Ext.apply({}, this.assert( cCfg.params,{}));
-          delete cCfg.params;
-
-           //chart.params.flashVars
-          var cv = Ext.apply({}, this.assert( cp[this.varsName],{}));
-          delete cp[this.varsName];
-
-          Ext.apply(mc , cCfg, {
-              url  : this.assert(this.chartURL, null)
-          });
-
-          mc.params = Ext.apply(mp,cp);
-          mc.params[this.varsName] = Ext.apply(mv,cv);
-
-          chart.FlashAdapter.superclass.onBeforeMedia.call(this);
-
-      },
-
-     
-     setChartDataURL  : function(url, immediate){
-
-           return this;
-
-         },
-
-     
-
-       load :  function(url, params, callback, scope){
-
-           if(!url){return null;}
-
-           this.connection || (this.connection = new Ext.data.Connection() );
-
-           if(this.loadMask && this.autoMask && !this.loadMask.active ){
-
-                this.loadMask.show({
-                     msg : url.text || null
-                    ,fn : arguments.callee.createDelegate(this,arguments)
-                    ,fnDelay : 100
-                 });
-                return this.connection;
-           }
-
-           var method , dataUrl, cfg, callerScope,timeout,disableCaching ;
-
-           if(typeof url === "object"){ // must be config object
-               cfg = Ext.apply({},url);
-               dataUrl = cfg.url;
-               params = params || cfg.params;
-               callback = callback || cfg.callback;
-               callerScope = scope || cfg.scope;
-               method = cfg.method || params ? 'POST': 'GET';
-               disableCaching = cfg.disableCaching ;
-               timeout = cfg.timeout || 30;
-           } else {
-               dataUrl  = url;
-           }
-
-           //resolve Function if supplied
-           if(!(dataUrl = this.assert(dataUrl, null)) ){return null;}
-
-           method = method || (params ? "POST" : "GET");
-           if(method === "GET"){
-               dataUrl= this.prepareURL(dataUrl, disableCaching );
-           }
-           var o;
-           o = Ext.apply(cfg ||{}, {
-               url : dataUrl,
-               params:  params,
-               method: method,
-               success: function(response, options){
-                    o.loadData = this.fireEvent('beforeload', this, this.getInterface(), response, options) !== false;
-               },
-               failure: function(response, options){
-                    this.fireEvent('loadexception', this, this.getInterface(), response, options);
-                   },
-               scope: this,
-               //Actual response is managed here
-               callback: function(options, success, response ) {
-                   o.loadData = success;
-                   if(callback){
-                       o.loadData = callback.call(callerScope , this, success, response, options )!== false;
-                   }
-                   if(success && o.loadData){
-                        
-                        this.setChartData(options.chartResponse || response.responseText);
-                    }
-                   if(this.autoMask){ this.onChartLoaded(); }
-
-               },
-               timeout: (timeout*1000),
-               argument: {
-                "options"   : cfg,
-                "url"       : dataUrl,
-                "form"      : null,
-                "callback"  : callback,
-                "scope"     : callerScope ,
-                "params"    : params
-               }
-           });
-
-           this.connection.request(o);
-           return this.connection;
-      },
-      
-      setChartData  : function(data){
-
-          return this;
-      },
-       
-      setMask  : function(ct) {
-
-          chart.FlashAdapter.superclass.setMask.call(this, ct);
-
-          //loadMask reserved for data loading operations only
-          //see: @cfg:mediaMask for Chart object masking
-          if(this.loadMask && !this.loadMask.disabled){
-              this.loadMask = new Ext.ux.IntelliMask( this[this.mediaEl] || ct, this.loadMask);
-          }
-
-      },
-
-       
-      doAutoLoad  : function(){
-          this.load (
-           typeof this.autoLoad === 'object' ?
-               this.autoLoad : {url: this.autoLoad});
-
-          this.autoLoad = null;
-      },
-
-
-       
-       onChartRendered   :  function(){
-        
-             this.fireEvent('chartrender', this, this.getInterface());
-             if(this.loadMask && this.autoMask){this.loadMask.hide();}
-       },
-       
-       onChartLoaded   :  function(){
-        
-            this.fireEvent('chartload', this, this.getInterface());
-            if(this.loadMask && this.autoMask){this.loadMask.hide();}
-       },
-
-       
-       onFlashInit  :  function(id){
-           chart.FlashAdapter.superclass.onFlashInit.apply(this,arguments);
-           this.fireEvent.defer(1,this,['chartload',this, this.getInterface()]);
-       },
-
-       loadMask : false,
-
-       
-
-       getChartVersion :  function(){}
-
-    });
-
-
-    
-    chart.FlashAdapter.chartOnLoad = function(DOMId){
-
-        var c, d = Ext.get(DOMId);
-        if(d && (c = d.ownerCt)){
-            c.onChartLoaded.defer(1, c);
-            c = d=null;
-            return false;
-        }
-        d= null;
-    };
-
-    
-    chart.FlashAdapter.chartOnRender = function(DOMId){
-         
-        var c, d = Ext.get(DOMId);
-        
-        if(d && (c = d.ownerCt)){
-            c.onChartRendered.defer(1, c);
-            c = d = null;
-            return false;
-        }
-        d= null;
-    };
-
-    Ext.apply(Ext.util.Format , {
-       
-        xmlEncode : function(value){
-            return !value ? value : String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/>/g, "&gt;")
-                .replace(/</g, "&lt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&apos;");
-        },
-
-        
-        xmlDecode : function(value){
-            return !value ? value : String(value)
-                .replace(/&gt;/g, ">")
-                .replace(/&lt;/g, "<")
-                .replace(/&quot;/g, '"')
-                .replace(/&amp;/g, "&")
-                .replace(/&apos;/g, "'");
-
-        }
-
-    });
-
-})();
-
-
- 
-
-
-(function(){
-    Ext.namespace("Ext.ux.Chart.OFC");
-
-    var chart = Ext.ux.Chart;
-    
-
-    var adapter = Ext.ux.Chart.OFC.Adapter = Ext.extend( Ext.ux.Chart.FlashAdapter , {
-
-       
-       requiredVersion : 9,
-
-       
-
-       chartCfg  : null,
-
-       
-       dataFn : null,
-
-       
-
-       blankChartData : { "elements": []},
-
-       
-       mediaCfg        : {url       : null,
-                          id        : null,
-                          start     : true,
-                          controls  : true,
-                          name      :'@id',
-                          height    : '@height',
-                          width     : '@width',
-                          autoSize  : false,
-                          start     : false,
-                          renderOnResize:false,
-                          scripting : 'always',
-                          cls       :'x-media x-media-swf x-chart-ofc',
-                          params    : {
-                             allowscriptaccess : '@scripting',
-                             flashVars : {
-                                 'get-data'  : null,  //function name to call for initial data
-                                 'data-file' : null,  //URL for initial data
-                                 id: '@id'
-                             }
-                          },
-
-                          //Auto ExternalInterface Bindings (Flash v8 or higher)
-                          boundExternals : ['post_image',    //from OFC2 beta 2.2 Hyperion?
-                                            'get_img_binary', //new for OFC2 beta 2.2 : returns PNG image as a base64:String
-                                            'get_version',
-                                            'load',
-                                            'reload'
-                                            ]
-
-        },
-
-        
-       initMedia  : function(){
-
-           this.addEvents(
-
-             
-              'imagesaved',
-             
-              'chartresize'
-
-            );
-
-           //For compat with previous versions < 2.1
-           this.chartCfg || (this.chartCfg = this.ofcCfg);
-
-
-           
-           this._autoLoad = this.dataFn ? null : this.autoLoad;
-           delete this.autoLoad;
-
-           adapter.superclass.initMedia.call(this);
-
-       },
-
-        
-       //called just prior to rendering the media
-       onBeforeMedia: function(){
-
-         
-           var mc = this.mediaCfg;
-           var cCfg = this.chartCfg || (this.chartCfg = {});
-           cCfg.params                = this.assert( cCfg.params,{});
-           cCfg.params[this.varsName] = this.assert( cCfg.params[this.varsName],{});
-
-           cCfg.params[this.varsName] = Ext.apply({
-                'data-file' : this.dataURL ? this.prepareURL(this.dataURL || null) : null,
-                'get-data'  : this.dataFn ? String(this.dataFn) : null,
-                allowResize : !!this.resizable,
-                loading     : (this.loadMask || {}).msg || null 
-               }, cCfg.params[this.varsName] );
-
-           adapter.superclass.onBeforeMedia.call(this);
-
-       },
-       
-       setDataMethod : 'loadData',
-
-
-       
-       setChartData: function(data){
-           var o, j;
-           j = this.assert(data ,null);  //Value/Function assertion
-           if(j && (o = this.getInterface()) && typeof o.load != 'undefined'){
-                  if(this.loadMask && this.autoMask && !this.loadMask.active ){
-                       this.loadMask.show();
-                  }
-                  j = this.chartData = (typeof j == 'object'? Ext.encode(j) : j);
-                  o.load(j);
-                  //OFC2 does not raise the ofc_ready callback for a load method,
-                  //so we will.
-                  this.onChartLoaded();
-
-           }
-           return this;
-       },
-
-       
-       setChartDataURL  : function(url, immediate){
-        
-         var o;
-         if((o = this.getInterface()) && typeof o.reload != 'undefined'){
-              url && (this.dataURL = url);
-              if(immediate === false)return this;
-              if(this.loadMask && this.autoMask && !this.loadMask.active ){
-                  this.loadMask.show();
-              }
-              o.reload(this.prepareURL(this.dataURL));
-         }
-         return this;
-        },
-
-       
-
-       onDataRequest : function() {
-
-           var json = this.assert(this.chartData ,this.assert(this.blankChartData,null) );
-
-           if(!this.chartData && this._autoLoad){
-               this.doAutoLoad();
-               this._autoLoad = null;
-           }
-
-           return json && typeof json == 'object'? Ext.encode(json) : json;
-
-        },
-
-      
-      doAutoLoad  : function(){
-          this.load (
-           typeof this._autoLoad === 'object' ?
-               this._autoLoad : {url: this._autoLoad});
-      },
-
-      loadMask : false,
-
-      
-
-       //OFC2 beta 2 has changed the saveAsImage process, final details are pending, but earlier beta
-       //releases are still supported here (but, likely subject to CHANGE )
-      saveAsImage : function(url, debug ){
-        var o;
-        if(url && (o = this.getInterface()) ){
-            var method = this.chart.post_image || o.post_image;
-
-            if(method !== undefined){
-               method(url, 'Ext.ux.Chart.OFC.Adapter._saveImageCallback(\''+this.id+'\')', debug || false);
-            }
-            return this;
-        }
-      },
-
-      
-      getBinaryImage  : function(){
-         var o;
-        if(o = this.getInterface()){
-            if(o.get_img_binary !== undefined){
-               return o.get_img_binary();
-            }
-        }
-
-      },
-
-      
-      getChartVersion  :  function(){
-          var ns = this[this.externalsNamespace] || this;
-          ns = typeof ns.get_version != 'undefined' ? ns : this.getInterface();
-
-          return (ns && typeof ns.get_version != 'undefined') ? ns.get_version() : '';
-
-      },
-      
-      reload : Ext.emptyFn
-
-    });
-
-    adapter.prototype.reload = adapter.prototype.setChartDataURL;
-    
-    
-    Ext.ux.Chart.OFC.Component = Ext.extend(Ext.ux.Media.Flash.Component, {
-        ctype : 'Ext.ux.Chart.OFC',
-        mediaClass  : adapter
-        });
-
-    Ext.reg('openchart', chart.OFC.Component);
-    
-    Ext.ux.Chart.OFC.Panel = Ext.extend(Ext.ux.Media.Flash.Panel, {
-        ctype : 'Ext.ux.Chart.OFC.Panel',
-        mediaClass  : adapter
-        });
-
-    Ext.reg('openchartpanel', chart.OFC.Panel);
-    
-
-    Ext.ux.Chart.OFC.Portlet = Ext.extend(Ext.ux.Media.Flash.Panel, {
-        anchor      : '100%',
-        frame       : true,
-        collapseEl  : 'bwrap',
-        collapsible : true,
-        draggable   : true,
-        cls         : 'x-portlet x-chart-portlet',
-        mediaClass  : adapter
-    });
-
-    Ext.reg('openchartportlet', chart.OFC.Portlet);
-
-    
-
-    Ext.ux.Chart.OFC.Window = Ext.extend(Ext.ux.Media.Flash.Window, {
-        ctype : "Ext.ux.Chart.OFC.Window",
-        mediaClass  : adapter
-        });
-
-    Ext.reg('openchartwindow', chart.OFC.Window);
-     
-    
-    Ext.apply(adapter,{
-
-        
-        chartDataRequest : function(DOMId){
-            var c, d = Ext.get(DOMId);
-            if(d && (c = d.ownerCt)){
-                return c.onDataRequest?c.onDataRequest() :c.assert(c.blankChartData,null)
-            }
-            d= null;
-        },
-
-        
-        _saveImageCallback : function(ofcComp){
-              var c;
-              if(c = Ext.getCmp(ofcComp)){
-                 //return to Flash asap to expose any callback errors.
-                 c.fireEvent.defer(1,c,['imagesaved', c, c.getInterface()]);
-              }
-          },
-         
-         
-          
-        onChartResize : function(left, width, top, height, DOMId){
-            var args = Ext.isArray(left) ? args = left : Array.prototype.slice.call(arguments,0);
-            var c, d = Ext.get(args[4] || DOMId);
-            if(d && (c = d.ownerCt)){
-                 c.fireEvent.defer(1,c,['chartresize', c, c.getInterface(), {top:args[2], left:args[0], height:args[3], width:args[1]}]);
-            }
-            d= null;
-          }
-
-        });
-
-        window.ofc_ready = window.ofc_ready ?
-                window.ofc_ready.createInterceptor(chart.FlashAdapter.chartOnLoad )
-               :chart.FlashAdapter.chartOnLoad;
-               
-        window.ofc_resize = window.ofc_resize ?
-                window.ofc_resize.createInterceptor(adapter.onChartResize )
-               :adapter.onChartResize;
-               
-        window.open_flash_chart_data = window.open_flash_chart_data ?
-                window.open_flash_chart_data.createInterceptor(adapter.chartDataRequest )
-           :adapter.chartDataRequest;
-
-
-})();
-
-if (Ext.provide) {
-    Ext.provide('uxofc');
-}

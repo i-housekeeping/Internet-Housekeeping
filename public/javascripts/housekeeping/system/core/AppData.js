@@ -80,7 +80,8 @@ tx.data.documents_con = {url: tx.data.homeagent_url + "/documents/index_remote",
 	adoptdirectory_remote_url :  tx.data.homeagent_url + "/documents/adoptdirectory",
 	cleandirectory_remote_url :  tx.data.homeagent_url + "/documents/cleandirectory",
 	documents_sharelist_remote_url :  tx.data.homeagent_url + "/documents/documents_sharelist",
-	documents_upload_url :   tx.data.homeagent_url + "/documents/upload_remote"};  
+	documents_upload_url :   tx.data.homeagent_url + "/documents/upload_remote",
+	documents_show_remote :   tx.data.homeagent_url + "/documents/show_remote"};  
 	
 	
 // Unique task ids, if the time isn't unique enough, the addition 
@@ -201,6 +202,12 @@ tx.data.Account = Ext.data.Record.create([
 	{name: 'balance', type:'string'},
 	{name: 'balance_date', type:'date', dateFormat: "d-m-Y H:i:s"},
 	{name: 'credit_limit', type:'string'} 
+]);
+
+// Define the Document data type - stored in Account
+tx.data.Document = Ext.data.Record.create([
+    {name: 'documentId', type:'string'},
+	{name: 'title', type:'string'} 
 ]);
 
 
@@ -780,9 +787,7 @@ var index;
 					    },
 					    scope: this
 					});
-    }
-	
-	,
+    },
 	
 	init : function(params){
 		this.load({
@@ -805,6 +810,7 @@ tx.data.tasks = new tx.data.TaskStore();
 tx.data.tasklists = new tx.data.ListStore({id : 'tasklists'});
 tx.data.collaboratelists = new tx.data.ListStore({id : 'collaboratelists'});
 tx.data.categorylists = new tx.data.ListStore({id : 'categorylists'});
+tx.data.documentlists = new tx.data.ListStore({id : 'documentlists'}); 
 
 tx.data.collaborates = new tx.data.HomeAgentStore({
 	conn : tx.data.collaborates_con,
@@ -835,10 +841,17 @@ tx.data.accounts = new tx.data.HomeAgentStore({
 	conn : tx.data.accounts_con,
 	host_id : 'id',
 	host_root : 'Accounts',
-	record_fields : tx.data.Accounts,
+	record_fields : tx.data.Account,
 	sort_field : 'account_type'
 });
 
+tx.data.documents = new tx.data.HomeAgentStore({
+	conn : tx.data.documents_con,
+	host_id : 'id',
+	host_root : 'Documents',
+	record_fields : tx.data.Document,
+	sort_field : 'date'
+});
 
 
 

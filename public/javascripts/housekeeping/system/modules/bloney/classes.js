@@ -714,140 +714,22 @@ Ext.extend(BloneyCashrecords.DeatailsGrid, Ext.grid.EditorGridPanel, {
 				accountId : Ext.getCmp('cashrecordsgrid').mainaccountId
 			}
 		});
+    },
+
+  	searchRecords : function(searchconfig) {
+	
+		this.store.load({
+			params: {
+				format: 'jsonc',
+				return_type : 'list',
+				value_date : searchconfig.value_date.format("Y-m-d"), 
+				accountId : searchconfig.account == '' ? 0 : searchconfig.account,
+				listId : searchconfig.categories,
+				cashrec_status : searchconfig.cashrecord_status == '' ? 'ACTV' : searchconfig.cashrecord_status,
+				cashrecord_type : searchconfig.cashrecord_type
+			}
+		});
     }
-});
-
-BloneyCashrecords.Search = function( config) {
-
-	Ext.apply(this, config);
-	
-	this.detailedgrid = new BloneyCashrecords.DeatailsGrid({ title: 'Cashrecords search results', id : 'searchcashrecords'});
-	//this.detailedgrid.loadRecords(config.value_date);
-	
-	
-	BloneyCashrecords.Search.superclass.constructor.call(this, {
-		frame:true,
-		id : 'search',
-		title: 'Search & Filter',
-		width: 550,
-		layout:'form',
-		listeners: {activate: this.handleActivate},
-		items:[
-				{
-					xtype:'fieldset',
-					title: 'Cashrecords Search',
-					autoHeight:true,
-					collapsible: true,
-					items :[
-							{
-								layout:'column',
-								border:false,
-								items:[
-									{
-										columnWidth: 0.5,
-										layout: 'form',
-										defaults: {
-											width : config.width*(1-config.side_width)/2,
-											labelWidth : config.width*0.10
-										},
-										items:[
-												new ListSelector({
-											        id: 'categoriessearch',
-											        fieldLabel: 'By category',
-											        store : tx.data.categorylists,
-													listenForLoad: true,
-													root_listType:'CATEGORY',
-													root_text: "Ecco Categories"
-											    }),
-												{
-													xtype:"combo",
-													fieldLabel:"By Cashrecord Status",
-													store: new Ext.data.SimpleStore({
-														fields: ['state', 'state_name'],
-														data : [['ACTV','Active'],
-																['ARCH','Archived'],
-																['BLNC','Balanced'],
-																['INVS','Investigation']]
-													    }),
-													displayField:'state_name',
-													valueField : 'state',
-													hiddenName : 'state_name',
-													typeAhead: true,
-													id: 's_cashrec_status',
-													mode: 'local',
-													triggerAction: 'all',
-													emptyText:'Show me please...',
-													selectOnFocus:true,
-													//width : this.winconfig.width*0.2
-												}
-										]
-									},{
-										columnWidth: 0.5,
-										layout: 'form',
-										defaults: {
-											width : config.width*(1-config.side_width)/2,
-											labelWidth : config.width*0.10
-										},
-										items:[
-												{
-														store: new Ext.data.SimpleStore({
-															fields: ['template', 'template_name'],
-															data : [['direct debit','Repeated debit'],
-																	['debit','Pay to'],
-																	['expected debit','Expected payment'],
-																	['direct credit','Repeated credit'],
-																	['credit','Receive from'],
-																	['expected credit','Expected income']]
-														}),
-														displayField:'template_name',
-														valueField : 'template',
-														typeAhead: true,
-														mode: 'local',
-														triggerAction: 'all',
-														emptyText:'Tempalte name...',
-														selectOnFocus:true,
-														emptyText:'Category...',
-														//width:(config.side_width*config.width*0.65),
-														xtype:"combo",
-														fieldLabel:"Cashflow Type",
-														allowBlank:false,
-														name : 'template',
-														id : 's_template'
-												},{
-													xtype: "datefield",
-													fieldLabel: 'Date from',
-													name: 'datefrom',
-													allowBlank:false,
-													id : 's_datefrom'
-												},
-												{
-													xtype: "datefield",
-													fieldLabel: 'Date to',
-													name: 'datefrom',
-													allowBlank:false,
-													id : 's_dateto'
-												}
-										]
-									}
-								]
-							}
-					]
-				},
-			this.detailedgrid
-		  ],
-		  buttons:[{
-				text:"Clear All"
-			},{
-				text:"Cancel"
-			}]
-	});
-};
-
-Ext.extend(BloneyCashrecords.Search, Ext.form.FormPanel, {
-
-    handleActivate : function(tab){
-			tab.doLayout();
-	}
 });
 
 BloneyCashrecords.Grid = function(viewer, config) {
@@ -1343,8 +1225,8 @@ BloneyCashrecords.MainWnd = function(config) {
 	
 	this.detailedgrid.loadRecords(now);
 	
+																
 	
-	this.search = new BloneyCashrecords.Search(config);
 	
 	this.stories =new Bloney.Stories({
 		id:'cashrecordsstories',
@@ -1385,134 +1267,31 @@ BloneyCashrecords.MainWnd = function(config) {
 		defaults:{autoScroll:true},
 		items:[
 			this.detailedgrid,
-			this.search,
-			this.stories,
-			this.documents
+			this.stories
 		],
 		tbar: [{
-					text : 'Create New',
-					id : 'new_cachrecord',
-					iconCls:'cashrecord-icon',
+				
+					iconCls: 'bookmarks-icon',
+					text: 'Add Bookmark',
 					handler: function(){
-						if (Ext.getCmp('template').getValue() != '') {
-							var bReceive = Ext.getCmp('wndcashrecords').receive;
-							var bSplit = Ext.getCmp('wndcashrecords').split;
-							var data = {
-								cashrecordId: Ext.getCmp('cashrecord_id').getValue(),
-								//authenticity_token : Ext.getCmp('template').getValue(),									
-								cashrec_type: Ext.getCmp('template').getValue(),
-								listId: bReceive ? Ext.getCmp('categoriesfrom').getValue() : Ext.getCmp('categoriesto').getValue(),
-								//reference : Ext.getCmp('reference').getValue(),
-								dr_account_id: Ext.getCmp('fromaccount').getValue(),
-								debit_amount: bReceive ? "0.00" : (bSplit ? Ext.getCmp('totalamount').getValue() : Ext.getCmp('amount').getValue()),
-								dr_value_date: bReceive ? Ext.getCmp('cr_value_date').getValue() : Ext.getCmp('dr_value_date').getValue(),
-								cr_account_id: Ext.getCmp('toaccount').getValue(),
-								credit_amount: bReceive ? (bSplit ? Ext.getCmp('totalamount').getValue() : Ext.getCmp('amount').getValue()) : "0.00",
-								cr_value_date: bReceive ? Ext.getCmp('cr_value_date').getValue() : Ext.getCmp('dr_value_date').getValue(),
-								original_balance: Ext.getCmp('amount').getValue(),
-								repetitive_type: Ext.getCmp('repetition').getValue(),
-								record_sequence: Ext.getCmp('numpayments').getValue(),
-								total_records: Ext.getCmp('numpayments').getValue(),
-								repetitive_amount: Ext.getCmp('totalamount').getValue(),
-								starting_date: Ext.getCmp('startdate').getValue(),
-							    //details : Ext.getCmp('details').getValue()
-							};
-							
-							Ext.Ajax.request({
-								url: tx.data.cashrecords_con.create_remote_url,
-								scriptTag: true,
-								callbackParam: 'jsoncallback',
-								timeout: 10,
-								params: {
-									format: 'js',
-									cashrecord: Ext.util.JSON.encode(data)
-								},
-								success: function(r){
-									Ext.getCmp('cashrecordsform').form.setValues([{
-										id: 'reference',
-										value: ("REF_" + now.getYear() + now.getMonth() + now.getDay() + now.getHours() + now.getMinutes() + now.getSeconds())
-									}]);
-									this.publish('/desktop/notify', {
-										title: 'Bloney Cashrecords',
-										iconCls: 'bloney-icon',
-										html: r.responseObject.notice
-									});
-								},
-								failure: function(r){
-									this.publish('/desktop/notify', {
-										title: 'Bloney Cashrecords',
-										iconCls: 'bloney-icon',
-										html: r.responseObject.notice
-									});
-								},
-								scope: this
-							});
-							Ext.getCmp('wndcashrecords').refresh();
-						}else
-						{
-							Ext.Msg.alert('Attention','Please fill all required fields');
-						}
-					}		
-				},{
-					text: 'Save Changes',
-					iconCls:'save-contacts-icon',
-					handler : function() {
-						if (Ext.getCmp('template').getValue() != '') {
-							var bReceive = Ext.getCmp('wndcashrecords').receive;
-							var bSplit = Ext.getCmp('wndcashrecords').split;
-							var data = {
-								cashrecordId: Ext.getCmp('cashrecord_id').getValue(),
-								//authenticity_token : Ext.getCmp('template').getValue(),									
-								cashrec_type: Ext.getCmp('template').getValue(),
-								listId: bReceive ? Ext.getCmp('categoriesfrom').getValue() : Ext.getCmp('categoriesto').getValue(),
-								//reference : Ext.getCmp('reference').getValue(),
-								dr_account_id: Ext.getCmp('fromaccount').getValue(),
-								debit_amount: bReceive ? "0.00" : (bSplit ? Ext.getCmp('totalamount').getValue() : Ext.getCmp('amount').getValue()),
-								dr_value_date: bReceive ? Ext.getCmp('cr_value_date').getValue() : Ext.getCmp('dr_value_date').getValue(),
-								cr_account_id: Ext.getCmp('toaccount').getValue(),
-								credit_amount: bReceive ? (bSplit ? Ext.getCmp('totalamount').getValue() : Ext.getCmp('amount').getValue()) : "0.00",
-								cr_value_date: bReceive ? Ext.getCmp('cr_value_date').getValue() : Ext.getCmp('dr_value_date').getValue(),
-								original_balance: Ext.getCmp('amount').getValue(),
-								repetitive_type: Ext.getCmp('repetition').getValue(),
-								record_sequence: Ext.getCmp('numpayments').getValue(),
-								total_records: Ext.getCmp('numpayments').getValue(),
-								repetitive_amount: Ext.getCmp('totalamount').getValue(),
-								starting_date: Ext.getCmp('startdate').getValue(),
-								//details : Ext.getCmp('details').getValue()
-							};
-							
-							Ext.Ajax.request({
-								url: tx.data.cashrecords_con.update_remote_url,
-								scriptTag: true,
-								callbackParam: 'jsoncallback',
-								timeout: 10,
-								params: {
-									format: 'js',
-									cashrecord: Ext.util.JSON.encode(data)
-								},
-								success: function(r){
-									this.publish('/desktop/notify', {
-										title: 'Bloney Cashrecords',
-										iconCls: 'bloney-icon',
-										html: r.responseObject.notice
-									});
-								},
-								failure: function(r){
-									this.publish('/desktop/notify', {
-										title: 'Bloney Cashrecords',
-										iconCls: 'bloney-icon',
-										html: r.responseObject.notice
-									});
-								},
-								scope: this
-							});
-							Ext.getCmp('wndcashrecords').refresh();
-						}else
-						{
-							Ext.Msg.alert('Attention','Please fill all required fields');
-						}
+						Bookmarks.Favorits.createMashupWnd();
 					}
-				},{
+				},'-',{
+						id: 'tab-add-task',
+						iconCls : 'tasks-icon',
+						text : 'Add Task',
+						handler: function (){
+							
+						}
+				}
+				,'->'
+					,{
+						text : 'Attach Document',
+						iconCls : 'documents-attachment-icon',
+						handler : function (){
+							Ext.getCmp('tabcashrecords').setActiveTab('attachment');
+						}		
+					},'-',{
 						text : 'Delete',
 						iconCls:'delete-contacts-icon',
 						handler : function (){
@@ -1543,40 +1322,7 @@ BloneyCashrecords.MainWnd = function(config) {
 							});
 							Ext.getCmp('wndcashrecords').refresh();		
 						}		
-				},{
-					text: 'Clean Form',
-					iconCls:'clean-contacts-icon',
-					handler: function(){
-						Ext.getCmp('cashrecordsform').form.setValues([
-									 {id:'cashrecord_id', value:''},
-								      {id:'authenticity_token', value:''},
-        							  {id:'template', value:''},
-        							  {id:'categories', value:''},
-        							  {id:'reference', value:''},
-									  {id:'fromaccount', value:''},
-									  {id:'amount', value:''},
-									  {id:'dr_value_date', value:''},
-									  {id:'toaccount', value:''},
-									  {id:'cr_value_date', value:''},
-									  {id:'repetition', value:''},
-									  {id:'numpayments', value:''},
-									  {id:'totalamount', value:''},
-									  {id:'startdate', value:''},
-									  {id:'details', value:''}
-						]);
-						
-						//Ext.getCmp('new_contact').setDisable(true);
-					}
-				}
-				,'->'
-					,{
-											text : 'Attach Document',
-											iconCls : 'documents-attachment-icon',
-											handler : function (){
-												//call documents [attachment_fu AJAX]
-											}		
-										},'-'
-					,{
+				},'-',{
 						text : 'Archive',
 						iconCls:'archive-contacts-icon',
 						handler : function (){
@@ -1608,7 +1354,7 @@ BloneyCashrecords.MainWnd = function(config) {
 					    });
 							Ext.getCmp('wndcashrecords').refresh();	
 						}		
-					},{
+					},'-',{
 						text : 'Restore',
 						iconCls:'restore-contacts-icon',
 						handler : function (){
@@ -1754,7 +1500,25 @@ BloneyCashrecords.MainWnd = function(config) {
 							emptyText:'Account...',
 							selectOnFocus:true,
 							allowBlank:true
-					});				
+					});	
+					
+	this.combosearchaccount = new Ext.form.ComboBox({
+							store: this.myaccountslist,
+							displayField: 'account_alias',
+							valueField: 'accountId',
+							hiddenName: 'accountId',
+							typeAhead: true,
+							fieldLabel: 'Account',
+							id:'searchaccount',
+							width : config.width*0.21,
+							labelWidth : config.width*0.07,
+							mode: 'local',
+							triggerAction: 'all',
+							emptyText:'Account...',
+							selectOnFocus:true,
+							allowBlank:true
+					});	
+								
 	this.calculatorA;
 	this.amountfield = new Ext.form.TriggerField({
 				fieldLabel: '<b>Amount</b>',
@@ -1817,15 +1581,22 @@ BloneyCashrecords.MainWnd = function(config) {
 		root_text: "Ecco Categories"
     });
 	
-	
+						
+	this.comboxcategoriessearch = new ListSelector({
+        id: 's_categoriessearch',
+        fieldLabel: 'Search category',
+        store : tx.data.categorylists,
+		listenForLoad: true,
+		root_listType:'CATEGORY',
+		root_text: "Ecco Categories"
+    });
 	
 	this.cashrecordsform = new Ext.FormPanel({
 			labelWidth: config.width*0.1, // label settings here cascade unless overridden
 			frame:true,
 			width: config.width*config.side_width,
 			defaultType: 'textfield',
-			region: 'east',
-            split: true,
+			split: true,
             collapsible: true,
             id:'cashrecordsform',
 			title : 'Move Money',
@@ -1888,31 +1659,7 @@ BloneyCashrecords.MainWnd = function(config) {
 						            minValue: '2009-02-01'
 							}
 						]
-					},/*
-{
-									xtype:"combo",
-									fieldLabel:"<b>From or To</b>",
-									store: new Ext.data.SimpleStore({
-											fields: ['payment_type', 'payment_type_desc'],
-											data : [['CASH','Cash'],
-													['CREDIT_CARD','Credit Card'],
-													['CHECK','Check'], 
-													['BANK','Bank Account']]
-									}),
-									displayField:'payment_type_desc',
-									valueField: 'payment_type',
-									hiddenName: 'payment_type_desc',
-									typeAhead: true,
-									mode: 'local',
-									triggerAction: 'all',
-									emptyText:'Select a type...',
-									selectOnFocus:true,
-									name: 'payment_type',
-									id:'paymenttype',
-									allowBlank:false
-					},
-*/
-					
+					},					
 					this.amountfield,
 					{
 						xtype:'fieldset',
@@ -1945,42 +1692,6 @@ BloneyCashrecords.MainWnd = function(config) {
 								this.repetetive
 						]
 					},
-			/*		
-					
-{
-						fieldLabel: 'Currency',
-						name: 'currency',
-						emptyText: 'BLN',
-						disabled : true
-					},
-                  {
-						fieldLabel: 'Reference',
-						name: 'reference',
-						hidden : true,
-						id: 'reference',
-						value : ("REF_" + now.getYear() + now.getMonth() + now.getDay()+ now.getHours()+now.getMinutes()+now.getSeconds())
-					},
-					{
-						xtype:"textarea",
-						id:'details',
-						hidden : true,
-						height : 40,
-						maxLength : 250,
-						maxLengthText : "Maximum Length of Details is 250 characters",
-						fieldLabel:"Note",
-						name:"details",
-						allowBlank:true
-					}
-,
-					new Ext.ux.form.Spinner({
-		                fieldLabel: 'Adjust Balance at',
-		                name: 'balanceajustement',
-						id :  'balanceajustement',
-						//value: detailsconfig.value_date.format('Y-m'),
-						//disabled : true,
-						strategy: new Ext.ux.form.Spinner.MonthStrategy()
-		            })
-*/
 			],
 		bbar:[{
 					text : 'Create New',
@@ -2046,7 +1757,7 @@ BloneyCashrecords.MainWnd = function(config) {
 							Ext.Msg.alert('Attention','Please fill all required fields');
 						}
 					}		
-				},{
+				},'-',{
 					text: 'Save Changes',
 					iconCls:'save-contacts-icon',
 					handler : function() {
@@ -2105,7 +1816,7 @@ BloneyCashrecords.MainWnd = function(config) {
 							Ext.Msg.alert('Attention','Please fill all required fields');
 						}
 					}
-				},{
+				},'-',{
 					text: 'Clean Form',
 					iconCls:'clean-contacts-icon',
 					handler: function(){
@@ -2130,13 +1841,129 @@ BloneyCashrecords.MainWnd = function(config) {
 				}	
 				]		
 	});
-		
+	
+					
+	this.cashrecordsearch = new Ext.FormPanel({
+		frame:true,
+		id : 'searchcashrecords',
+		title: 'Search & Filter',
+		defaults : {
+				width : config.width*0.21
+			},
+		listeners: {activate: this.handleActivate},
+		items:[
+				{
+					xtype:'fieldset',
+					title: 'Basic Filter',
+					autoHeight:true,
+					width : ( config.side_width*config.width*0.9),
+					defaults: {width: config.side_width*config.width*0.50},	
+					items :[{
+									store: new Ext.data.SimpleStore({
+									fields: ['template', 'template_name'],
+									data : [['direct debit','Repeated debit'],
+											['debit','Pay to'],
+											['expected debit','Expected payment'],
+											['direct credit','Repeated credit'],
+											['credit','Receive from'],
+											['expected credit','Expected income']]
+									}),
+									displayField:'template_name',
+									valueField : 'template',
+									typeAhead: true,
+									mode: 'local',
+									triggerAction: 'all',
+									emptyText:'Tempalte name...',
+									selectOnFocus:true,
+									emptyText:'Movement...',
+									xtype:"combo",
+									fieldLabel:"Movement",
+									allowBlank:false,
+									name : 'template',
+									id : 's_template'
+								},{
+									xtype: "datefield",
+									fieldLabel: 'Due Date',
+									name: 'datefrom',
+									allowBlank:false,
+									id : 's_datedue',
+									format: 'Y-m-d',
+						            minValue: '2009-02-01'
+								}		
+					]
+				},{
+					xtype:'fieldset',
+					collapsible : true,
+					collapsed : true,
+					title: 'Extended Filter',
+					autoHeight:true,
+					width : ( config.side_width*config.width*0.9),
+					defaults: {width: config.side_width*config.width*0.50},	
+					items :[{
+								xtype:"combo",
+								fieldLabel:"Status",
+								store: new Ext.data.SimpleStore({
+									fields: ['state', 'state_name'],
+									data : [['ACTV','Active'],
+											['ARCH','Archived'],
+											['BLNC','Balanced'],
+											['INVS','Investigation']]
+									   }),
+									displayField:'state_name',
+									valueField : 'state',
+									hiddenName : 'state_name',
+									typeAhead: true,
+									id: 's_cashrec_status',
+									mode: 'local',
+									triggerAction: 'all',
+									emptyText:'Show me please...',
+									selectOnFocus:true
+								},
+								this.combosearchaccount,
+								this.comboxcategoriessearch]
+				}
+		  ],
+		  bbar:[{
+				text:"Apply Filter",
+				iconCls : 'cashrecord-refresh-icon',
+				handler : function () {
+					var searchconfig = {
+						categories : Ext.getCmp('s_categoriessearch').getValue(),
+						cashrecord_status : Ext.getCmp('s_cashrec_status').getValue(),
+						cashrecord_type : Ext.getCmp('s_template').getValue(),
+						value_date : Ext.getCmp('s_datedue').getValue(),
+						account : Ext.getCmp('searchaccount').getValue()
+					};
+					Ext.getCmp('cash_grid').searchRecords(searchconfig);
+				}
+			},'-',{
+				text:"Clear Filter",
+				iconCls:'clean-contacts-icon',
+				handler : function () {
+					Ext.getCmp('s_categoriessearch').setValue('');
+					Ext.getCmp('s_cashrec_status').setValue(''),
+					Ext.getCmp('s_template').setValue('');
+					Ext.getCmp('s_datedue').setValue('');
+					Ext.getCmp('searchaccount').setValue('');
+				}
+			}]
+	});	
+	this.cash_navigator = new Ext.TabPanel({
+			region: 'east',
+            id: 'cash_navigator',
+	        activeTab: 0,
+	        tabPosition : 'bottom',
+	        width : config.side_width*config.width ,
+	        autoScroll:true,
+			items : [this.cashrecordsform,this.cashrecordsearch,this.documents]
+		}
+	);
 		
 	BloneyCashrecords.MainWnd.superclass.constructor.call(this, {
 			title: 'Cashrecords Details',
 			id: 'wndcashrecords',
 			iconCls : 'cashrecord-icon',
-	        items: [this.cashrecordsform, this.tabs],
+	        items: [this.cash_navigator, this.tabs],
 		 	buttons:[
 		 			new Ext.SplitButton({
 					id: 'button-cashrecords',
@@ -2291,7 +2118,9 @@ Ext.extend(BloneyCashrecords.MainWnd, Ext.Window, {
 		
 		handleActivate : function(tab){	
 			if(tab.id == 'cash_grid')
+			{
 				Ext.getCmp('cash_grid').loadRecords();
+			}	
 			
 			tab.doLayout();		
 		},
@@ -2468,7 +2297,9 @@ BankingGrid = function(config) {
     this.start_date = new Date();
     
     Ext.apply(this, config);
-
+	
+	this.bankaccountId = 0;
+	
 	var reader = new Ext.data.JsonReader({
             root: 'Cashrecords',
             fields: [
@@ -2602,7 +2433,8 @@ BankingGrid = function(config) {
 												params: {
 													format: 'js',
 													items_list : itemsList,
-								   					banking : true
+								   					banking : true,
+													accountId : Ext.getCmp('banking_grid').bankaccountId
 										    },
 										    success: function(r) {
 												   this.publish( '/desktop/notify',{
@@ -2634,43 +2466,15 @@ BankingGrid = function(config) {
 				],
 		buttonAlign:'right',
 		tbar:[{
-				    text: 'Pay Money',
-					iconCls : 'cashrecord-minus-icon',
-				    tooltip: {text:'Account Payable, Expences and etc. ', title:'Pay Money', autoHide:true},
-				    cls: 'x-btn-text-icon blist',
-					width:100,
-					handler: function () {
-									Ext.getCmp('cashrecords').addCashrecord("debit")
-								}
-				},'-',{
-				    text: 'Receive Money',
-					iconCls : 'cashrecord-plus-icon',
-				    tooltip: {text:'Account receivable and etc.', title:'Receive Money', autoHide:true},
-				    cls: 'x-btn-text-icon blist',
-					width:100,
-					handler: function () {
-									Ext.getCmp('cashrecords').addCashrecord("credit")
-								}
-			},'->', 
-        new Ext.SplitButton({
-					id: 'option-ct', // the container id
-				   	text: 'Options',
-					iconCls : 'banking_options_icon',
-				   	tooltip:'Balance update options',
-				   	//handler: optionsHandler, // handle a click on the button itself
-				   	menu: new Ext.menu.Menu({
-				        items: [
-				        	// these items will render as dropdown menu items when the arrow is clicked:
-					        {text: 'Match Algorithm', handler: function() {}},
-					        {text: 'Change Account', handler: function() {}}
-				        ]
-				   	})
-				})]
+				text:'Active Account :  ',
+				iconCls:'accounts-icon'
+			}
+          ]
     });
 
 	this.on('rowcontextmenu', this.onContextClick, this);
 	this.on('celldblclick', this.onCellDbClick, this);
-
+	
 };
 
 Ext.extend(BankingGrid, Ext.grid.EditorGridPanel, {
@@ -2890,6 +2694,7 @@ Ext.extend(BankingGrid, Ext.grid.EditorGridPanel, {
 				format: 'jsonc',
 				return_type : 'list',
 				reconcile : true,
+				accountId : Ext.getCmp('banking_grid').bankaccountId,
 				value_date : this.value_date.format("Y-m-d") //(value_date != null) ? value_date : ''
 			}
 		});
@@ -5409,31 +5214,7 @@ BloneyAccount.MainWnd = function(config){
 									contact_id : Ext.getCmp('cs_contact_name').getValue()
 								};
 
-							Ext.Ajax.request({
-								url: tx.data.accounts_con.create_remote_url,
-								scriptTag: true,
-								callbackParam: 'jsoncallback',
-								timeout: 10,
-								params: {
-									format: 'js',
-									account: Ext.util.JSON.encode(data)
-								},
-								success: function(r){
-									this.publish('/desktop/notify', {
-										title: 'Bloney Accounts',
-										iconCls: 'bloney-icon',
-										html: r.responseObject.notice
-									});
-								},
-								failure: function(r){
-									this.publish('/desktop/notify', {
-										title: 'Bloney Contacts',
-										iconCls: 'bloney-icon',
-										html: r.responseObject.notice
-									});
-								},
-								scope: this
-							});
+							format
 							tab = Ext.getCmp('accounts_tabs').getActiveTab();
 							Ext.getCmp('wndbloneyaccount').handleActivate(tab);	
 						}
@@ -5476,7 +5257,7 @@ BloneyAccount.MainWnd = function(config){
 								success: function(r){
 									this.publish('/desktop/notify', {
 										title: 'Bloney Contacts',
-										iconCls: 'bloney-icon',
+									iconCls: 'bloney-icon',
 										html: r.responseObject.notice
 									});
 								},
@@ -6940,7 +6721,7 @@ BloneyDocument.MainPanel = function(){
 
 Ext.extend(BloneyDocument.MainPanel, Ext.TabPanel, {
 
-	loadClass : function(link, cls, member){
+	loadDocument : function(link, cls, member){
         var id = 'Document_' + cls;
         var tab = this.getComponent(id);
         if(tab){
@@ -6949,17 +6730,52 @@ Ext.extend(BloneyDocument.MainPanel, Ext.TabPanel, {
                 tab.scrollToMember(member);
             }
         }else{
-            var autoLoad = {url: "C:/workspace/myhomeagent/db/upload/documents/comet_config.txt"};
+            var autoLoad = {url: "C:\Program Files\Housekeeper\db\upload\documents\20-tips-for-improving-email-programs.pdf"};
             if(member){
                 autoLoad.callback = function(){
                     Ext.getCmp(id).scrollToMember(member);
                 }
             }
-            var p = this.add(new BloneyDocument.DocPanel({
-                id: id,
+            var p = this.add({
+				//defaultSrc : autoLoad.url,
+				id: id,
+				title : 'Test',
                 cclass : cls,
-                autoLoad: autoLoad
-            }));
+				
+					xtype	: 'mediapanel',
+
+					closable: true,
+					loadMask: true,
+					tbar : ['->',{
+						id: 'tab-add-money',
+						iconCls : 'bloney-icon',
+						text : 'Add Money'
+					},'-',{
+						id: 'tab-add-task',
+						iconCls : 'tasks-icon',
+						text : 'Add Task'
+					}],
+					mediaCfg: {
+						mediaType: 'PDF',
+						url: tx.data.documents_con.documents_show_remote,
+						autoSize: true
+					}
+				
+				/*
+items : [{
+					xtype: 'mediapanel',
+					id: 'pdfplaything',
+					title: 'Acrobat',
+					mediaCfg: {
+						mediaType: 'PDF',
+						url: autoLoad.url,
+						autoSize: true
+					}
+				}]
+*/
+               
+
+            });
             this.setActiveTab(p);
         }
     }
@@ -6977,32 +6793,144 @@ BloneyDocument.MainWnd = function(config){
         //content.selectClass(tab.cclass); 
     });
     
-	
+	var actions = {
+		newTask: new Ext.Action({
+					text: 'New Task',
+					iconCls: 'icon-active',
+					tooltip: 'New Task',
+					handler: function(node){
+						//taskHeader.ntTitle.focus();
+							node.select();
+							Ext.getCmp('document-body').loadDocument('','test','');
+							//tx.data.collaborates.loadItem(node.id);
+							if (tx.data.collaborates.getCount() > 0)
+							{
+								
+								
+								
+							}
+					}
+				}),
+		
+		newList: new Ext.Action({
+			itemText: 'New List',
+			tooltip: 'New List',
+			iconCls: 'icon-list-new',
+			handler: function(){
+				var id = tx.data.documentlists.newList(false, tree.getActiveFolderId(),'DOCUMENT','').id;
+				tree.startEdit(id, true);
+			}
+		}),
 
-	var fileList  = new Ext.ux.FileTreePanel({
-		autoWidth:true
-		,id:'ftp'
-		,title:'Documents'
-		//,renderTo:'treepanel'
-		,rootPath:'root'
-		,topMenu:true
-		,autoScroll:true
-		,enableProgress:false
-		,deleteUrl : tx.data.documents_con.destroy_remote_url
-		,renameUrl: tx.data.documents_con.update_remote_url
-		,newdirUrl: tx.data.documents_con.create_remote_url
-//		,baseParams:{additional:'haha'}
-//		,singleUpload:true
+		deleteList: new Ext.Action({
+			itemText: 'Delete',
+			tooltip: 'Delete List',
+			iconCls: 'icon-list-delete',
+			disabled: true,
+			handler: function(){
+				tree.removeList(tree.getSelectionModel().getSelectedNode());
+			}
+		}),
+
+		newFolder: new Ext.Action({
+			itemText: 'New Folder',
+			tooltip: 'New Folder',
+			iconCls: 'icon-folder-new',
+			handler: function(){
+				var id = tx.data.documentlists.newList(true, tree.getActiveFolderId(),'DOCUMENT','').id;
+				tree.startEdit(id, true);
+			}
+		}),
+
+		deleteFolder: new Ext.Action({
+			itemText: 'Delete',
+			tooltip: 'Delete Folder',
+			iconCls: 'icon-folder-delete',
+			disabled: true,
+			handler: function(s){
+				tree.removeList(tree.getSelectionModel().getSelectedNode());
+			}
+		}),
+
+		quit : new Ext.Action({
+			text: 'Exit',
+			iconCls: 'icon-exit',
+			handler: function(){
+				win.close();
+			}
+		})
+	};
+	tx.actions = actions;
+
+    var tree = new ListTree({
+			id : 'documentstree',
+			actions: actions,
+			store: tx.data.documentlists,
+			title:'Documents',
+			border	: true,
+			region:'west',
+			width:200,
+			collapseMode	: 'mini',
+			bbar : [
+						tx.actions.newList, 
+						tx.actions.deleteList, 
+						'-', 
+						tx.actions.newFolder,
+						tx.actions.deleteFolder
+					],
+		    listeners: {
+				click: function(node, e){
+					node.select();
+					if (tx.data.documents.getCount() > 0)
+					{
+						var tabs = Ext.getCmp('document-body');
+
+					tabs.add({
+						id	: 'test1',
+						title	: 'Test',
+						iconCls	: 'tabs',
+	
+						defaultSrc : '',
+						xtype	: 'iframepanel',
+	
+						closable: true,
+						loadMask: true,
+						tbar : ['->',{
+							id: 'tab-add-money',
+							iconCls : 'bloney-icon',
+							text : 'Add Money'
+						},'-',{
+							id: 'tab-add-task',
+							iconCls : 'tasks-icon',
+							text : 'Add Task'
+						}]
+					}).show();
+						/*
+tx.data.documents.data.each(function(item){
+							if (node.id == item.data.listId) {
+								Ext.getCmp('titlefield').setValue(item.data.title);
+								Ext.getCmp('urlfield').setValue(item.data.link_to);
+								app.getModule('bookmarks').newTab();
+							}
+						});
+*/
+						
+					}							
+				}
+			}
+		});
+
+	var root = tree.getRootNode();	
+
+	var listSm = tree.getSelectionModel();
+
+	tx.data.documentlists.bindTree(tree);
+	tx.data.documentlists.on('update', function(){
+		//tx.data.categorylists.applyGrouping();
+		//if(grid.titleNode){
+		//	grid.setTitle(grid.titleNode.text);
+		//}
 	});
-	
-	 fileList.on('dblclick', function(node, e){
-         if(node.isLeaf() && node.attributes.link){
-            e.stopEvent();
-            main.loadClass(node.attributes.link, node.attributes.text);
-            Ext.getCmp('wndbloneydocument').updateDetails(node);
-         }
-    });
-	
 	var search = new BloneyDocument.SearchPanel();
 	
 	var navigator = new Ext.TabPanel({
@@ -7013,7 +6941,7 @@ BloneyDocument.MainWnd = function(config){
 	        tabPosition : 'bottom',
 	        width : 250,
 	        autoScroll:true,
-			items : [fileList, search]
+			items : [tree, search]
 		}
 	);
 	
@@ -7072,11 +7000,21 @@ BloneyDocument.MainWnd = function(config){
     	]
 	});
 	
-	//Ext.getCmp('wndbloneydocument').doLayout();
+	
+	root.listType = 'DOCUMENT';
+	root.text = "Ecco Documents";
+	tx.data.documentlists.init(tree,root);
+	tx.data.documents.init();
+	tree.root.select();
 };
 
 Ext.extend(BloneyDocument.MainWnd, Ext.Window,{
 	
+	handleActivate : function(tab){
+		
+		
+		tab.doLayout();		
+	}
 	
 });
 // ---------------------------------

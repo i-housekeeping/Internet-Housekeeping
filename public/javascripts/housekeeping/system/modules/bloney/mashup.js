@@ -5779,6 +5779,10 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 							this.fireEvent('rename', this, options.node, options.params.newname, options.params.oldname);
 						}
 					break;
+					
+					default:
+						this.root.reload();
+					break;
 				}
 			} // eo process command success
 			// process command failure

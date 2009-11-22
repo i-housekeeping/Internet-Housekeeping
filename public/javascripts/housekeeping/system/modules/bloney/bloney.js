@@ -31,7 +31,28 @@ DashboardPanel = function(config){
 
 	this.accountsSummary = new AccountsPanel(config);
 	this.cashrecordsSummary = new CahrecordsPanel();
-		
+/*	this.FdataXml = "";
+	
+	Ext.Ajax.request({
+			url: tx.data.tasklists_con.graphics_url,
+			scriptTag: true,
+			callbackParam: 'jsoncallback',
+			timeout: 10,
+			params: {
+				format: 'js',
+				type : 'categories'
+			},
+			success: function(r){
+				//Ext.Msg.alert(r.responseObject);
+				Ext.getCmp('dashboard').FdataXml = r.responseObject.Graphics;
+			},
+			failure: function(r){
+				Ext.getCmp('dashboard').FdataXml = r.responseObject.Graphics;
+				Ext.Msg.alert(r.responseObject);
+			},
+			scope: this
+		});	
+*/										
 	this.chart_store = new Ext.data.Store({
             proxy: new Ext.ux.CssProxy({ url: tx.data.tasklists_con.graphics_url }),
             reader: new Ext.data.JsonReader({
@@ -42,6 +63,7 @@ DashboardPanel = function(config){
 		        })
         });
 
+	
 	this.chart_store.load({
 		params: {
 			format: 'jsonc',
@@ -52,6 +74,7 @@ DashboardPanel = function(config){
                 Ext.getCmp('chart').onLoadCallback();
         }
 	});
+
 
 	this.chartPanel = new Ext.ux.GVisualizationPanel({
 	    id: "chart",
@@ -68,9 +91,11 @@ DashboardPanel = function(config){
 				      label: "amount"
 			    }]
 	  });
-	 
-	 
-	  
+	
+				
+	
+
+
 	 this.cash_store = new Ext.data.Store({
             proxy: new Ext.ux.CssProxy({ url: tx.data.cashrecords_con.url }),
             reader: new Ext.data.JsonReader({
@@ -84,7 +109,8 @@ DashboardPanel = function(config){
         	})
         });
 
-		this.cash_store.load({
+		
+	this.cash_store.load({
 			params: {
 				format: 'jsonc',
 				return_type : 'graph'
@@ -93,7 +119,8 @@ DashboardPanel = function(config){
             {
                     Ext.getCmp('timeline').onLoadCallback();
             }
-		});	
+		});
+	
 
 	   this.vpanel = new Ext.ux.GVisualizationPanel({
 								    id: 'timeline',
@@ -132,7 +159,7 @@ DashboardPanel = function(config){
                     });
 	
 	
-	
+
 
 	DashboardPanel.superclass.constructor.call(this, {
 		id:'dashboard',
@@ -163,8 +190,8 @@ DashboardPanel = function(config){
 							id : 'current_balance',
 							tools: this.tools,
 							layout:'fit',
-							autoScroll: true,            
-        					items : [this.chartPanel]
+							autoScroll: true,
+							items: [this.chartPanel]
 						}
 						
 					]
@@ -177,6 +204,7 @@ DashboardPanel = function(config){
 							id : 'vpanel',
 							tools: this.tools,
 							items: [this.vpanel]
+
 						},{
 							title: 'Cashrecords today',
 							id : 'cashrecords_summary',
@@ -197,6 +225,7 @@ Ext.extend(DashboardPanel, Ext.Panel,{
 	handleActivate : function(tab){			
 			this.accountsSummary.loadRecords();
 			this.cashrecordsSummary.loadRecords();
+			
 			
 			this.cash_store.load({
 				params: {
@@ -219,6 +248,7 @@ Ext.extend(DashboardPanel, Ext.Panel,{
 		                Ext.getCmp('chart').onLoadCallback();
 		        }
 			});
+
 			tab.doLayout();
 			
 			Ext.getCmp('dashboard_main').el.on('contextmenu', function(evt, div) {
@@ -388,18 +418,12 @@ CashflowPanel = function(config){
 								displayField: 'account_alias',
 								valueField: 'accountId',
 								hiddenName: 'accountId',
-								//typeAhead: true,
-								//fieldLabel: 'To account',
 								id:'mainaccount',
-								//width : config.width*0.21,
-								//labelWidth : config.width*0.07,
 								autoWidth : true,
 								multiSelect:true,
 								mode: 'local',
 								triggerAction: 'all',
-								emptyText:'Account...',
-								//selectOnFocus:true,
-								//allowBlank:true
+								emptyText:'Account...'
 						});	
 							
 	var grid = new BloneyCashrecords.Grid(this,{
@@ -409,14 +433,7 @@ CashflowPanel = function(config){
 				text:'<b>Cashrecords</b> for account :  ',
 				iconCls:'accounts-icon'
 			}],
-		bbar: [/*
-{
-		            cls: 'x-btn-text-icon bmenu', // icon and text class
-		            text:'Cashrecords Menu',
-					iconCls : 'cashrecord-icon',
-		            menu: menu  // assign menu by instance
-		        },
-*/
+		bbar: [
 			{
 				text:'Filter <b>Cashrecords</b> by ',
 				iconCls : 'cashrecord-refresh-icon'
@@ -427,13 +444,11 @@ CashflowPanel = function(config){
 	
 	
 	this.combo.on('select', function c(record, index) {
-          //Ext.example.msg('Cashrecord filter', 'Selected filter "{0}" for cashrecords.',index.data.state);
-		  Ext.getCmp('cashrecordsgrid').loadRecords(Ext.getCmp('cashrecordsgrid').start_date, index.data.state);
+          Ext.getCmp('cashrecordsgrid').loadRecords(Ext.getCmp('cashrecordsgrid').start_date, index.data.state);
  	});
 	
 	this.combotoaccount.on('select', function c(record, index) {
-          //Ext.example.msg('Cashrecord filter', 'Selected filter "{0}" for cashrecords.',index.data.state);
-		  Ext.getCmp('cashrecordsgrid').mainaccountId = Ext.getCmp('mainaccount').getValue();
+          Ext.getCmp('cashrecordsgrid').mainaccountId = Ext.getCmp('mainaccount').getValue();
 		  Ext.getCmp('cashrecordsgrid').loadRecords(Ext.getCmp('cashrecordsgrid').start_date, index.data.state);
 		  Ext.getCmp('mainaccount').collapse();
  	});
@@ -667,68 +682,45 @@ Ext.extend(CashflowPanel, Ext.Panel,{
 	addCashrecord : function(record_type){
 		
 		if (Ext.getCmp('tabs_toolbar') != null && Ext.getCmp('tabs_toolbar').getActiveTab().getId() == 'cashrecords') {
-			
-			var position  = Ext.getCmp('cashrecordsgrid').getTopToolbar().getPosition();
+		
+			var position = Ext.getCmp('cashrecordsgrid').getTopToolbar().getPosition();
 			var y_offset = Ext.getCmp('cashrecordsgrid').getTopToolbar().getSize().height;
 			var y_height = Ext.getCmp('cashrecordsgrid').getSize().height;
 			var x_width = Ext.getCmp('cashrecordsgrid').getSize().width;
 			var x_offset = Ext.getCmp('cashrecordsgrid').getColumnModel().getColumnById('date').width;
-		
+			
+			
 			var cashrecordsWin = new BloneyCashrecords.MainWnd(detailsconfig); //Ext.getCmp('wndcashrecords') == null ? new BloneyCashrecords.MainWnd(detailsconfig) : Ext.getCmp('wndcashrecords');
-		
-			cashrecordsWin.setPosition(position[0]+x_offset, position[1] + y_offset);
+			cashrecordsWin.setPosition(position[0] + x_offset, position[1] + y_offset);
 			cashrecordsWin.setSize({
 				width: x_width - x_offset,
 				height: y_height - 2 * y_offset
 			});
-			cashrecordsWin.show();
-			
-			var now = new Date();
-			Ext.getCmp('template').setValue(record_type);
-			Ext.getCmp('dr_value_date').setValue(now.format('Y-m-d'));
-			Ext.getCmp('cr_value_date').setValue(now.format('Y-m-d'));
-			Ext.getCmp('startdate').setValue(now.format('Y-m-d'));
-			
-			if (record_type == "debit") {
-				Ext.getCmp('wndcashrecords').receive = false;
-				Ext.getCmp('wndcashrecords').expected = false;
-				Ext.getCmp('wndcashrecords').split = false;
-			}else{
-				Ext.getCmp('wndcashrecords').receive = true;
-				Ext.getCmp('wndcashrecords').expected = false;
-				Ext.getCmp('wndcashrecords').split = false;
-			}
-			
-			Ext.getCmp('wndcashrecords').template_state();
-			/*
-if(record_type == "debit"){
-				Ext.getCmp('moneytofields').expand(false);
-				Ext.getCmp('wndcashrecords').receive = false;
-				Ext.getCmp('toaccount').setValue('');
-			}else{
-				Ext.getCmp('moneytofields').collapse(true);
-				Ext.getCmp('wndcashrecords').receive = true;
-				Ext.getCmp('fromaccount').setValue('');
-			}
-			
-			if((record_type.indexOf("direct")>= 0))
-			{
-				Ext.getCmp('splitfileds').expand(true);
-				Ext.getCmp('cashrecordsform').form.setValues([ {id:'amount', value:'0.00'}]);
-				
-			}
-			else
-			{
-				Ext.getCmp('splitfileds').collapse(true);
-				Ext.getCmp('cashrecordsform').form.setValues([
-										  {id:'repetition', value:''},
-										  {id:'numpayments', value:'1'},
-										  {id:'totalamount', value:'0.00'}
-							]);
-			}
-*/
-	    	
+		}else{
+			 var cashrecordsWin = new BloneyCashrecords.MainWnd(detailsconfig);
+		}	
+		
+		cashrecordsWin.show();
+		
+		var now = new Date();
+		Ext.getCmp('template').setValue(record_type);
+		Ext.getCmp('dr_value_date').setValue(now.format('Y-m-d'));
+		Ext.getCmp('cr_value_date').setValue(now.format('Y-m-d'));
+		Ext.getCmp('startdate').setValue(now.format('Y-m-d'));
+		
+		if (record_type == "debit") {
+			Ext.getCmp('wndcashrecords').receive = false;
+			Ext.getCmp('wndcashrecords').expected = false;
+			Ext.getCmp('wndcashrecords').split = false;
+		}else{
+			Ext.getCmp('wndcashrecords').receive = true;
+			Ext.getCmp('wndcashrecords').expected = false;
+			Ext.getCmp('wndcashrecords').split = false;
 		}
+		
+		Ext.getCmp('wndcashrecords').template_state();
+	    	
+		
 	}
 });
 
@@ -738,7 +730,30 @@ BankingPanel = function(config){
 	Ext.apply(this, config);
 	var leftpanel = 0.6;
 	this.grid = new BankingGrid({width : (1.0 - leftpanel)*config.viewwidth });
-
+	
+	this.myaccountslist = new Ext.data.Store({
+            proxy: new Ext.ux.CssProxy({ url: tx.data.accounts_con.url }),
+            reader: new Ext.data.JsonReader({
+            root: 'Accounts',
+            fields: [
+					    {name: 'accountId', mapping: 'accountId'},
+					    {name: 'account_alias', mapping: 'account_alias'}   ]
+        	}),
+            sortInfo:{field: 'account_alias', direction: "ASC"}
+        });
+		
+	this.bankaccount =  new Ext.form.ComboBox({
+								store: this.myaccountslist,
+								displayField: 'account_alias',
+								valueField: 'accountId',
+								hiddenName: 'accountId',
+								id:'bankaccount',
+								autoWidth : true,
+								mode: 'local',
+								triggerAction: 'all',
+								emptyText:'Account...'
+						});
+	
 	BankingPanel.superclass.constructor.call(this, {
 		id:'banking',
         title: 'Banking',
@@ -746,14 +761,15 @@ BankingPanel = function(config){
 		layout:'border',
 		listeners: {activate: this.handleActivate},
         items:[
-        	this.grid ,
+        	this.grid /*
+,
 		{
 			title: 'Bank',
 			xtype:'iframepanel',
 			region:'west',
 			layout:'fit',
 			iconCls: 'icon-house_16',
-			defaultSrc:'http://www.leumi.co.il',
+			defaultSrc:'http://www.google.com',
 			loadMask:true,
 			border:false,
 			split:true,
@@ -762,15 +778,55 @@ BankingPanel = function(config){
 			maxSize: leftpanel*config.viewwidth,
 			collapsible: true,
 			autoScroll:true,
+			id : 'bank_site',
 			loadMask:{msg:'Loading Bank Site...'}
 		}
+*/
         ]
     });
+	
+	
+	this.bankaccount.on('select', function c(record, index) {
+          Ext.getCmp('banking_grid').bankaccountId = Ext.getCmp('bankaccount').getValue();
+		  Ext.getCmp('banking_grid').loadRecords();
+		  Ext.getCmp('bank_site').setSrc('https://www.bankhapoalim.co.il/');
+	
+ 	});
 };
 
 Ext.extend(BankingPanel, Ext.Panel,{
 
 	handleActivate : function(tab){
+		
+		Ext.getCmp('banking').myaccountslist.load({
+			params: {
+				format: 'jsonc'
+			},
+			callback : function(){
+				Ext.getCmp('banking_grid').bankaccountId = this.getAt(0).data.accountId;
+			}
+		});
+		
+		Ext.getCmp('banking_grid').getTopToolbar().add(Ext.getCmp('banking').bankaccount,
+			'->',{
+				    text: 'Pay Money',
+					iconCls : 'cashrecord-minus-icon',
+				    tooltip: {text:'Account Payable, Expences and etc. ', title:'Pay Money', autoHide:true},
+				    cls: 'x-btn-text-icon blist',
+					width:100,
+					handler: function () {
+									Ext.getCmp('cashrecords').addCashrecord("debit")
+								}
+				},{
+				    text: 'Receive Money',
+					iconCls : 'cashrecord-plus-icon',
+				    tooltip: {text:'Account receivable and etc.', title:'Receive Money', autoHide:true},
+				    cls: 'x-btn-text-icon blist',
+					width:100,
+					handler: function () {
+									Ext.getCmp('cashrecords').addCashrecord("credit")
+								}
+			});
 		
 		Ext.getCmp('banking').grid.loadRecords();
 		tab.doLayout();
